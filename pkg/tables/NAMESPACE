@@ -1,0 +1,5 @@
+export(tabular, latexNumeric, PlusMinus, Hline)
+importFrom(Hmisc, latex)
+S3method(print, tabular)
+S3method(format, tabular)
+S3method(latex, tabular)
