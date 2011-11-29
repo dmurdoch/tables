@@ -154,7 +154,7 @@ latex(x, file="", justification="c", ...)
 \end{Schunk}
 
 
-The \code{tables} package provides methods for the \code{format{}}, \code{print{}} and \code{latex()} generics.
+The \code{tables} package provides methods for the \code{format()}, \code{print()} and \code{latex()} generics.
 The arguments are:
 \begin{description}
 \item[x] The tabular object returned from \code{tabular()}.
@@ -166,6 +166,36 @@ one that the \LaTeX\ \verb+\tabular+ environment accepts.
 \item[file] The default method for the \code{Hmisc::latex()} generic writes the \LaTeX\ code
 to a file; \code{latex.tabular()} can optionally do the same, but it defaults to writing to screen,
 for use in Sweave documents like this one.
+\end{description}
+
+\subsubsection{\code{latexNumeric()}}
+\label{sec:latexNumeric}
+
+\begin{Schunk}
+\begin{Sinput}
+latexNumeric(chars, minus = TRUE, pad = TRUE, mathmode = TRUE)
+\end{Sinput}
+\end{Schunk}
+
+The \code{latexNumeric()} function converts character representations of numbers
+into a format suitable for display in \LaTeX\ documents.
+The arguments are:
+\begin{description}
+\item[chars]
+A character vector of formatted numeric values.
+\item[minus]
+Whether to pad cases with no minus sign with spacing of the same width.  If \code{TRUE}
+and some entries are negative, then all positive entries will be padded with a space of the
+same width as the minus sign.
+
+\item[pad]
+Whether to pad cases that have leading blanks with spacing matching a digit width per space.
+If \code{TRUE}, leading blanks will be converted to spaces the same width as a digit 0.  (If
+\code{minus=TRUE}, one leading blank may have been consumed in the sign padding.)
+Note that trailing blanks won't be modified.
+
+\item[mathmode]
+Whether to wrap the result in dollar signs, so \LaTeX\ will render minus signs properly.
 \end{description}
 
 \subsection{Operators}
@@ -456,5 +486,41 @@ latex( tabular( Justify(l)*(Species+1) ~ (Sepal.Length + Sepal.Width)*
           PlusMinus(mean, stderr, digits=1), data=iris ) )
 @
 \end{center}
+
+\section{Technical Details}
+
+\subsection{Formatting}
+\label{sec:formatdetails}
+
+As mentioned in \ref{sec:formats}, formatting in \pkg{tables} depends on the standard \code{format()}
+function or other user-selected functions.  Here are the details of how it is done.
+
+The \code{format.tabular()} method does the first part of the work.  It constructs the calls
+to the appropriate formatting functions and uses them to format all of the entries in the table.
+This converts the \code{tabular} object to a character array.
+
+The procedure goes as follows:
+\begin{enumerate}
+\item Entries in the table without specified formatting are formatted first, separately
+by column using the \code{format()} function.  This is so that entries in a given column will end up
+with the same character width and (with the default settings) with the same number of decimal places.
+
+\item Entries in the table with specified formatting are grouped according to the format specification.
+For example, if two columns both share the same \code{Format()}, they will be formatted in
+a single call.  This results in such entries ending up
+with the same character width and (with the default settings) with the same number of decimal places.
+
+\item If the \code{latex} argument is \code{TRUE},
+any numeric entries are passed to the \code{latexNumeric()} function (see \ref{sec:latexNumeric}), which replaces blanks and
+minus signs with fixed width spaces and \LaTeX\ minus signs 
+so that all entries will display in the same width.  This means that numeric values will
+normally have decimal points aligned, unless the formatting function explicitly removes
+leading spaces.  
+
+\item If the \code{latex} argument is \code{FALSE}, 
+an attempt is made to justify the results using simple ASCII spacing, according to the \code{Justify()}
+specification with the \code{justification} argument used as a default.
+\end{enumerate}
+
 
 \end{document}
