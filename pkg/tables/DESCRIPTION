@@ -1,6 +1,6 @@
 Package: tables	
 Title: Formula-driven table generation
-Version: 0.3
+Version: 0.3.1
 Author: Duncan Murdoch
 Description: Same idea as SAS PROC TABULATE
 Maintainer: Duncan Murdoch <murdoch@stats.uwo.ca>

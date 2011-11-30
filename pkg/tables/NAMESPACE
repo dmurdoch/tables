@@ -1,4 +1,4 @@
-export(tabular, latexNumeric, PlusMinus, Hline)
+export(tabular, latexNumeric, PlusMinus, Hline, RowFactor, All)
 importFrom(Hmisc, latex)
 S3method(print, tabular)
 S3method(format, tabular)
