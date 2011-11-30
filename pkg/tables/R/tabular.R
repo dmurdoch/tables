@@ -300,8 +300,7 @@ expandFactors <- function(e, env) {
 # A sum of products is a list whose elements are atoms or products of atoms.
 
 sumofprods <- function(e) {
-    if (identical(e,1)) return(list(1))
-    if (!is.language(e)) stop('Need an expression')
+    if (!is.language(e)) return(list(e))
     if (is.expression(e)) e <- e[[1]]
     if (is.name(e)) result <- list(e)
     else {
@@ -493,7 +492,7 @@ print.tabular <- function(x, justification = "n", ...) {
     invisible(x)
 }
 
-latex.tabular <- function(object, file="", justification="c", ...) {
+latex.tabular <- function(object, file="", justification="c", tabular="tabular", ...) {
     if (file == "")
     	out <- ""
     else {
@@ -562,7 +561,7 @@ latex.tabular <- function(object, file="", justification="c", ...) {
     	clabels[length(clabels)] <-
     	    paste(paste(colnames(rowLabels), collapse=" & "), 
     	    	  clabels[length(clabels)])
-    mycat("\\begin{tabular}{", paste(rep(justification, nleading + ncol(chars)), 
+    mycat("\\begin{", tabular, "}{", paste(rep(justification, nleading + ncol(chars)), 
     				   collapse=""), "}\n", sep="")
     mycat("\\hline\n")
     mycat(clabels, sep="\n")
@@ -571,6 +570,6 @@ latex.tabular <- function(object, file="", justification="c", ...) {
     chars <- paste(" & ", chars, "\\\\")
     mycat(paste(rlabels, chars), sep="\n")
     mycat("\\hline\n")
-    mycat("\\end{tabular}\n")
+    mycat("\\end{", tabular, "}\n", sep="")
     structure(list(file=file, style=character(0)), class="latex")
 }

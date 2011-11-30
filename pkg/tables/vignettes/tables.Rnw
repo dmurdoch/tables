@@ -1,6 +1,7 @@
 \documentclass[12pt]{article}
 \usepackage{Sweave}
 \usepackage{hyperref}
+
 %\VignetteIndexEntry{About the tables package}
 
 \makeatletter
@@ -486,6 +487,32 @@ latex( tabular( Justify(l)*(Species+1) ~ (Sepal.Length + Sepal.Width)*
           PlusMinus(mean, stderr, digits=1), data=iris ) )
 @
 \end{center}
+
+\subsubsection{\code{RowFactor()}}
+
+This function produces multiple rows the way a factor does, but 
+with more flexibility.  It has syntax
+
+\begin{Schunk}
+\begin{Sinput}
+RowFactor(x, name, spacing=3, space=1)
+\end{Sinput}
+\end{Schunk}
+
+The arguments are
+\begin{description}
+\item[x] A variable to be treated as a factor.
+\item[name] The name to be used for the factor; by default, the name passed as \code{f}.
+\item[spacing] Extra spacing is added after every \code{spacing} lines.
+\item[space] How much extra space to add (in ``ex'' units).
+\end{description}
+
+Example: Show the first 30 lines of the iris dataset, in groups of 5 lines.
+
+<<results=tex>>=
+latex( tabular( RowFactor(seq_len(30), "", 5)  ~ 
+       All(iris[1:30,])*Heading()*identity )) 
+@
 
 \section{Technical Details}
 
