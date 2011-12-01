@@ -431,8 +431,8 @@ latex( tabular( Justify(r)*(F+1) ~ Justify(c)*(n=1)
 \subsection{Formula Functions}
 \label{sec:tableformulas}
 
-Currently only two examples of formula functions are provided, and neither
-is particularly robust.  Users can provide their own as well.  
+Currently several examples of formula functions are provided, and but not all are
+particularly robust.  Users can provide their own as well.  
 Such functions
 should return a language object, which will be substituted into the formula in place of the Formula
 function call.
