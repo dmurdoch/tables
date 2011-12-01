@@ -13,7 +13,7 @@ Hline(columns)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{columns}{
-%%     ~~Describe \code{columns} here~~
+Which columns should receive the line?
 }
 }
 \details{
