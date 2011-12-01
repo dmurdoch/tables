@@ -155,7 +155,8 @@ latex(x, file="", justification="c", ...)
 \end{Schunk}
 
 
-The \code{tables} package provides methods for the \code{format()}, \code{print()} and \code{latex()} generics.
+The \code{tables} package provides methods for the \code{format()}, \code{print()} 
+and \code{Hmisc::latex()} generics.
 The arguments are:
 \begin{description}
 \item[x] The tabular object returned from \code{tabular()}.
@@ -439,21 +440,28 @@ It has syntax
 
 \begin{Schunk}
 \begin{Sinput}
-All(df, factorsAsStrings = TRUE)
+All(df, numeric=TRUE, character=FALSE, logical=FALSE, factor=FALSE, 
+        complex=FALSE, raw=FALSE, other=FALSE)
 \end{Sinput}
 \end{Schunk}
 
 The arguments are
 \begin{description}
 \item[\code{df}] A dataframe or matrix whose columns are to be displayed
-\item[\code{factorsAsStrings}] Whether factors should be converted to character vectors in the display
+\item[\code{numeric}, \code{character}, \code{logical}, \code{factor}, \code{complex}
+and \code{raw}] Whether to include columns of the corresponding types in the table.
+\item[\code{other}] Whether to include columns that match none of the previous types.
 \end{description}
+
+If functions are given for any of the selection arguments, the columns will be
+transformed according to the specified function before inclusion.  For example,
+using \code{factor=as.character} will convert factors into character vectors in the table.
 
 Example:
 
 \begin{center}
 <<results=tex>>=
-latex( tabular( Species ~ All(iris[,-5])*mean, data=iris) )
+latex( tabular( Species ~ All(iris)*mean, data=iris) )
 @
 \end{center}
 
@@ -480,7 +488,7 @@ Example:
 \begin{center}
 <<results = tex>>=
 latex( tabular( Species + Hline()  + 1 
-                         ~ All(iris[,-5])*mean, data=iris) )
+                         ~ All(iris)*mean, data=iris) )
 @
 \end{center}
 
@@ -508,7 +516,7 @@ Example:  Display mean $\pm$ standard error.
 \begin{center}
 <<results=tex>>=
 stderr <- function(x) sd(x)/sqrt(length(x))
-latex( tabular( Justify(l)*(Species+1) ~ All(iris[,-5])*
+latex( tabular( Justify(l)*(Species+1) ~ All(iris)*
           PlusMinus(mean, stderr, digits=1), data=iris ) )
 @
 \end{center}
@@ -535,8 +543,9 @@ The arguments are
 Example: Show the first 30 lines of the iris dataset, in groups of 5 lines.
 
 <<results=tex>>=
-latex( tabular( RowFactor(seq_len(30), "", 5)  ~ 
-       All(iris[1:30,])*Heading()*identity )) 
+subset <- 1:30
+latex( tabular( RowFactor(subset, "", 5)  ~ 
+       All(iris[subset,], factor=as.character)*Heading()*identity )) 
 @
 
 \section{Technical Details}
