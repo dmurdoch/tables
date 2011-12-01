@@ -444,8 +444,8 @@ It has syntax
 
 \begin{Schunk}
 \begin{Sinput}
-All(df, numeric=TRUE, character=FALSE, logical=FALSE, factor=FALSE, 
-        complex=FALSE, raw=FALSE, other=FALSE)
+All(df, numeric=TRUE, character=FALSE, logical=FALSE, 
+        factor=FALSE, complex=FALSE, raw=FALSE, other=FALSE)
 \end{Sinput}
 \end{Schunk}
 
@@ -461,7 +461,7 @@ If functions are given for any of the selection arguments, the columns will be
 transformed according to the specified function before inclusion.  For example,
 using \code{factor=as.character} will convert factors into character vectors in the table.
 
-Example:
+Example:  Show only the numeric columns in the iris data.
 
 \begin{center}
 <<results=tex>>=
