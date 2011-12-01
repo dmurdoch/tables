@@ -1,7 +1,7 @@
 All <- function(df, factorsAsStrings = TRUE) {
-    names <- names(df)
+    names <- colnames(df)
     for (i in seq_along(names)) {
-        value <- df[[i]]
+        value <- df[,i]
         if (factorsAsStrings && is.factor(value))
             value <- as.character(value)
         f1 <- call("*", call("Heading", as.name(names[i])),

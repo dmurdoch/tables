@@ -432,7 +432,32 @@ Such functions
 should return a language object, which will be substituted into the formula in place of the Formula
 function call.
 
-\subsubsection{\code{Hline(columns)}}
+\subsubsection{\code{All()}}
+
+This function expands all the columns from a dataframe into separate variables in the table.
+It has syntax
+
+\begin{Schunk}
+\begin{Sinput}
+All(df, factorsAsStrings = TRUE)
+\end{Sinput}
+\end{Schunk}
+
+The arguments are
+\begin{description}
+\item[\code{df}] A dataframe or matrix whose columns are to be displayed
+\item[\code{factorsAsStrings}] Whether factors should be converted to character vectors in the display
+\end{description}
+
+Example:
+
+\begin{center}
+<<results=tex>>=
+latex( tabular( Species ~ All(iris[,-5])*mean, data=iris) )
+@
+\end{center}
+
+\subsubsection{\code{Hline()}}
 
 This function produces horizontal lines in the table.  It only works for LaTeX output, and
 must be the first factor in a term in the table formula.
@@ -454,8 +479,8 @@ Example:
 
 \begin{center}
 <<results = tex>>=
-latex( tabular( Species + Hline()  + 1 ~ (Sepal.Length + Sepal.Width 
-                        + Petal.Length + Petal.Width)*mean, data=iris) )
+latex( tabular( Species + Hline()  + 1 
+                         ~ All(iris[,-5])*mean, data=iris) )
 @
 \end{center}
 
@@ -483,7 +508,7 @@ Example:  Display mean $\pm$ standard error.
 \begin{center}
 <<results=tex>>=
 stderr <- function(x) sd(x)/sqrt(length(x))
-latex( tabular( Justify(l)*(Species+1) ~ (Sepal.Length + Sepal.Width)*
+latex( tabular( Justify(l)*(Species+1) ~ All(iris[,-5])*
           PlusMinus(mean, stderr, digits=1), data=iris ) )
 @
 \end{center}
@@ -548,6 +573,5 @@ leading spaces.
 an attempt is made to justify the results using simple ASCII spacing, according to the \code{Justify()}
 specification with the \code{justification} argument used as a default.
 \end{enumerate}
-
 
 \end{document}
