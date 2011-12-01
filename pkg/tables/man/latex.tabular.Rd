@@ -8,7 +8,8 @@ This is similar to \code{\link{print.tabular}}, but it inserts the code to
 display the table in a LaTeX tabular environment.
 }
 \usage{
-\method{latex}{tabular}(object, file="", justification="c", ...)
+\method{latex}{tabular}(object, file="", justification="c", 
+        tabular="tabular", ...)
 }
 \arguments{
   \item{object}{
@@ -19,6 +20,9 @@ A filename to which to write the LaTeX code.
 }
   \item{justification}{
 Default justification for the table.
+}
+  \item{tabular}{
+The LaTeX environment to use for the table.  
 }
   \item{...}{
 Settings for default formatting.

@@ -1,6 +1,7 @@
 \documentclass[12pt]{article}
 \usepackage{Sweave}
 \usepackage{hyperref}
+\usepackage{longtable}
 
 %\VignetteIndexEntry{About the tables package}
 
@@ -150,7 +151,7 @@ with a number of attributes to help with formatting.  See the \code{?tabular} he
 \begin{Sinput}
 format(x, digits=4, justification="n", ...) 
 print(x, ...)
-latex(x, file="", justification="c", ...)
+latex(x, file="", justification="c", tabular="tabular", ...)
 \end{Sinput}
 \end{Schunk}
 
@@ -168,6 +169,9 @@ one that the \LaTeX\ \verb+\tabular+ environment accepts.
 \item[file] The default method for the \code{Hmisc::latex()} generic writes the \LaTeX\ code
 to a file; \code{latex.tabular()} can optionally do the same, but it defaults to writing to screen,
 for use in Sweave documents like this one.
+\item[tabular] The environment to use in \LaTeX.  Alternatives to \code{"tabular"} such as
+be \code{"longtable"} can be used here, though often those also need 
+modifications within the table, so this may not be very useful.
 \end{description}
 
 \subsubsection{\code{latexNumeric()}}
@@ -492,6 +496,19 @@ latex( tabular( Species + Hline()  + 1
 @
 \end{center}
 
+\subsubsection{\code{Literal()}}
+
+This function inserts literal text as a label.  It has syntax
+
+\begin{Schunk}
+\begin{Sinput}
+Literal(x)
+\end{Sinput}
+\end{Schunk}
+
+The single argument is the text to insert.  See section \ref{sec:RowFactor} for an example
+using it.
+
 \subsubsection{\code{PlusMinus()}}
 
 This function produces table entries like $x \pm y$ with an optional header.
@@ -522,6 +539,7 @@ latex( tabular( Justify(l)*(Species+1) ~ All(iris)*
 \end{center}
 
 \subsubsection{\code{RowFactor()}}
+\label{sec:RowFactor}
 
 This function produces multiple rows the way a factor does, but 
 with more flexibility.  It has syntax
@@ -540,12 +558,16 @@ The arguments are
 \item[space] How much extra space to add (in ``ex'' units).
 \end{description}
 
-Example: Show the first 30 lines of the iris dataset, in groups of 5 lines.
+Example: Show the first 50 lines of the iris dataset, in groups of 5 lines.  Use
+the \code{"longtable"} environment to allow this to cross page boundaries.  The
+\code{Literal()} call is necessary to get the headings to repeat on subsequent pages.
 
 <<results=tex>>=
-subset <- 1:30
-latex( tabular( RowFactor(subset, "", 5)  ~ 
-       All(iris[subset,], factor=as.character)*Heading()*identity )) 
+subset <- 1:50
+latex( tabular( (Literal("\\endhead\\hline\\endfoot%") 
+                 + RowFactor(subset, "", 5))  ~ 
+       All(iris[subset,], factor=as.character)*Heading()*identity ),
+       tabular="longtable") 
 @
 
 \section{Technical Details}
