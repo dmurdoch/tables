@@ -1,0 +1,9 @@
+0.0:  Various abortive attempts
+
+0.1:  First alpha version with Hmisc support
+
+0.2:  First reasonably complete release
+
+0.3:  Renamed from "tabular" to "tables", put on R-forge
+
+0.4:  Added All() and RowFactor()
