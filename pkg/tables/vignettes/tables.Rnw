@@ -1,7 +1,9 @@
 \documentclass[12pt]{article}
 \usepackage{Sweave}
 \usepackage{hyperref}
+\usepackage{booktabs}
 \usepackage{longtable}
+
 \usepackage[authoryear,round,comma]{natbib}
 \bibliographystyle{plainnat}
 
@@ -50,6 +52,20 @@ which when processed by \code{pdflatex} will produce the following table:
 latex(
 <<iris>>
 )
+@
+\end{center}
+
+If you prefer the style of table that the \LaTeX\ \pkg{booktabs} package produces, you can choose
+that style:
+\begin{center}
+<<irisbook, echo=FALSE, results=tex>>=
+save <- booktabs(justification = "c")
+latex(
+tabular( Justify("l")*(Species + 1)*Justify("c") ~ (n=1) + Format(digits=2)*
+         (Sepal.Length + Sepal.Width)*(mean + sd), data=iris )
+
+)
+table_options(save)
 @
 \end{center}
 
@@ -155,7 +171,7 @@ for more details.
 \begin{Sinput}
 format(x, digits=4, justification="n", ...) 
 print(x, ...)
-latex(x, file="", justification="c", tabular="tabular", ...)
+latex(x, file="", ...)
 \end{Sinput}
 \end{Schunk}
 
@@ -168,16 +184,50 @@ The arguments are:
 \item[digits] The default number of digits to use when formatting.
 \item[justification] The default text justification to use when printing.  For text display, the
 recognized values are \code{"n", "l", "c", "r"}, standing for none, left, center and right
-justification respectively.  For \LaTeX\ any justification string will be accepted; it should be
-one that the \LaTeX\ \verb+\tabular+ environment accepts.
+justification respectively.  For \LaTeX\ the justification is 
+specified via the \code{table_options()} function. 
 \item[file] The default method for the \code{Hmisc::latex()} generic writes the \LaTeX\ code
 to a file; \code{latex.tabular()} can optionally do the same, but it defaults to writing to screen,
 for use in Sweave documents like this one.
+\end{description}
+
+\subsubsection{\code{table\textunderscore options(), booktabs()}}
+
+The \code{table\textunderscore options()} function sets a number of formatting defaults for the \code{latex()}
+method:
+\begin{description}
+\item[justification] Any justification string will be accepted; it should be
+one that the \LaTeX\ \verb+\tabular+ environment (or substitute) accepts.
 \item[tabular] The environment to use in \LaTeX.  Alternatives to \code{"tabular"} such as
 \code{"longtable"} can be used here.  Those often also need 
 modifications within the table; the \code{Literal()} (section \ref{sec:Literal}) function may be
 helpful.
+\item[toprule, midrule, bottomrule] The \LaTeX\ macros to draw the top, middle and bottom lines
+in the table.  By default these are all \code{"\\hline"}.
+\item[titlerule] An optional \LaTeX\ macro to draw a line under multicolumn titles.
 \end{description}
+The defaults are
+<<>>=
+table_options()
+@
+
+If you are using the \LaTeX\ \pkg{booktabs} package, the \code{booktabs()} function will
+set different options.  Currently those are:
+<<echo=FALSE>>=
+save <- booktabs()
+table_options()
+table_options(save)
+@
+
+For example, the earlier table of iris data was produced using
+<<eval=FALSE>>=
+<<irisbook>>
+@
+\begin{center}
+<<results=tex,echo=FALSE>>=
+<<irisbook>>
+@
+\end{center}
 
 \subsubsection{\code{latexNumeric()}}
 \label{sec:latexNumeric}
@@ -529,8 +579,7 @@ Literal(x)
 \end{Sinput}
 \end{Schunk}
 
-The single argument is the text to insert.  See section \ref{sec:RowFactor} for an example
-using it.
+The single argument is the text to insert.  It is used by the \code{Hline()} function to insert the text.
 
 \subsubsection{\code{PlusMinus()}}
 
@@ -583,14 +632,14 @@ The arguments are
 
 Example: Show the first 50 lines of the iris dataset, in groups of 5 lines.  Use
 the \code{"longtable"} environment to allow this to cross page boundaries.  The
-\code{Literal()} call is necessary to get the headings to repeat on subsequent pages.
+\code{midrule} setting is necessary to get the headings to repeat on subsequent pages.
 
 <<results=tex>>=
 subset <- 1:50
-latex( tabular( Heading(i)*(Literal("\\endhead\\hline\\endfoot%") 
-                 + RowFactor(subset, spacing=5))  ~ 
-       All(iris[subset,], factor=as.character)*Heading()*identity ),
-       tabular="longtable") 
+save <- table_options(tabular="longtable",
+                      midrule="\\hline\\endhead\\hline\\endfoot")
+latex( tabular( RowFactor(subset, "$i$", spacing=5)  ~ 
+       All(iris[subset,], factor=as.character)*Heading()*identity )) 
 @
 
 \section{Technical Details}
