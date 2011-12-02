@@ -2,6 +2,8 @@
 \usepackage{Sweave}
 \usepackage{hyperref}
 \usepackage{longtable}
+\usepackage[authoryear,round,comma]{natbib}
+\bibliographystyle{plainnat}
 
 %\VignetteIndexEntry{About the tables package}
 
@@ -40,7 +42,8 @@ library(tables)
 tabular( (Species + 1) ~ (n=1) + Format(digits=2)*
          (Sepal.Length + Sepal.Width)*(mean + sd), data=iris )
 @
-You can also pass the output through the \code{Hmisc::latex()} function to produce \LaTeX\ output,
+You can also pass the output through the \code{Hmisc::latex()} function \citep{Hmisc}
+to produce \LaTeX\ output,
 which when processed by \code{pdflatex} will produce the following table:
 \begin{center}
 <<echo=FALSE, results=tex>>=
@@ -55,7 +58,7 @@ each row and column labelled, and possibly with groups of rows and groups of col
 also labelled.  These arrays are specified by ``table formulas''.
 
 Table formulas are R formula objects, with the  rows of the table
-described before the tilde (\code{"~"}, and the columns after.   Each of
+described before the tilde (\code{"~"}), and the columns after.   Each of
 those is an expression containing \code{"*"}, \code{"+"}, \code{"="}, as
 well as functions, function calls and variables, and parentheses for
 grouping.  There are also various directives included in the formula,
@@ -142,7 +145,8 @@ pseudo-function \code{Heading()} can achieve the same effect, one term at a time
 \end{description}
 
 The value returned is a list-mode matrix corresponding to the entries in the table, 
-with a number of attributes to help with formatting.  See the \code{?tabular} help page.
+with a number of attributes to help with formatting.  See the \code{?tabular} help page
+for more details.
 
 \subsubsection{\code{format(), print(), latex()}}
 \label{sec:formatsyntax}
@@ -170,8 +174,9 @@ one that the \LaTeX\ \verb+\tabular+ environment accepts.
 to a file; \code{latex.tabular()} can optionally do the same, but it defaults to writing to screen,
 for use in Sweave documents like this one.
 \item[tabular] The environment to use in \LaTeX.  Alternatives to \code{"tabular"} such as
-be \code{"longtable"} can be used here, though often those also need 
-modifications within the table, so this may not be very useful.
+\code{"longtable"} can be used here.  Those often also need 
+modifications within the table; the \code{Literal()} (section \ref{sec:Literal}) function may be
+helpful.
 \end{description}
 
 \subsubsection{\code{latexNumeric()}}
@@ -184,16 +189,21 @@ latexNumeric(chars, minus = TRUE, pad = TRUE, mathmode = TRUE)
 \end{Schunk}
 
 The \code{latexNumeric()} function converts character representations of numbers
-into a format suitable for display in \LaTeX\ documents.
+into a format suitable for display in \LaTeX\ documents.  There are two goals:
+\begin{itemize}
+\item If \code{chars} is a vector with constant width, then the output will also be constant width.
+This means the default centering used in \code{tabular()} will not misalign decimal points (if
+they were aligned in \code{chars}).
+\item Minus signs will be displayed with the proper symbol rather than a hyphen.
+\end{itemize}
+
 The arguments are:
 \begin{description}
 \item[chars]
 A character vector of formatted numeric values.
 \item[minus]
-Whether to pad cases with no minus sign with spacing of the same width.  If \code{TRUE}
-and some entries are negative, then all positive entries will be padded with a space of the
-same width as the minus sign.
-
+Whether to pad positive cases with spacing of the same width as a minus sign.  If \code{TRUE}
+and some entries are negative, then all positive entries will be padded.
 \item[pad]
 Whether to pad cases that have leading blanks with spacing matching a digit width per space.
 If \code{TRUE}, leading blanks will be converted to spaces the same width as a digit 0.  (If
@@ -226,7 +236,8 @@ latex( tabular(F + 1 ~ 1) )
 Multiplying two expressions means that each
 element of $e_1$ will be applied to each element of $e_2$.  If $e_1$ is 
 a factor, then $e_2$ will be displayed for each element of it.   NB:  $*$ has
-higher precedence than $+$, so the expression $(e_1 + e_2)*(e_3 + e_4)$
+higher precedence than $+$ and evaluation proceeds from left to right.
+The expression $(e_1 + e_2)*(e_3 + e_4)$
 is equivalent to $e_1*e_3 + e_1*e_4 + e_2*e_3 + e_2*e_4$.
 
 Example:
@@ -272,10 +283,13 @@ and the actions depend on the type of the resulting value.
 
 \subsubsection{Closures or other functions}
 
-If the expression is the name of a function, or it evaluates to a function, then that is assumed to
-be the summary statistic to be displayed.  The summary statistic should take a vector of values as input, and return a single 
+If the expression evaluates to a function (e.g. it is the name of a function), then that function
+becomes the summary statistic to be displayed.  The summary statistic should take a vector of values as input, and return a single 
 value (either numeric, character, or some other simple printable value).  If no summary function is specified, the default is
-\code{length}, to count the length of the vector being passed.
+\code{length}, to count the length of the vector being passed.  
+
+Note that only one summary function can be specified for any cell in the table or an error will be
+reported.
 
 Example: \code{mean} and \code{sd} are specified functions; \code{n} is the renamed default statistic.
 \begin{center}
@@ -289,11 +303,12 @@ latex( tabular( (F+1) ~ (n=1) + X*(mean + sd) ) )
 If the expression evaluates to a factor, the dataset is broken up into subgroups according to the levels of the factor.
 Most of the examples above have shown this for the factor \code{F}, but this can also be used to display complete datasets:
 
-Example:  creating a factor to show all data
+Example:  creating a factor to show all data.  Use the \code{identity} function to
+display the values in each cell.
 \begin{center}
 <<results=tex>>=
 latex( tabular( (i = factor(seq_along(X)))  ~ 
-       Heading()*(function(x) x)*(X+A + 
+       Heading()*identity*(X+A + 
               (F = as.character(F) ) ) ) ) 
 @
 \end{center} 
@@ -323,7 +338,7 @@ If the expression evaluates to something other than the above, then it is assume
 to be summarized in the table.  If you would like to summarize a factor or logical vector, wrap it in \code{I()} to prevent
 special handling.
 
-Note that only one value vector can be specified in any term, and all value vectors must be the same length, or an error will be
+Note that only one value vector can be specified for any cell in the table, and all value vectors must be the same length, or an error will be
 reported.
 
 Example:  treating a logical vector as values.
@@ -338,8 +353,12 @@ latex( tabular( I(X > 0) + I(X < 0)
 \label{sec:pseudo}
 
 Several directives to \pkg{tables} may be embedded in the table formula.  This is done using ``pseudo-functions''.  Syntactically
-they look like function calls, but special names are used.  In each case, their action applies to later factors in the term in which they appear.
-For example, \code{X*Justify(r)*(Y + Format(digits=2)*Z) + A} will apply the \code{Justify(r)} directive to both \code{Y} and \code{Z}, but
+they look like function calls, but reserved names are used.  In each case, their action applies to later factors in the term in which they appear.
+For example,
+\begin{center}
+ \code{X*Justify(r)*(Y + Format(digits=2)*Z) + A}
+\end{center} 
+will apply the \code{Justify(r)} directive to both \code{Y} and \code{Z}, but
 the \code{Format(digits=2)} directive will only apply to \code{Z}, and neither will apply to \code{A}.
 
 \subsubsection{\code{Format()}}
@@ -355,7 +374,8 @@ specifying the argument \code{x}.  When \code{tabular()} formats the output it w
 \code{x} from the entries in the table governed by the \code{Format()} specification.
 
 Example:  The mean and standard deviation are both governed by the same format, so
-they are displayed with the same number of decimal places.
+they are displayed with the same number of decimal places, chosen so that the smallest
+values (the means) show two significant digits.
 \begin{center}
 <<results=tex>>=
 latex( tabular( (F+1) ~ (n=1) 
@@ -364,7 +384,8 @@ latex( tabular( (F+1) ~ (n=1)
 \end{center}
 
 For customized formatting, an alternate syntax is to pass a function call to \code{Format()}, rather
-than a list of arguments.  The function should accept an argument named \code{x}, to contain the data.  It should return a character vector
+than a list of arguments.  The function should accept an argument named \code{x} (but as with the
+regular formatting, \code{x} should not be included in the formula), to contain the data.  It should return a character vector
 of the same length as x.
 
 Example:  Use a custom function and \code{sprintf()} to display a standard error in parentheses.
@@ -385,7 +406,7 @@ latex( tabular( Format(fmt(digits=1))*(F+1) ~ X*(mean + stderr) ) )
 
 \subsubsection{\code{.Format()}}
 
-The pseudo-function \code{.Format()} is mainly intended for internal use. It takes a single integer argument, saying that data governed by this call uses the same formatting the format specification
+The pseudo-function \code{.Format()} is mainly intended for internal use. It takes a single integer argument, saying that data governed by this call uses the same formatting as the format specification
 indicated by the integer. In this way entries can be commonly formatted even when they are not contiguous. The integers are assigned sequentially as the format specification is parsed; users will likely need trial and error to find the right value in a complicated table with multiple formats.
 
 Example:  Format two separated columns with the same format.
@@ -431,8 +452,9 @@ latex( tabular( Justify(r)*(F+1) ~ Justify(c)*(n=1)
 \subsection{Formula Functions}
 \label{sec:tableformulas}
 
-Currently several examples of formula functions are provided, but not all are
-particularly robust.  Users can provide their own as well.  
+Currently several examples of formula functions are provided.   Not all are
+particularly robust; e.g. \code{Hline()} only works for \LaTeX\ output and must be in a
+particular position in the formula.  Users can provide their own as well.  
 Such functions
 should return a language object, which will be substituted into the formula in place of the Formula
 function call.
@@ -497,6 +519,7 @@ latex( tabular( Species + Hline()  + 1
 \end{center}
 
 \subsubsection{\code{Literal()}}
+\label{sec:Literal}
 
 This function inserts literal text as a label.  It has syntax
 
@@ -604,5 +627,7 @@ leading spaces.
 an attempt is made to justify the results using simple ASCII spacing, according to the \code{Justify()}
 specification with the \code{justification} argument used as a default.
 \end{enumerate}
+
+\bibliography{tables}
 
 \end{document}
