@@ -55,8 +55,14 @@ latex(
 @
 \end{center}
 
-If you prefer the style of table that the \LaTeX\ \pkg{booktabs} package produces, you can choose
-that style:
+If you prefer the style of table that the \LaTeX\ \pkg{booktabs} package \citep{booktabs}
+produces, you can choose
+that style instead.  I mostly like it, so I have used
+<<eval=FALSE>>=
+booktabs(justification = "c")
+@
+for the rest of this document.  With a few modifications to the table formula (shown below in 
+section \ref{sec:booktabs}), this gives
 \begin{center}
 <<irisbook, echo=FALSE, results=tex>>=
 save <- booktabs(justification = "c")
@@ -65,7 +71,6 @@ tabular( Justify("l")*(Species + 1)*Justify("c") ~ (n=1) + Format(digits=2)*
          (Sepal.Length + Sepal.Width)*(mean + sd), data=iris )
 
 )
-table_options(save)
 @
 \end{center}
 
@@ -192,6 +197,7 @@ for use in Sweave documents like this one.
 \end{description}
 
 \subsubsection{\code{table\textunderscore options(), booktabs()}}
+\label{sec:booktabs}
 
 The \code{table\textunderscore options()} function sets a number of formatting defaults for the \code{latex()}
 method:
@@ -207,19 +213,17 @@ in the table.  By default these are all \code{"\\hline"}.
 \item[titlerule] An optional \LaTeX\ macro to draw a line under multicolumn titles.
 \end{description}
 The defaults are
-<<>>=
-table_options()
+<<echo=FALSE>>=
+save
 @
 
 If you are using the \LaTeX\ \pkg{booktabs} package, the \code{booktabs()} function will
 set different options.  Currently those are:
 <<echo=FALSE>>=
-save <- booktabs()
 table_options()
-table_options(save)
 @
 
-For example, the earlier table of iris data was produced using
+The earlier table of iris data was produced using
 <<eval=FALSE>>=
 <<irisbook>>
 @
@@ -555,15 +559,15 @@ Hline(columns)
 
 The argument is
 \begin{description}
-\item[\code{columns}] An optional specification of which columns should 
-get the line.
+\item[\code{columns}] An optional vector listing which columns should 
+get the line.  
 \end{description}
 
 Example:  
 
 \begin{center}
 <<results = tex>>=
-latex( tabular( Species + Hline()  + 1 
+latex( tabular( Species + Hline(2:5) + 1 
                          ~ Heading()*mean*All(iris), data=iris) )
 @
 \end{center}
@@ -632,12 +636,14 @@ The arguments are
 
 Example: Show the first 50 lines of the iris dataset, in groups of 5 lines.  Use
 the \code{"longtable"} environment to allow this to cross page boundaries.  The
-\code{midrule} setting is necessary to get the headings to repeat on subsequent pages.
+\code{midrule} setting is necessary to get the headings to repeat on subsequent pages.  
+I've used the one that is compatible with the \pkg{booktabs} style; if you want the
+default style, use \verb!midrule="\\hline\\endhead\\hline\\endfoot"! instead.
 
 <<results=tex>>=
 subset <- 1:50
 save <- table_options(tabular="longtable",
-                      midrule="\\hline\\endhead\\hline\\endfoot")
+                      midrule="\\midrule\\endhead\\hline\\endfoot")
 latex( tabular( RowFactor(subset, "$i$", spacing=5)  ~ 
        All(iris[subset,], factor=as.character)*Heading()*identity )) 
 @

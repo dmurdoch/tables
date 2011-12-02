@@ -574,7 +574,7 @@ latex.tabular <- function(object, file="", ...) {
     	    	    if (ncols > 1 || just != opts$justification) {
     	    	        result <- c(result, 
     	    	            sprintf("& \\multicolumn{%d}{%s}{%s}", ncols, just, label))
-    	    	        if (ncols > 1 && !is.null(opts$titlerule))
+    	    	        if (ncols > 1 && i < nrow(clabels) && !is.null(opts$titlerule))
     	    	            titlerules <- sprintf("%s%s{%d-%d}", titlerules, opts$titlerule,
     	    	            			  firstcol, firstcol+ncols-1)
     	    	    } else
