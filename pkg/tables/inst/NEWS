@@ -7,3 +7,4 @@
 0.3:  Renamed from "tabular" to "tables", put on R-forge
 
 0.4:  Added All(), Literal() and RowFactor()
+      Added table_options() and booktabs() for booktabs support
