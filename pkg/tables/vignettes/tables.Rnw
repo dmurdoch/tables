@@ -431,7 +431,7 @@ latex( tabular( Justify(r)*(F+1) ~ Justify(c)*(n=1)
 \subsection{Formula Functions}
 \label{sec:tableformulas}
 
-Currently several examples of formula functions are provided, and but not all are
+Currently several examples of formula functions are provided, but not all are
 particularly robust.  Users can provide their own as well.  
 Such functions
 should return a language object, which will be substituted into the formula in place of the Formula
@@ -461,11 +461,11 @@ If functions are given for any of the selection arguments, the columns will be
 transformed according to the specified function before inclusion.  For example,
 using \code{factor=as.character} will convert factors into character vectors in the table.
 
-Example:  Show only the numeric columns in the iris data.
+Example:  Show the means of the numeric columns in the iris data.
 
 \begin{center}
 <<results=tex>>=
-latex( tabular( Species ~ All(iris)*mean, data=iris) )
+latex( tabular( Species ~ Heading()*mean*All(iris), data=iris) )
 @
 \end{center}
 
@@ -492,7 +492,7 @@ Example:
 \begin{center}
 <<results = tex>>=
 latex( tabular( Species + Hline()  + 1 
-                         ~ All(iris)*mean, data=iris) )
+                         ~ Heading()*mean*All(iris), data=iris) )
 @
 \end{center}
 
@@ -564,8 +564,8 @@ the \code{"longtable"} environment to allow this to cross page boundaries.  The
 
 <<results=tex>>=
 subset <- 1:50
-latex( tabular( (Literal("\\endhead\\hline\\endfoot%") 
-                 + RowFactor(subset, "", 5))  ~ 
+latex( tabular( Heading(i)*(Literal("\\endhead\\hline\\endfoot%") 
+                 + RowFactor(subset, spacing=5))  ~ 
        All(iris[subset,], factor=as.character)*Heading()*identity ),
        tabular="longtable") 
 @
