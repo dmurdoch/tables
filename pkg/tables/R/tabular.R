@@ -352,8 +352,10 @@ tabular <- function(table, data=parent.frame(), n, suppressLabels=0) {
     dims[[1]] <- expandFactors(dims[[1]], data)
     rlabels <- getLabels(dims[[1]], rows=TRUE, suppress=suppressLabels)
     suppressLabels <- attr(rlabels, "suppress")
+    justify <- attr(rlabels, "justify")
     dims[[2]] <- expandFactors(dims[[2]], data)
-    clabels <- getLabels(dims[[2]], rows=FALSE, suppress=suppressLabels)
+    clabels <- getLabels(dims[[2]], rows=FALSE, justify=justify,
+			 suppress=suppressLabels)
     rows <- sumofprods(dims[[1]])
     cols <- sumofprods(dims[[2]])
     result <- NULL
@@ -412,11 +414,13 @@ justify <- function(x, justification="c", width=max(nchar(x))) {
     x
 }
 
-latexNumeric <- function(chars, minus=TRUE, pad=TRUE, mathmode=TRUE) {
-    regexp <- "^( *)([-]?)([^ -].*)$"
+latexNumeric <- function(chars, minus=TRUE, leftpad=TRUE, rightpad=TRUE,
+			 mathmode=TRUE) {
+    regexp <- "^( *)([-]?)([^ -][^ ]*)( *)$"
     leadin <- sub(regexp, "\\1", chars)
     sign <- sub(regexp, "\\2", chars)
     rest <- sub(regexp, "\\3", chars)
+    tail <- sub(regexp, "\\4", chars)
     
     if (minus && any(neg <- sign == "-")) {
     	if (any(leadin[!neg] == ""))
@@ -424,14 +428,18 @@ latexNumeric <- function(chars, minus=TRUE, pad=TRUE, mathmode=TRUE) {
     	leadin[!neg] <- sub(" ", "", leadin[!neg])
     	sign[!neg] <- "\\phantom{-}"
     }
-    if (pad && any(ind <- leadin != "")) 
+    if (leftpad && any(ind <- leadin != "")) 
     	leadin[ind] <- paste("\\phantom{", 
     	                     gsub(" ", "0", leadin[ind]),
     	                     "}", sep="")
+    if (rightpad && any(ind <- tail != ""))
+    	tail[ind] <- paste("\\phantom{",
+    			   gsub(" ", "0", tail[ind]),
+    			   "}", sep="")
     if (mathmode)
-    	paste(leadin, "$", sign, rest, "$", sep="")
+    	paste("$", leadin, sign, rest, tail, "$", sep="")
     else
-    	paste(leadin, sign, rest, sep="")
+    	paste(leadin, sign, rest, tail, sep="")
 }
 
 format.tabular <- function(x, digits=4, justification="n", 
@@ -494,6 +502,7 @@ print.tabular <- function(x, justification = "n", ...) {
 
 table_options <- local({
     opts <- list(justification="c",
+    		 rowlabeljustification="l",
     		 tabular="tabular",
     		 toprule="\\hline",
     		 midrule="\\hline",
@@ -514,7 +523,7 @@ table_options <- local({
 })
 
 booktabs <- function(...) { 
-    save <- table_options(justification="l",
+    save <- table_options(
                   toprule="\\toprule",
     		  midrule="\\midrule",
     		  bottomrule="\\bottomrule",
@@ -544,14 +553,14 @@ latex.tabular <- function(object, file="", ...) {
     rowLabels <- attr(object, "rowLabels")
     rowLabels[is.na(rowLabels)] <- ""
     rjust <- attr(rowLabels, "justification")
-    ind <- !is.na(rjust) & (rjust != opts$justification)
+    ind <- !is.na(rjust) & (rjust != opts$rowlabeljustification)
     rowLabels[ind] <- sprintf("\\multicolumn{1}{%s}{%s}",
     			      rjust[ind], rowLabels[ind])
     nleading <- ncol(rowLabels)
     rlabels <- apply(rowLabels, 1, paste, collapse = " & ")
     colnamejust <- attr(rowLabels, "colnamejust")
-    colnamejust[is.na(colnamejust)] <- opts$justification
-    ind <- colnamejust != opts$justification
+    colnamejust[is.na(colnamejust)] <- opts$rowlabeljustification
+    ind <- colnamejust != opts$rowlabeljustification
     colnames(rowLabels)[ind] <- sprintf("\\multicolumn{1}{%s}{%s}", 
     		colnamejust[ind], colnames(rowLabels)[ind])
     clabels <- attr(object, "colLabels")
@@ -599,8 +608,10 @@ latex.tabular <- function(object, file="", ...) {
     	clabels[length(clabels)] <-
     	    paste(paste(colnames(rowLabels), collapse=" & "), 
     	    	  clabels[length(clabels)])
-    mycat("\\begin{", opts$tabular, "}{", paste(rep(opts$justification, nleading + ncol(chars)), 
-    				   collapse=""), "}\n", sep="")
+    mycat("\\begin{", opts$tabular, "}{", 
+    	  paste(rep(opts$rowlabeljustification, nleading), collapse=""),
+    	  paste(rep(opts$justification, ncol(chars)), collapse=""), 
+    	  "}\n", sep="")
     mycat(opts$toprule, "\n", sep="")
     mycat(clabels, sep="\n")
     mycat(opts$midrule, "\n", sep="")
