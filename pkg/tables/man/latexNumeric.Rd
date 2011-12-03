@@ -10,7 +10,7 @@ minus signs properly.  The default formatting in \code{\link{tabular}}
 uses this to maintain proper alignment.
 }
 \usage{
-latexNumeric(chars, minus = TRUE, pad = TRUE, mathmode = TRUE)
+latexNumeric(chars, minus = TRUE, leftpad = TRUE, rightpad = TRUE, mathmode = TRUE)
 }
 \arguments{
   \item{chars}{
@@ -19,8 +19,8 @@ A character vector of numeric values.
   \item{minus}{
 Whether to pad cases with no minus sign with spacing of the same width.
 }
-  \item{pad}{
-Whether to pad cases that have leading blanks with spacing matching a digit width per space.
+  \item{leftpad,rightpad}{
+Whether to pad cases that have leading or trailing blanks with spacing matching a digit width per space.
 }
   \item{mathmode}{
 Whether to wrap the result in dollar signs, so LaTeX renders minus signs properly.

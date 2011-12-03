@@ -59,17 +59,14 @@ If you prefer the style of table that the \LaTeX\ \pkg{booktabs} package \citep{
 produces, you can choose
 that style instead.  I mostly like it, so I have used
 <<eval=FALSE>>=
-booktabs(justification = "c")
+booktabs()
 @
-for the rest of this document.  With a few modifications to the table formula (shown below in 
-section \ref{sec:booktabs}), this gives
+for the rest of this document.  This gives
 \begin{center}
 <<irisbook, echo=FALSE, results=tex>>=
-save <- booktabs(justification = "c")
+save <- booktabs()
 latex(
-tabular( Justify("l")*(Species + 1)*Justify("c") ~ (n=1) + Format(digits=2)*
-         (Sepal.Length + Sepal.Width)*(mean + sd), data=iris )
-
+<<iris>>
 )
 @
 \end{center}
@@ -202,8 +199,10 @@ for use in Sweave documents like this one.
 The \code{table\textunderscore options()} function sets a number of formatting defaults for the \code{latex()}
 method:
 \begin{description}
-\item[justification] Any justification string will be accepted; it should be
+\item[justification] This is the default justification for data columns and their headers.
+Any justification string will be accepted; it should be
 one that the \LaTeX\ \verb+\tabular+ environment (or substitute) accepts.
+\item[rowlabeljustification] This is the default justification for row labels.
 \item[tabular] The environment to use in \LaTeX.  Alternatives to \code{"tabular"} such as
 \code{"longtable"} can be used here.  Those often also need 
 modifications within the table; the \code{Literal()} (section \ref{sec:Literal}) function may be
@@ -238,7 +237,8 @@ The earlier table of iris data was produced using
 
 \begin{Schunk}
 \begin{Sinput}
-latexNumeric(chars, minus = TRUE, pad = TRUE, mathmode = TRUE)
+latexNumeric(chars, minus = TRUE, leftpad = TRUE, rightpad=TRUE, 
+                        mathmode = TRUE)
 \end{Sinput}
 \end{Schunk}
 
@@ -258,11 +258,11 @@ A character vector of formatted numeric values.
 \item[minus]
 Whether to pad positive cases with spacing of the same width as a minus sign.  If \code{TRUE}
 and some entries are negative, then all positive entries will be padded.
-\item[pad]
-Whether to pad cases that have leading blanks with spacing matching a digit width per space.
-If \code{TRUE}, leading blanks will be converted to spaces the same width as a digit 0.  (If
+\item[leftpad, rightpad]
+Whether to pad cases that have leading or trailing blanks with spacing matching a digit width per space.
+If \code{leftpad=TRUE}, leading blanks will be converted to spaces the same width as a digit 0.  (If
 \code{minus=TRUE}, one leading blank may have been consumed in the sign padding.)
-Note that trailing blanks won't be modified.
+The \code{rightpad} argument handles trailing blanks similarly.
 
 \item[mathmode]
 Whether to wrap the result in dollar signs, so \LaTeX\ will render minus signs properly.
@@ -609,7 +609,7 @@ Example:  Display mean $\pm$ standard error.
 \begin{center}
 <<results=tex>>=
 stderr <- function(x) sd(x)/sqrt(length(x))
-latex( tabular( Justify(l)*(Species+1) ~ All(iris)*
+latex( tabular( (Species+1) ~ All(iris)*
           PlusMinus(mean, stderr, digits=1), data=iris ) )
 @
 \end{center}

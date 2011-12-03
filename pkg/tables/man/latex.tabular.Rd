@@ -32,7 +32,10 @@ The \code{table_options()} function sets a number of options that control format
 options are:
 \describe{
   \item{\code{justification = "c"}}{
-Default justification for the table.
+Default justification for the data columns in the table.
+}
+  \item{\code{rowlabeljustification}}{
+Default justification for row labels.
 }
   \item{\code{tabular = "tabular"}}{
 The LaTeX environment to use for the table.  Other choices such as \code{"longtable"} might
