@@ -9,3 +9,4 @@
 0.4:  Added All(), Literal() and RowFactor()
       Added table_options() and booktabs() for booktabs support
       Gave different defaults for row label justification and data justification
+      Suppress page breaks in RowFactor().

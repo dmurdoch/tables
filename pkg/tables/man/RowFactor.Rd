@@ -8,7 +8,8 @@ This takes a variable and treats it as a factor in a table.  It adds
 extra spacing to make the table more readable.
 }
 \usage{
-RowFactor(x, name = deparse(substitute(x)), spacing = 3, space = 1)
+RowFactor(x, name = deparse(substitute(x)), spacing = 3, space = 1,
+          nopagebreak = "\\\\nopagebreak")
 }
 \arguments{
   \item{x}{
@@ -22,6 +23,9 @@ Extra spacing will be added after every \code{spacing} lines.
 }
   \item{space}{
 How much extra space to add, in \code{ex} units.
+}
+  \item{nopagebreak}{
+LaTeX macro to insert to suppress page breaks except between groups.
 }
 }
 \details{
