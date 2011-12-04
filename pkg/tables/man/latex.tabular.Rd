@@ -10,7 +10,7 @@ This is similar to \code{\link{print.tabular}}, but it inserts the code to
 display the table in a LaTeX tabular environment.
 }
 \usage{
-\method{latex}{tabular}(object, file="", ...)
+\method{latex}{tabular}(object, file="", options=NULL, ...)
 table_options(...)
 booktabs(...)
 }
@@ -20,6 +20,9 @@ The tabular object.
 }
   \item{file}{
 A filename to which to write the LaTeX code.
+}
+  \item{options}{
+A list of options to set for the duration of the call.
 }
   \item{...}{
 Settings for default formatting.  See Details below.
@@ -49,6 +52,8 @@ The LaTeX macro to use to underline multicolumn titles.  If \code{NULL}, no unde
 is done.  
 }
 }
+These may be set persistently by calling \code{table_options()}, or just for the duration
+of the call by passing them in a list to \code{latex()}.
 
 The \code{booktabs()} function sets the \code{table_options()} values to different defaults, 
 suitable for use with the \pkg{booktabs} LaTeX package.
