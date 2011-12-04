@@ -173,7 +173,7 @@ for more details.
 \begin{Sinput}
 format(x, digits=4, justification="n", ...) 
 print(x, ...)
-latex(x, file="", ...)
+latex(x, file="", options=NULL,  ...)
 \end{Sinput}
 \end{Schunk}
 
@@ -191,6 +191,8 @@ specified via the \code{table_options()} function.
 \item[file] The default method for the \code{Hmisc::latex()} generic writes the \LaTeX\ code
 to a file; \code{latex.tabular()} can optionally do the same, but it defaults to writing to screen,
 for use in Sweave documents like this one.
+\item[options] A list of options to pass to \code{table\textunderscore options()}.  These
+will be set only for the duration of the call to \code{latex()}.
 \end{description}
 
 \subsubsection{\code{table\textunderscore options(), booktabs()}}
@@ -643,10 +645,10 @@ default style, use \verb!midrule="\\hline\\endhead\\hline\\endfoot"! instead.
 
 <<results=tex>>=
 subset <- 1:50
-save <- table_options(tabular="longtable",
-                      midrule="\\midrule\\endhead\\hline\\endfoot")
 latex( tabular( RowFactor(subset, "$i$", spacing=5)  ~ 
-       All(iris[subset,], factor=as.character)*Heading()*identity )) 
+       All(iris[subset,], factor=as.character)*Heading()*identity ),
+       options = list(tabular="longtable",
+                      midrule="\\midrule\\endhead\\hline\\endfoot") )
 @
 
 \section{Technical Details}
