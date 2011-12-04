@@ -9,7 +9,7 @@ extra spacing to make the table more readable.
 }
 \usage{
 RowFactor(x, name = deparse(substitute(x)), spacing = 3, space = 1,
-          nopagebreak = "\\\\nopagebreak")
+          nopagebreak = "\\\\nopagebreak ")
 }
 \arguments{
   \item{x}{

@@ -1,5 +1,5 @@
 RowFactor <- function(x, name = deparse(substitute(x)), spacing=3, space=1,
-                      nopagebreak = "\\nopagebreak") {
+                      nopagebreak = "\\nopagebreak ") {
     force(name)
     x <- as.factor(x)
     levs <- levels(x)
