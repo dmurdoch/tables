@@ -11,3 +11,4 @@
       Gave different defaults for row label justification and data justification
       Suppress page breaks in RowFactor().
       Allow options to be set temporarily in latex() call.
+      Added options to suppress parts of the output.

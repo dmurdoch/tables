@@ -6,7 +6,12 @@ table_options <- local({
     		 toprule="\\hline",
     		 midrule="\\hline",
     		 bottomrule="\\hline",
-    		 titlerule=NULL
+    		 titlerule=NULL,
+    		 doBegin=TRUE,
+    		 doHeader=TRUE,
+    		 doBody=TRUE,
+    		 doFooter=TRUE,
+    		 doEnd=TRUE
     		 )
     function(...) {
         args <- list(...)
@@ -111,17 +116,24 @@ latex.tabular <- function(object, file="", options=NULL, ...) {
     	clabels[length(clabels)] <-
     	    paste(paste(colnames(rowLabels), collapse=" & "), 
     	    	  clabels[length(clabels)])
-    mycat("\\begin{", opts$tabular, "}{", 
+    if (opts$doBegin)
+        mycat("\\begin{", opts$tabular, "}{", 
     	  paste(rep(opts$rowlabeljustification, nleading), collapse=""),
     	  paste(rep(opts$justification, ncol(chars)), collapse=""), 
     	  "}\n", sep="")
-    mycat(opts$toprule, "\n", sep="")
-    mycat(clabels, sep="\n")
-    mycat(opts$midrule, "\n", sep="")
-    chars <- apply(chars, 1, paste, collapse=" & ")
-    chars <- paste(" & ", chars, "\\\\")
-    mycat(paste(rlabels, chars), sep="\n")
-    mycat(opts$bottomrule, "\n")
-    mycat("\\end{", opts$tabular, "}\n", sep="")
+    if (opts$doHeader) {
+	mycat(opts$toprule, "\n", sep="")
+	mycat(clabels, sep="\n")
+	mycat(opts$midrule, "\n", sep="")
+    }
+    if (opts$doBody) {
+	chars <- apply(chars, 1, paste, collapse=" & ")
+	chars <- paste(" & ", chars, "\\\\")
+	mycat(paste(rlabels, chars), sep="\n")
+    }
+    if (opts$doFooter)
+    	mycat(opts$bottomrule, "\n")
+    if (opts$doEnd)
+    	mycat("\\end{", opts$tabular, "}\n", sep="")
     structure(list(file=file, style=character(0)), class="latex")
 }

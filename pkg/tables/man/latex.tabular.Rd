@@ -51,6 +51,10 @@ The LaTeX macros to use for the lines in the table.  By default they are all \co
 The LaTeX macro to use to underline multicolumn titles.  If \code{NULL}, no underlining
 is done.  
 }
+  \item{code{doBegin, doHeader, doBody, doFooter, doEnd}}{
+These logical values (all defaults are \code{TRUE}) control the inclusion of specific parts of
+the output table.
+}
 }
 These may be set persistently by calling \code{table_options()}, or just for the duration
 of the call by passing them in a list to \code{latex()}.
