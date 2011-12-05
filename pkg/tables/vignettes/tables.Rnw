@@ -63,8 +63,11 @@ booktabs()
 @
 for the rest of this document.  This gives
 \begin{center}
+<<echo=FALSE, results=hide>>=
+save <- table_options()
+booktabs()
+@
 <<irisbook, echo=FALSE, results=tex>>=
-save <- booktabs()
 latex(
 <<iris>>
 )
@@ -191,7 +194,7 @@ specified via the \code{table_options()} function.
 \item[file] The default method for the \code{Hmisc::latex()} generic writes the \LaTeX\ code
 to a file; \code{latex.tabular()} can optionally do the same, but it defaults to writing to screen,
 for use in Sweave documents like this one.
-\item[options] A list of options to pass to \code{table\textunderscore options()}.  These
+\item[options] A list of options to pass to \code{table_options()}.  These
 will be set only for the duration of the call to \code{latex()}.
 \end{description}
 
@@ -212,6 +215,9 @@ helpful.
 \item[toprule, midrule, bottomrule] The \LaTeX\ macros to draw the top, middle and bottom lines
 in the table.  By default these are all \code{"\\hline"}.
 \item[titlerule] An optional \LaTeX\ macro to draw a line under multicolumn titles.
+\item[doBegin, doHeader, doBody, doFooter, doEnd]
+These logical values control the inclusion of specific parts of
+the output table.
 \end{description}
 The defaults are
 <<echo=FALSE>>=
@@ -221,7 +227,7 @@ save
 If you are using the \LaTeX\ \pkg{booktabs} package, the \code{booktabs()} function will
 set different options.  Currently those are:
 <<echo=FALSE>>=
-table_options()
+table_options()[c("toprule", "midrule", "bottomrule", "titlerule")]
 @
 
 The earlier table of iris data was produced using
