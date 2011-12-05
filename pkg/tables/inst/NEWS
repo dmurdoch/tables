@@ -12,3 +12,5 @@
       Suppress page breaks in RowFactor().
       Allow options to be set temporarily in latex() call.
       Added options to suppress parts of the output.
+
+0.5:  Planned CRAN release of all of the above

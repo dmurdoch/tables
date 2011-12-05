@@ -72,6 +72,8 @@ latex(
 <<iris>>
 )
 @
+
+
 \end{center}
 
 The idea of a table in the \pkg{tables} package is a rectangular array of values, with
@@ -237,6 +239,25 @@ The earlier table of iris data was produced using
 \begin{center}
 <<results=tex,echo=FALSE>>=
 <<irisbook>>
+@
+\end{center}
+
+
+We can use the \code{doXXXX} options to insert raw \LaTeX\ into a table:
+<<split, eval=FALSE>>=
+latex(tabular(Species ~ (n=1) + Format(digits=2)*
+         (Sepal.Length + Sepal.Width)*(mean + sd), data=iris),
+      options=list(doFooter=FALSE, doEnd=FALSE))
+cat("\\ \\\\ \\multicolumn{6}{l}{
+\\textit{Overall, we see the following: }} \\\\
+\\ \\\\")
+latex(tabular(1 ~ (n=1) + Format(digits=2)*
+         (Sepal.Length + Sepal.Width)*(mean + sd), data=iris),
+      options=list(doBegin=FALSE, doHeader=FALSE))
+@
+\begin{center}
+<<results=tex, echo=FALSE>>=
+<<split>>
 @
 \end{center}
 
