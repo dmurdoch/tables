@@ -490,7 +490,7 @@ print.tabular <- function(x, justification = "n", ...) {
     colnamejust[is.na(colnamejust)] <- justification
     corner <- matrix("", nrow(clabels), ncol(rlabels))
     for (i in seq_len(ncol(rlabels)))
-    	corner[nrow(clabels),] <- justify(colnames(rlabels)[i],
+    	corner[nrow(clabels),i] <- justify(colnames(rlabels)[i],
     					  colnamejust[i])
     result <- rbind(cbind(corner, clabels),
                     cbind(rlabels, chars))
