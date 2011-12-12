@@ -4,6 +4,16 @@ Factor <- function(x, name = deparse(substitute(x)), levelnames=levels(x)) {
     RowFactor(x, name = name, levelnames = levelnames, spacing=FALSE)
 }
 
+Multicolumn <- function(x, name = deparse(substitute(x)),
+                        levelnames = levels(x),
+                        width = 2, first = 1, justify = "l") {
+    x <- as.factor(x)
+    levelnames <- sprintf("\\multicolumn{%d}{%s}{%s} \\\\ %s",
+                  width, justify, levelnames, 
+                  paste(rep("&", first-1), collapse=" "))
+    RowFactor(x, name, levelnames, spacing=FALSE)
+}
+
 RowFactor <- function(x, name = deparse(substitute(x)), levelnames=levels(x),
                       spacing=3, space=1, nopagebreak = "\\nopagebreak ") {
     force(name)

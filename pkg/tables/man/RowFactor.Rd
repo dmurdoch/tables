@@ -1,14 +1,16 @@
 \name{RowFactor}
 \alias{Factor}
 \alias{RowFactor}
+\alias{Multicolumn}
 \title{
 Use a variable as a factor to give rows in a table.
 }
 \description{
-Both \code{Factor} and \code{RowFactor}
-take a variable and treat it as a factor in a table.  \code{RowFactor} 
-is designed for LaTeX output, adding
-extra spacing to make the table more readable.
+The functions take a variable and treat it as a factor in a table.
+\code{RowFactor} is designed for LaTeX output, adding extra spacing to
+make the table more readable.  \code{Multicolumn} also works only in
+LaTeX, and displays the label in a style with the level on a line by
+itself, spanning multiple columns.
 }
 \usage{
 Factor(x, name, levelnames = levels(x))
@@ -16,6 +18,8 @@ RowFactor(x, name = deparse(substitute(x)),
 	  levelnames = levels(x), 
           spacing = 3, space = 1,
           nopagebreak = "\\\\nopagebreak ")
+Multicolumn(x, name, levelnames = levels(x), 
+            width=2, first=1, justify="l")
 }
 \arguments{
   \item{x}{
@@ -35,6 +39,15 @@ How much extra space to add, in \code{ex} units.
 }
   \item{nopagebreak}{
 LaTeX macro to insert to suppress page breaks except between groups.
+}
+  \item{width}{
+How many columns should the label span?
+}
+  \item{first}{
+Which is the first column in which this label appears?
+}
+  \item{justify}{
+How should the label be justified in the columns?
 }
 }
 \value{

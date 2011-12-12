@@ -643,18 +643,23 @@ latex( tabular( (Species+1) ~ All(iris)*
 @
 \end{center}
 
-\subsubsection{\code{Factor()} and \code{RowFactor()}}
+\subsubsection{\code{Factor()}, \code{RowFactor()} and \code{Multicolumn()}}
 \label{sec:RowFactor}
 
 The \code{Factor()} function converts its argument into a factor, but keeps the
 original name for a column heading.  \code{RowFactor()} is designed to be used only
 for \LaTeX\ output:  it produces multiple rows the way a factor does, but 
-with more flexibility in the formatting.  They have syntax
+with more flexibility in the formatting.  The \code{Multicolumn()} function is also designed
+for \LaTeX\ output:  it displays factor levels in the style where the level is displayed across 
+multiple columns on its own line.
+
+They have syntax
 
 \begin{Schunk}
 \begin{Sinput}
 Factor(x, name, levelnames)
 RowFactor(x, name, levelnames, spacing=3, space=1, nopagebreak="\\nopagebreak")
+Multicolumn(x, name, levelnames, width=2, first=1, justify="l")
 \end{Sinput}
 \end{Schunk}
 
@@ -666,6 +671,9 @@ The arguments are
 \item[spacing] Extra spacing is added after every group of \code{spacing} lines.
 \item[space] How much extra space to add (in ``ex'' units).
 \item[nopagebreak] Macro to insert to suppress page breaks except between groups.
+\item[width] How many columns for the label?
+\item[first] What is the first column?
+\item[justify] What justification to use.
 \end{description}
 
 Example: Show the first 50 lines of the iris dataset, in groups of 5 lines.  Use
@@ -700,11 +708,9 @@ To get group labels to span multiple columns, the \code{levelnames} argument
 can be used with embedded \LaTeX\ code.  For example,
 \begin{center}
 <<results=tex>>=
-latex( tabular( Factor(Species, 
-            levelnames=paste("\\multicolumn{3}{l}{\\em Iris", 
-                            levels(iris$Species), 
-                            "} \\\\ ")) * (mean + sd)  
-            ~ All(iris), data=iris, suppress=1))
+latex( tabular( Multicolumn(Species, width=3, 
+            levelnames=paste("\\textit{Iris", levels(Species),"}")) 
+            * (mean + sd)  ~ All(iris), data=iris, suppress=1))
 @
 \end{center}
 
