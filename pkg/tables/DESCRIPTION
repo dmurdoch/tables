@@ -1,6 +1,6 @@
 Package: tables	
 Title: Formula-driven table generation
-Version: 0.5.21
+Version: 0.5.22
 Author: Duncan Murdoch
 Description: Computes and displays complex tables of summary statistics
 Maintainer: Duncan Murdoch <murdoch@stats.uwo.ca>

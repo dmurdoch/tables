@@ -653,8 +653,8 @@ with more flexibility in the formatting.  They have syntax
 
 \begin{Schunk}
 \begin{Sinput}
-Factor(x, name)
-RowFactor(x, name, spacing=3, space=1, nopagebreak="\\nopagebreak")
+Factor(x, name, levelnames)
+RowFactor(x, name, levelnames, spacing=3, space=1, nopagebreak="\\nopagebreak")
 \end{Sinput}
 \end{Schunk}
 
@@ -662,6 +662,7 @@ The arguments are
 \begin{description}
 \item[x] A variable to be treated as a factor.
 \item[name] The name to be used for the factor; by default, the name passed as \code{x}.
+\item[levelnames] An optional argument to allow customization of the displayed level names.
 \item[spacing] Extra spacing is added after every group of \code{spacing} lines.
 \item[space] How much extra space to add (in ``ex'' units).
 \item[nopagebreak] Macro to insert to suppress page breaks except between groups.
@@ -692,6 +693,18 @@ subset <- 1:10
 latex( tabular( Factor(subset)  ~ 
        All(iris[subset,], factor=as.character)*Heading()*identity, 
        suppress=3 ) )
+@
+\end{center}
+
+To get group labels to span multiple columns, the \code{levelnames} argument
+can be used with embedded \LaTeX\ code.  For example,
+\begin{center}
+<<results=tex>>=
+latex( tabular( Factor(Species, 
+            levelnames=paste("\\multicolumn{3}{l}{\\em Iris", 
+                            levels(iris$Species), 
+                            "} \\\\ ")) * (mean + sd)  
+            ~ All(iris), data=iris, suppress=1))
 @
 \end{center}
 
