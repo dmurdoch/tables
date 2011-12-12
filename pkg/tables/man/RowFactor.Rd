@@ -11,8 +11,10 @@ is designed for LaTeX output, adding
 extra spacing to make the table more readable.
 }
 \usage{
-Factor(x, name)
-RowFactor(x, name = deparse(substitute(x)), spacing = 3, space = 1,
+Factor(x, name, levelnames = levels(x))
+RowFactor(x, name = deparse(substitute(x)), 
+	  levelnames = levels(x), 
+          spacing = 3, space = 1,
           nopagebreak = "\\\\nopagebreak ")
 }
 \arguments{
@@ -21,6 +23,9 @@ A variable to be treated as a factor.
 }
   \item{name}{
 The display name for the factor.
+}
+  \item{levelnames}{
+The strings to use as levels of \code{x}.
 }
   \item{spacing}{
 Extra spacing will be added after every \code{spacing} lines.

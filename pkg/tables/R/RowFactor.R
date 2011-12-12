@@ -1,8 +1,11 @@
-Factor <- function(x, name = deparse(substitute(x)))
-    RowFactor(x, name = name, spacing=FALSE)
+Factor <- function(x, name = deparse(substitute(x)), levelnames=levels(x)) {
+    x <- as.factor(x)
+    force(levelnames)
+    RowFactor(x, name = name, levelnames = levelnames, spacing=FALSE)
+}
 
-RowFactor <- function(x, name = deparse(substitute(x)), spacing=3, space=1,
-                      nopagebreak = "\\nopagebreak ") {
+RowFactor <- function(x, name = deparse(substitute(x)), levelnames=levels(x),
+                      spacing=3, space=1, nopagebreak = "\\nopagebreak ") {
     force(name)
     x <- as.factor(x)
     levs <- levels(x)
@@ -16,13 +19,13 @@ RowFactor <- function(x, name = deparse(substitute(x)), spacing=3, space=1,
     	spacing <- rep(FALSE, n)
     }
     if (n) {
-        f <- call("*", call("Heading", as.name(levs[1])), 
+        f <- call("*", call("Heading", as.name(levelnames[1])), 
                        call("==", x, levs[1]))
         for (i in seq_along(levs)[-1]) {
             if (groups && spacing[i]) insert <- paste(nopagebreak, "\\rule[-", space+1, "ex]{0pt}{0pt}", sep="")
             else if (!groups || spacing[i-1]) insert <- ""
             else insert <- nopagebreak
-            catname <- paste(insert, levs[i], sep="")
+            catname <- paste(insert, levelnames[i], sep="")
             f <- call("+", f, call("*", call("Heading", as.name(catname)), 
                                                 call("==", x, levs[i])))
         }
