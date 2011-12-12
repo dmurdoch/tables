@@ -72,7 +72,7 @@ latex.tabular <- function(object, file="", options=NULL, ...) {
     colnames(rowLabels)[ind] <- sprintf("\\multicolumn{1}{%s}{%s}", 
     		colnamejust[ind], colnames(rowLabels)[ind])
     clabels <- attr(object, "colLabels")
-    leadin <- paste(rep("&", nleading - 1), collapse=" ")
+    leadin <- paste(rep("&", max(nleading - 1, 0)), collapse=" ")
     cjust <- attr(clabels, "justification")
     cjust[is.na(cjust)] <- opts$justification
 
@@ -105,6 +105,8 @@ latex.tabular <- function(object, file="", options=NULL, ...) {
     	    	ncols <- ncols + 1
     	}
     	clines[i] <- paste( paste(result, collapse=" "), "\\\\", titlerules)
+    	if (nleading == 0) # Remove extra leading &
+    	    clines[i] <- sub("&", "", clines[i], fixed=TRUE)
     }
     clabels <- clines
     # Replace the leadin of the last line with the row label headings
@@ -128,7 +130,9 @@ latex.tabular <- function(object, file="", options=NULL, ...) {
     }
     if (opts$doBody) {
 	chars <- apply(chars, 1, paste, collapse=" & ")
-	chars <- paste(" & ", chars, "\\\\")
+	if (nleading > 0)
+	    chars <- paste(" & ", chars, sep="")
+	chars <- paste(chars, "\\\\")
 	mycat(paste(rlabels, chars), sep="\n")
     }
     if (opts$doFooter)

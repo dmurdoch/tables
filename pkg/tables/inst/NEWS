@@ -15,6 +15,9 @@
 
 0.5:  Planned CRAN release of all of the above
 
-0.5.20:
+0.5.21:
       Fixed bug in column headings in print.tabular (reported by
       Tal Galili)
+      Added Factor().
+      Fixed bug with zero columns of row labels.
+      

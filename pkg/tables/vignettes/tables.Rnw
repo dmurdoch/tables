@@ -643,14 +643,17 @@ latex( tabular( (Species+1) ~ All(iris)*
 @
 \end{center}
 
-\subsubsection{\code{RowFactor()}}
+\subsubsection{\code{Factor()} and \code{RowFactor()}}
 \label{sec:RowFactor}
 
-This function produces multiple rows the way a factor does, but 
-with more flexibility.  It has syntax
+The \code{Factor()} function converts its argument into a factor, but keeps the
+original name for a column heading.  \code{RowFactor()} is designed to be used only
+for \LaTeX\ output:  it produces multiple rows the way a factor does, but 
+with more flexibility in the formatting.  They have syntax
 
 \begin{Schunk}
 \begin{Sinput}
+Factor(x, name)
 RowFactor(x, name, spacing=3, space=1, nopagebreak="\\nopagebreak")
 \end{Sinput}
 \end{Schunk}
@@ -658,7 +661,7 @@ RowFactor(x, name, spacing=3, space=1, nopagebreak="\\nopagebreak")
 The arguments are
 \begin{description}
 \item[x] A variable to be treated as a factor.
-\item[name] The name to be used for the factor; by default, the name passed as \code{f}.
+\item[name] The name to be used for the factor; by default, the name passed as \code{x}.
 \item[spacing] Extra spacing is added after every group of \code{spacing} lines.
 \item[space] How much extra space to add (in ``ex'' units).
 \item[nopagebreak] Macro to insert to suppress page breaks except between groups.
@@ -677,6 +680,20 @@ latex( tabular( RowFactor(subset, "$i$", spacing=5)  ~
        options = list(tabular="longtable",
                       midrule="\\midrule\\endhead\\hline\\endfoot") )
 @
+
+To suppress the row numbering, use  \code{suppress=3} in the call to
+tabular.  (It is 3 because we need to suppress the column heading, the
+rewritten labels for the rows, and the original labels.  Trial and error is
+the best way to determine this!)  Unfortunately, the spacing features
+of \code{RowFactor()} won't work without the row labels.
+\begin{center}
+<<results=tex>>=
+subset <- 1:10
+latex( tabular( Factor(subset)  ~ 
+       All(iris[subset,], factor=as.character)*Heading()*identity, 
+       suppress=3 ) )
+@
+\end{center}
 
 \section{Technical Details}
 

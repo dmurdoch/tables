@@ -1,3 +1,6 @@
+Factor <- function(x, name = deparse(substitute(x)))
+    RowFactor(x, name = name, spacing=FALSE)
+
 RowFactor <- function(x, name = deparse(substitute(x)), spacing=3, space=1,
                       nopagebreak = "\\nopagebreak ") {
     force(name)
