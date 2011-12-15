@@ -1,6 +1,7 @@
 export(tabular, latexNumeric, PlusMinus, Hline, Factor, RowFactor, All, Literal,
-       Multicolumn, table_options, booktabs)
+       Multicolumn, table_options, booktabs, write.csv.tabular)
 importFrom(Hmisc, latex)
 S3method(print, tabular)
 S3method(format, tabular)
 S3method(latex, tabular)
+S3method(as.matrix, tabular)

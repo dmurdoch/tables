@@ -478,24 +478,3 @@ format.tabular <- function(x, digits=4, justification="n",
     	    chars[,i] <- justify(chars[,i], justify[,i])
     chars
 }
-
-print.tabular <- function(x, justification = "n", ...) {
-    chars <- format(x, justification = justification, ...)
-    
-    rlabels <- attr(x, "rowLabels")
-    rlabels[is.na(rlabels)] <- ""
-    clabels <- attr(x, "colLabels")
-    clabels[is.na(clabels)] <- ""
-    colnamejust <- attr(rlabels, "colnamejust")
-    colnamejust[is.na(colnamejust)] <- justification
-    corner <- matrix("", nrow(clabels), ncol(rlabels))
-    for (i in seq_len(ncol(rlabels)))
-    	corner[nrow(clabels),i] <- justify(colnames(rlabels)[i],
-    					  colnamejust[i])
-    result <- rbind(cbind(corner, clabels),
-                    cbind(rlabels, chars))
-    rownames(result) <- rep("", nrow(result))
-    colnames(result) <- rep("", ncol(result))
-    print(noquote(result))
-    invisible(x)
-}

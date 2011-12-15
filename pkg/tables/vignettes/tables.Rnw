@@ -200,6 +200,26 @@ for use in Sweave documents like this one.
 will be set only for the duration of the call to \code{latex()}.
 \end{description}
 
+\subsubsection{\code{as.matrix(), write.csv.tabular()}}
+
+\begin{Schunk}
+\begin{Sinput}
+as.matrix(x, format = TRUE, 
+    rowLabels = TRUE, colLabels = TRUE, justification = "n", ...)
+write.csv.tabular(x, file = "", justification = "n", ...)
+\end{Sinput}
+\end{Schunk}
+
+These functions export tables for further computations.  The arguments are:
+\begin{description}
+\item[x] The tabular object.
+\item[format] Whether to format the entries.  See the help page for alternatives.
+\item[rowLabels, colLabels] If formatting, whether to include the labels or not.
+\item[justification] The default text justification to use when formatting.
+\item[file] Where to write the output.
+\end{description}
+
+
 \subsubsection{\code{table\textunderscore options(), booktabs()}}
 \label{sec:booktabs}
 
