@@ -15,13 +15,14 @@
 
 0.5:  Planned CRAN release of all of the above
 
-0.5.24:
+0.5.26:
       Fixed bug in column headings in print.tabular (reported by
       Tal Galili)
       Added Factor().
       Fixed bug with zero columns of row labels.
       Added levelnames argument to RowFactor and Factor to allow
-      label customization.
+        label customization.
       Added Multicolumn function.
-      Added as.matrix() and write.csv.tabular().
+      Added as.matrix(), write.csv.tabular() and write.table.tabular()
+        (suggestions of Greg Snow).
       
