@@ -39,12 +39,23 @@ as.matrix.tabular <- function(x, format=TRUE,
 
 
 write.csv.tabular <- function(x, file="", 
-    justification = "n", ...) {
+    justification = "n", row.names=FALSE, 
+    write.options=list(), ...) {
     result <- as.matrix(x, justification = justification, ...)
     colnames(result) <- rep("", ncol(result))
     
-    write.csv(result, file=file, row.names=FALSE, 
-              ...)
+    do.call(write.csv, c(list(result, file=file,
+    	row.names=row.names), write.options))
+}
+
+write.table.tabular <- function(x, file="", 
+    justification = "n", row.names=FALSE, col.names=FALSE,
+    write.options=list(), ...) {
+    result <- as.matrix(x, justification = justification, ...)
+    colnames(result) <- rep("", ncol(result))
+    rownames(result) <- rep("", nrow(result))
+    do.call(write.table, c(list(result, file=file,
+    	row.names=row.names, col.names=col.names), write.options))
 }
 
 print.tabular <- function(x, justification = "n", ...) {

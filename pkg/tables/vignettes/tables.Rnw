@@ -200,13 +200,17 @@ for use in Sweave documents like this one.
 will be set only for the duration of the call to \code{latex()}.
 \end{description}
 
-\subsubsection{\code{as.matrix(), write.csv.tabular()}}
+\subsubsection{\code{as.matrix(), write.csv.tabular(), write.table.tabular()}}
 
 \begin{Schunk}
 \begin{Sinput}
 as.matrix(x, format = TRUE, 
     rowLabels = TRUE, colLabels = TRUE, justification = "n", ...)
-write.csv.tabular(x, file = "", justification = "n", ...)
+write.csv.tabular(x, file = "", justification = "n", row.names=FALSE, 
+    write.options=list(), ...)
+ write.table.tabular(x, file="", 
+    justification = "n", row.names=FALSE, col.names=FALSE,
+    write.options=list(), ...)   
 \end{Sinput}
 \end{Schunk}
 
@@ -217,6 +221,8 @@ These functions export tables for further computations.  The arguments are:
 \item[rowLabels, colLabels] If formatting, whether to include the labels or not.
 \item[justification] The default text justification to use when formatting.
 \item[file] Where to write the output.
+\item[row.names,col.names, write.options] Additional parameters to pass
+to \code{write.csv()} or \code{write.table()}.
 \end{description}
 
 
