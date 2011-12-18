@@ -39,23 +39,28 @@ as.matrix.tabular <- function(x, format=TRUE,
 
 
 write.csv.tabular <- function(x, file="", 
-    justification = "n", row.names=FALSE, 
-    write.options=list(), ...) {
-    result <- as.matrix(x, justification = justification, ...)
+    justification = "n", row.names=FALSE, ...) {
+    options <- list(...)
+    wtoptions <- names(options) %in% names(formals(write.table))
+
+    result <- do.call(as.matrix, c(list(x, justification = justification),
+    			        options[!wtoptions]))
     colnames(result) <- rep("", ncol(result))
     
     do.call(write.csv, c(list(result, file=file,
-    	row.names=row.names), write.options))
+    	row.names=row.names), options[wtoptions]))
 }
 
 write.table.tabular <- function(x, file="", 
-    justification = "n", row.names=FALSE, col.names=FALSE,
-    write.options=list(), ...) {
-    result <- as.matrix(x, justification = justification, ...)
+    justification = "n", row.names=FALSE, col.names=FALSE, ...) {
+    options <- list(...)
+    wtoptions <- names(options) %in% names(formals(write.table))
+    result <- do.call(as.matrix, c(list(x, justification = justification),
+    			        options[!wtoptions]))
     colnames(result) <- rep("", ncol(result))
     rownames(result) <- rep("", nrow(result))
     do.call(write.table, c(list(result, file=file,
-    	row.names=row.names, col.names=col.names), write.options))
+    	row.names=row.names, col.names=col.names), options[wtoptions]))
 }
 
 print.tabular <- function(x, justification = "n", ...) {

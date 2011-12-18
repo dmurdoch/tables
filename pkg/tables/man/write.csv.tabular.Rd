@@ -11,11 +11,9 @@ report writer.
 }
 \usage{
 write.csv.tabular(x, file="", 
-    justification = "n", row.names=FALSE, 
-    write.options=list(), ...)
+    justification = "n", row.names=FALSE, ...)
 write.table.tabular(x, file="", 
-    justification = "n", row.names=FALSE, col.names=FALSE,
-    write.options=list(), ...)
+    justification = "n", row.names=FALSE, col.names=FALSE, ...)
 }
 \arguments{
   \item{x}{
@@ -24,11 +22,15 @@ An object from \code{\link{tabular}}.
   \item{file}{
 A filename or connection to which to write.
 }
-  \item{justification, \dots}{
-Parameters to pass to \code{\link{format.tabular}}.
+  \item{justification}{
+Parameter to pass to \code{\link{format.tabular}}.
 }
-  \item{row.names, col.names, write.options}{
+  \item{row.names, col.names}{
 Parameters to pass to \code{\link{write.csv}} or \code{\link{write.table}}
+}
+  \item{\dots}{
+Parameters to pass to \code{\link{format.tabular}} or \code{\link{write.table}};
+see Details below.
 }
 }
 \details{
@@ -37,13 +39,18 @@ to what is produced by \code{\link{print.tabular}}) to the given
 connection in CSV format, using \code{\link{write.csv}}.
 \code{write.table.tabular} does similarly using the more general
 \code{\link{write.table}}.
+
+The optional arguments in \code{...} are sent to \code{write.csv/write.table}
+if their names exactly match parameters to \code{write.table}; otherwise, they
+are sent to \code{format.tabular}.
 }
 \value{
 The return value from \code{\link{write.csv}} or \code{\link{write.table}}.
 }
 \examples{
 \dontrun{
-# This writes a table to the clipboard on Windows
+# This writes a table to the clipboard on Windows using tab delimiters, for
+# easy import into a spreadsheet.
 
 write.table.tabular( 
     tabular( (Species + 1) ~ (n=1) + Format(digits=2)*
