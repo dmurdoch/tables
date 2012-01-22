@@ -15,7 +15,7 @@
 
 0.5:  Planned CRAN release of all of the above
 
-0.5.26:
+0.5.28:
       Fixed bug in column headings in print.tabular (reported by
       Tal Galili)
       Added Factor().
@@ -25,4 +25,7 @@
       Added Multicolumn function.
       Added as.matrix(), write.csv.tabular() and write.table.tabular()
         (suggestions of Greg Snow).
-      
+      Added LaTeX escapes to text in the body or labels constructed by
+	All() or the factor labels.  (Suggestion of Dieter Menne.)
+      Added a caption to the longtable example.  (Suggestion of Dieter 
+        Menne.)

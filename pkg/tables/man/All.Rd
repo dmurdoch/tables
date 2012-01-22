@@ -8,7 +8,8 @@ This constructs a formula object for all the columns of a dataframe.
 }
 \usage{
 All(df, numeric=TRUE, character=FALSE, logical=FALSE, factor=FALSE, 
-        complex=FALSE, raw=FALSE, other=FALSE)
+        complex=FALSE, raw=FALSE, other=FALSE,
+        texify=TRUE)
 }
 \arguments{
   \item{df}{
@@ -19,6 +20,9 @@ Whether to include columns of specified types.  See the Details below.
 }
   \item{other}{
 Whether to include columns that match none of the previous types.
+}
+  \item{texify}{
+Whether to escape LaTeX special characters in column names.
 }
 }
 \details{

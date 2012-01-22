@@ -468,9 +468,11 @@ format.tabular <- function(x, digits=4, justification="n",
        	    call[[last+1]] <- x
        	    names(call)[last+1] <- "x"
        	    chars[ind] <- eval(call, parent.frame())
-       	    if (latex && is.numeric(x) 
-       	    	&& identical(call[[1]], as.name("format")))
-       	    	chars[ind] <- latexNumeric(chars[ind])
+       	    if (latex && identical(call[[1]], as.name("format")))
+       	    	if (is.numeric(x))
+       	    	    chars[ind] <- latexNumeric(chars[ind])
+       	    	else
+       	    	    chars[ind] <- texify(chars[ind])
        	}
     }
     if (!latex)

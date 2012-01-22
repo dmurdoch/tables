@@ -13,13 +13,15 @@ LaTeX, and displays the label in a style with the level on a line by
 itself, spanning multiple columns.
 }
 \usage{
-Factor(x, name, levelnames = levels(x))
+Factor(x, name, levelnames = levels(x), texify = TRUE)
 RowFactor(x, name = deparse(substitute(x)), 
 	  levelnames = levels(x), 
           spacing = 3, space = 1,
-          nopagebreak = "\\\\nopagebreak ")
+          nopagebreak = "\\\\nopagebreak ",
+          texify = TRUE)
 Multicolumn(x, name, levelnames = levels(x), 
-            width=2, first=1, justify="l")
+            width=2, first=1, justify="l",
+            texify = TRUE)
 }
 \arguments{
   \item{x}{
@@ -30,6 +32,11 @@ The display name for the factor.
 }
   \item{levelnames}{
 The strings to use as levels of \code{x}.
+}
+  \item{texify}{
+If \code{TRUE}, characters that would be interpreted specially by LaTeX 
+are escaped (using \code{\link[Hmisc]{latexTranslate}}) so
+they will print properly.
 }
   \item{spacing}{
 Extra spacing will be added after every \code{spacing} lines.
