@@ -51,7 +51,7 @@ The LaTeX macros to use for the lines in the table.  By default they are all \co
 The LaTeX macro to use to underline multicolumn titles.  If \code{NULL}, no underlining
 is done.  
 }
-  \item{code{doBegin, doHeader, doBody, doFooter, doEnd}}{
+  \item{\code{doBegin, doHeader, doBody, doFooter, doEnd}}{
 These logical values (all defaults are \code{TRUE}) control the inclusion of specific parts of
 the output table.
 }
@@ -61,6 +61,11 @@ of the call by passing them in a list to \code{latex()}.
 
 The \code{booktabs()} function sets the \code{table_options()} values to different defaults, 
 suitable for use with the \pkg{booktabs} LaTeX package.
+
+Note that any LaTeX code can be used in the rule options; for example, see
+the \code{longtable} example in the vignette.  Material to go above the headers
+goes into \code{toprule}, material between the headers and the body goes into \code{midrule},
+and material at the bottom of the table goes into \code{bottomrule}.
 }
 \value{
 The \code{latex()} method returns \code{x} invisibly, and prints the LaTeX script to the console.

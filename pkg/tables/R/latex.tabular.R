@@ -36,6 +36,8 @@ booktabs <- function(...) {
     save
 }
 
+texify <- function(x) Hmisc::latexTranslate(x, inn="\\", out="\\textbackslash{}")
+
 latex.tabular <- function(object, file="", options=NULL, ...) {
     if (file == "")
     	out <- ""
