@@ -22,7 +22,9 @@
 options(width=60)
 @
 
-\title{The \pkg{tables} Package}
+\title{The \pkg{tables} Package\footnote{This 
+vignette  was built using \pkg{tables} version \Sexpr{packageDescription("tables")$Version}}.}
+
 \author{Duncan Murdoch}
 
 \begin{document}
@@ -709,7 +711,7 @@ The arguments are
 
 Example: Show the first 50 lines of the iris dataset, in groups of 5 lines.  Use
 the \code{"longtable"} environment to allow this to cross page boundaries.  The \code{toprule}
-setting inserts the caption, which the \code{longtable} package requires to be \textit{within}
+setting inserts the caption, which the \pkg{longtable} package requires to be \textit{within}
 the table; the
 \code{midrule} setting is necessary to get the headings to repeat on subsequent pages.  
 I've used the one that is compatible with the \pkg{booktabs} style; if you want the
