@@ -15,7 +15,7 @@
 
 0.5:  Planned CRAN release of all of the above
 
-0.5.28:
+0.5.29:
       Fixed bug in column headings in print.tabular (reported by
       Tal Galili)
       Added Factor().
@@ -29,3 +29,5 @@
 	All() or the factor labels.  (Suggestion of Dieter Menne.)
       Added a caption to the longtable example.  (Suggestion of Dieter 
         Menne.)
+      Added the version number to the vignette title page.
+      
