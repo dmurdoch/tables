@@ -15,7 +15,7 @@
 
 0.5:  Planned CRAN release of all of the above
 
-0.5.29:
+0.5.30:
       Fixed bug in column headings in print.tabular (reported by
       Tal Galili)
       Added Factor().
@@ -30,4 +30,8 @@
       Added a caption to the longtable example.  (Suggestion of Dieter 
         Menne.)
       Added the version number to the vignette title page.
+      Fixed RowFactor to add space before first row, not after 
+        last row. (Bug report from Dieter Menne.)
+      Made tabular() into a generic function.  (Suggestion of Hadley
+        Wickham.)
       

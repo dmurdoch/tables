@@ -1,5 +1,7 @@
 \name{tabular}
 \alias{tabular}
+\alias{tabular.default}
+\alias{tabular.formula}
 \alias{print.tabular}
 \alias{format.tabular}
 \title{
@@ -9,7 +11,9 @@ Compute complex table
 Computes a table of summary statistics, cross-classified by various variables.
 }
 \usage{
-tabular(table, data = parent.frame(), n, suppressLabels = 0)
+tabular(table, ...)
+\method{tabular}{default}(table, ...)
+\method{tabular}{formula}(table, data = NULL, n, suppressLabels = 0, ...)
 \method{print}{tabular}(x, justification="n", ...)
 \method{format}{tabular}(x, digits=4, justification="n", latex=FALSE, ...)
 }
@@ -18,7 +22,7 @@ tabular(table, data = parent.frame(), n, suppressLabels = 0)
 A table expression.  See the Details below.
 }
   \item{data}{
-An optional dataframe or environment in which to look for variables in the table.
+An optional dataframe, list or environment in which to look for variables in the table.
 }
   \item{n}{
 An optional value giving the length of the data.  See the Details below.
@@ -56,9 +60,10 @@ The \code{*} operator represents nesting, so that \code{x*y ~ z} says to
 show the rows of \code{y} within each row corresponding to \code{x}.
 
 The \code{=} operator sets a new name for a term; it is an abbreviation
-for the \code{Heading()} pseudo-function.  Note that
+for the \code{Heading()} pseudo-function.  (\dQuote{Pseudo-functions} are
+described in the \code{tables} vignette.)  Note that
 \code{=} has low operator precedence and may be confused by the parser
-with setting function arguments, so the parentheses are usually needed.
+with setting function arguments, so parentheses are usually needed.
 
 Parentheses may be used to group terms in the usual arithmetic way, so 
 \code{(x + y)*(u + v)} is equivalent to \code{x*u + x*v + y*u + y*v}.
@@ -81,6 +86,9 @@ If the term evaluates to a logical vector, it is assumed to specify a subset.  F
 If the term evaluates to a factor, it generates multiple rows or columns, corresponding
 to the different levels of the factor.  For example if \code{A} has three levels, then
 \code{A ~ mean*x} will calculate the mean of \code{x} within each level of \code{A}.
+
+If the term evaluates to a language object, it is treated as a macro, and expanded 
+in place in the formula.
 
 Other terms are assumed to be R expressions producing a vector of values to be
 summarized in the table.  Only one vector of values can be specified in any given term,
@@ -131,10 +139,11 @@ commonly formatted even when they are not contiguous.  The integers are assigned
 sequentially as the format specification is parsed; users will likely need
 trial and error to find the right value in a complicated table with multiple formats.
 
-A third pseudo-fucntion is \code{Justify}.  It takes character values or names as arguments;
+A third pseudo-function is \code{Justify}.  It takes character values or names as arguments;
 how they are treated depends on the output format.  In \code{format.tabular}, coarse
-justification is done to left, right or center, using \code{l}, \code{r} or \code{c}.
-For LaTeX formatting (not implemented yet), any string acceptable as a justification
+justification is done to left, right or center, using \code{l}, \code{r} or \code{c}
+respectively.
+For LaTeX formatting, any string acceptable as a justification
 string to LaTeX will be passed on.
 
 A final pseudo-function is \code{Heading}.  Use this function in the
@@ -145,6 +154,16 @@ following heading.  The \code{suppressLabels=n} argument to
 \code{tabular()} is equivalent to repeating \code{Heading()} \code{n}
 times at the start of the table formula.  The \code{=} operator is an
 abbreviation for \code{Heading()}; see above.
+}
+\section{\code{tabular} methods}{
+The default \code{tabular} method just applies \code{\link{as.formula}} to
+\code{table}, and then calls \code{tabular.formula}.
+
+The \code{tabular.formula} method is the main workhorse of the
+package.  Other authors who wish to produce tables directly from their
+own structures should normally create a formula whose environment
+contains all mentioned variables and call \code{tabular.formula} with
+appropriate arguments. 
 }
 \value{
 An object of S3 class \code{"tabular"}.  This is a matrix of mode list,
@@ -167,7 +186,8 @@ Duncan Murdoch
 }
 \seealso{
 \code{\link{table}} and \code{\link{ftable}} are base R functions which produce
-tables of counts.
+tables of counts.  The \code{tables} vignette has many more examples and displays the
+formatted output.
 }
 \examples{
 tabular( (Species + 1) ~ (n=1) + Format(digits=2)*
