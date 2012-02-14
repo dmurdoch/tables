@@ -16,7 +16,7 @@ itself, spanning multiple columns.
 Factor(x, name, levelnames = levels(x), texify = TRUE)
 RowFactor(x, name = deparse(substitute(x)), 
 	  levelnames = levels(x), 
-          spacing = 3, space = 1,
+          spacing = 3, space = 1, suppressfirst = TRUE,
           nopagebreak = "\\\\nopagebreak ",
           texify = TRUE)
 Multicolumn(x, name, levelnames = levels(x), 
@@ -39,10 +39,13 @@ are escaped (using \code{\link[Hmisc]{latexTranslate}}) so
 they will print properly.
 }
   \item{spacing}{
-Extra spacing will be added after every \code{spacing} lines.
+Extra spacing will be added before every \code{spacing} lines.
 }
   \item{space}{
 How much extra space to add, in \code{ex} units.
+}
+  \item{suppressfirst}{
+Whether to suppress the spacing in the first group.
 }
   \item{nopagebreak}{
 LaTeX macro to insert to suppress page breaks except between groups.

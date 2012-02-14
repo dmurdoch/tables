@@ -340,11 +340,27 @@ tabledims <- function(e) {
     result
 }
 
-tabular <- function(table, data=parent.frame(), n, suppressLabels=0) {
+tabular <- function(table, ...) 
+    UseMethod("tabular")
+    
+tabular.default <- function(table, ...) {
+    tabular.formula(as.formula(table, env=parent.frame()), ...)
+}
+
+tabular.formula <- function(table, data=NULL, n, suppressLabels=0, ...) {
+    if (length(list(...)))
+	warning(gettextf("extra argument(s) %s will be disregarded",
+			 paste(sQuote(names(list(...))), collapse = ", ")),
+		domain = NA)
     if (missing(n) && inherits(data, "data.frame"))
     	n <- nrow(data)
-    if (is.list(data))
-    	data <- list2env(data, parent=parent.frame())
+    if (is.null(data))
+    	data <- environment(table)
+    else if (is.list(data))
+    	data <- list2env(data, parent=environment(table))
+    else if (!is.environment(data))
+    	stop("data must be a dataframe, list or environment")
+    	
     table <- expandExpressions(table, data)
     table <- collectFormats(table)
     dims <- tabledims(table)

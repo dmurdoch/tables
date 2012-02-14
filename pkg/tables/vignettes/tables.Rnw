@@ -23,7 +23,7 @@ options(width=60)
 @
 
 \title{The \pkg{tables} Package\footnote{This 
-vignette  was built using \pkg{tables} version \Sexpr{packageDescription("tables")$Version}}.}
+vignette  was built using \pkg{tables} version \Sexpr{packageDescription("tables")$Version}}.}%$
 
 \author{Duncan Murdoch}
 
@@ -66,7 +66,7 @@ booktabs()
 for the rest of this document.  This gives
 \begin{center}
 <<echo=FALSE, results=hide>>=
-save <- table_options()
+saved.options <- table_options()
 booktabs()
 @
 <<irisbook, echo=FALSE, results=tex>>=
@@ -146,11 +146,20 @@ F
 
 \begin{Schunk}
 \begin{Sinput}
-tabular(table, data=parent.frame(), n, suppressLabels=0) 
+tabular(table, ...)
+tabular.default(table, ...)
+tabular.formula(table, data=parent.frame(), n, suppressLabels=0, ...) 
 \end{Sinput}
 \end{Schunk}
 
-The \code{tabular} function has 4 arguments, but usually only the first two are used.
+The \code{tabular} function is a generic function.  The default method
+uses \code{as.formula()} to try to convert the \code{table} argument
+to a formula, then passes it and all the other arguments to 
+\code{tabular.formula()} method, which does most of the work.  That
+method has 4 arguments plus \code{...}, but usually only the first two
+are used, and a warning is issued if anything is passed in the
+\code{...} arguments.
+
 \begin{description}
 \item[table] The \code{table} argument is the table formula, described in detail below.
 
@@ -251,7 +260,7 @@ the output table.
 \end{description}
 The defaults are
 <<echo=FALSE>>=
-save
+saved.options
 @
 
 If you are using the \LaTeX\ \pkg{booktabs} package, the \code{booktabs()} function will
@@ -701,7 +710,7 @@ The arguments are
 \item[name] The name to be used for the factor; by default, the name passed as \code{x}.
 \item[levelnames] An optional argument to allow customization of the displayed level names.
 \item[texify] Whether to escape \LaTeX\ special characters.  See section \ref{sec:formatdetails}.
-\item[spacing] Extra spacing is added after every group of \code{spacing} lines.
+\item[spacing] Extra spacing is added before every group of \code{spacing} lines.
 \item[space] How much extra space to add (in ``ex'' units).
 \item[nopagebreak] Macro to insert to suppress page breaks except between groups.
 \item[width] How many columns for the label?
@@ -709,23 +718,42 @@ The arguments are
 \item[justify] What justification to use.
 \end{description}
 
-Example: Show the first 50 lines of the iris dataset, in groups of 5 lines.  Use
-the \code{"longtable"} environment to allow this to cross page boundaries.  The \code{toprule}
-setting inserts the caption, which the \pkg{longtable} package requires to be \textit{within}
-the table; the
-\code{midrule} setting is necessary to get the headings to repeat on subsequent pages.  
-I've used the one that is compatible with the \pkg{booktabs} style; if you want the
-default style, use \verb!\\hline! in place of \verb!\\toprule! and \verb!\\midrule! in the
-settings instead.  
+Example:  Show the first 15 lines of the iris dataset, in groups of 5 lines.
+
+<<results=tex>>=
+subset <- 1:15
+latex( tabular( RowFactor(subset, "$i$", spacing=5)  ~ 
+       All(iris[subset,], factor=as.character)*Heading()*identity ) )
+@
+\\
+
+For longer tables, 
+the \code{"longtable"} environment allows the table to cross page boundaries.  Using
+this is more complicated, as in the example below.
+The \code{toprule}
+setting inserts the caption as well as the top rule, because the \pkg{longtable} package 
+requires it to be \textit{within}
+the table.  The
+\code{midrule} setting gets the headings to repeat on subsequent 
+pages.\footnote{I've done all of this
+in a way that is compatible with the \pkg{booktabs} style; if you want the
+default style, use \texttt{\textbackslash hline} in place of the \pkg{booktabs}
+\texttt{\textbackslash toprule} 
+and \texttt{\textbackslash midrule} macros in the
+\code{options} settings instead.}
+To avoid extra spacing at the top of those pages, we need
+to undo the automatic addition of a \verb!\normalbaselineskip! there, and use
+\code{suppressfirst=FALSE} so that the first page doesn't get messed up.  Whew!
 
 <<results=tex>>=
 subset <- 1:50
-latex( tabular( RowFactor(subset, "$i$", spacing=5)  ~ 
+latex( tabular( RowFactor(subset, "$i$", spacing=5, 
+                                             suppressfirst=FALSE)  ~ 
        All(iris[subset,], factor=as.character)*Heading()*identity ),
        options = list(tabular="longtable",
           toprule="\\caption{This table crosses page boundaries.}\\\\
               \\toprule",
-          midrule="\\midrule\\endhead\\hline\\endfoot") )
+midrule="\\midrule\\\\[-2\\normalbaselineskip]\\endhead\\hline\\endfoot") )
 @
 
 To suppress the row numbering, use  \code{suppress=3} in the call to
@@ -810,7 +838,7 @@ latex( tabular( mean ~ Factor(A)*All(df), data=df ) )
 
 \section*{Acknowledgments}
 
-I gratefully acknowledge helpful suggestions and hints from Rich Heiberger and Frank Harrell.
+I gratefully acknowledge helpful suggestions and hints from Rich Heiberger, Frank Harrell and Dieter Menne.
 
 \bibliography{tables}
 
