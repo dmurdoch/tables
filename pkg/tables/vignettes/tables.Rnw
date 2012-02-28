@@ -780,7 +780,7 @@ latex( tabular( Multicolumn(Species, width=3,
 @
 \end{center}
 
-\section{Technical Details}
+\section{Further Details}
 
 \subsection{Formatting}
 \label{sec:formatdetails}
@@ -835,6 +835,43 @@ latex( tabular( mean ~ Factor(A)*All(df), data=df ) )
 @
 \end{center}
 
+\subsection{Missing Values}
+
+By default, most summary statistics in R return \code{NA} if any of the input values are 
+\code{NA}, but have ways to treat \code{NA} differently.  For example, the \code{mean()}
+function has the \code{na.rm} argument:
+<<>>=
+dat <- data.frame( a = c(1, 2, 3, NA), b = 1:4 )
+mean(dat$a)
+mean(dat$a, na.rm=TRUE)
+@
+
+The \code{tabular()} function itself has no way to specify special \code{NA} handling, but
+there are several ways to do this yourself, depending on how you want them handled.
+To ignore \code{NA} values within the column, define a new function which sets the
+different behaviour.  For example, 
+\begin{center}
+<<results=tex>>=
+Mean <- function(x) base::mean(x, na.rm=TRUE)
+latex( tabular( Mean ~ a + b, data=dat ) )
+@
+\end{center}
+An alternative approach is to use \code{na.omit()} to work on a subset of your data which has 
+rows with any missing values removed, e.g. 
+\begin{center}
+<<results=tex>>=
+latex( tabular( mean ~ a + b, data = na.omit(dat) ) )
+@
+\end{center}
+A third possibility is to use the \code{complete.cases()} function to remove missings
+only from some columns, e.g.
+\begin{center}
+<<results=tex>>=
+latex( tabular( 
+  Mean ~ (1 + Heading(Complete)*complete.cases(dat)) * (a + b), 
+               data=dat ) )
+@
+\end{center}
 
 \section*{Acknowledgments}
 
