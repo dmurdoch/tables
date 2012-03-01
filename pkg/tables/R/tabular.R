@@ -36,7 +36,7 @@ term2table <- function(rowterm, colterm, env, n) {
     	    	    subset <- arg
     	    	else
     	    	    subset <- subset & arg
-    	    } else if (asis || is.vector(arg)) {
+    	    } else if (asis || is.atomic(arg)) {
     	    	if (is.null(values)) {
     	    	    values <- arg
     	    	    valuename <- e

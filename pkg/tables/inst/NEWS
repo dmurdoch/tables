@@ -15,7 +15,7 @@
 
 0.5:  Planned CRAN release of all of the above
 
-0.5.31:
+0.5.32:
       Fixed bug in column headings in print.tabular (reported by
       Tal Galili)
       Added Factor().
@@ -35,4 +35,6 @@
       Made tabular() into a generic function.  (Suggestion of Hadley
         Wickham.)
       Added description of missing values to the vignette.
+      Fixed handling of data with an Hmisc "labelled" class attached.
+	(Reported by Thomas MacFarland.)
       

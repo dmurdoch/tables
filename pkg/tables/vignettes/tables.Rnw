@@ -454,12 +454,19 @@ to be saved and re-used.  For examples, see section \ref{sec:tableformulas}.
 
 \subsubsection{Other vectors}
 
-If the expression evaluates to something other than the above, then it is assumed to be a vector of values
-to be summarized in the table.  If you would like to summarize a factor or logical vector, wrap it in \code{I()} to prevent
-special handling.
+If the expression evaluates to something other than the above, then it
+is assumed to be a vector of values to be summarized in the table.  If
+you would like to summarize a factor or logical vector, wrap it in
+\code{I()} to prevent special handling.
 
-Note that only one value vector can be specified for any cell in the table, and all value vectors must be the same length, or an error will be
-reported.
+Note that the following must all be true, or an error will be reported:
+\begin{itemize}
+\item only one value vector can be specified for any cell in the
+table, 
+\item all value vectors must be the same length, 
+\item \code{is.atomic()}
+must evaluate to \code{TRUE} for the vector.
+\end{itemize}
 
 Example:  treating a logical vector as values.
 \begin{center}
