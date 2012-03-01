@@ -92,7 +92,8 @@ in place in the formula.
 
 Other terms are assumed to be R expressions producing a vector of values to be
 summarized in the table.  Only one vector of values can be specified in any given term,
-but different terms can summarize different values.  
+but different terms can summarize different values.  \code{\link{is.atomic}} must 
+evaluate to \code{TRUE} for these values for them to be recognized.
 
 All logical, factor or other values in the table should be the same length, as if
 they were columns in a dataframe (but they can be computed values).  If \code{n} is
