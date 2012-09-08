@@ -32,7 +32,10 @@ RowFactor <- function(x, name = deparse(substitute(x)), levelnames=levels(x),
     n <- length(levs)
     if (is.numeric(spacing) && spacing > 0) {
         groups <- TRUE
-        spacing <- (seq_len(n) %% spacing == 1)
+        if (spacing > 1)
+            spacing <- (seq_len(n) %% spacing == 1)
+        else
+            spacing <- rep(TRUE, n)
         if (suppressfirst)
             spacing[1] <- FALSE
     } else {
