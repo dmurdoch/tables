@@ -36,4 +36,7 @@
       Added description of missing values to the vignette.
       Fixed handling of data with an Hmisc "labelled" class attached.
 	(Reported by Thomas MacFarland.)
+	
+0.6.34:
+      RowFactor now allows spacing=1.
       
