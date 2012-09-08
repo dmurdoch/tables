@@ -56,7 +56,7 @@ latex(
 )
 @
 \end{center}
-
+	
 If you prefer the style of table that the \LaTeX\ \pkg{booktabs} package \citep{booktabs}
 produces, you can choose
 that style instead.  I mostly like it, so I have used
@@ -77,6 +77,7 @@ latex(
 
 
 \end{center}
+Details on \code{booktabs()} are given in section \ref{sec:booktabs} below.
 
 The idea of a table in the \pkg{tables} package is a rectangular array of values, with
 each row and column labelled, and possibly with groups of rows and groups of columns
@@ -727,12 +728,24 @@ The arguments are
 
 Example:  Show the first 15 lines of the iris dataset, in groups of 5 lines.
 
+\begin{center}
 <<results=tex>>=
 subset <- 1:15
 latex( tabular( RowFactor(subset, "$i$", spacing=5)  ~ 
        All(iris[subset,], factor=as.character)*Heading()*identity ) )
 @
-\\
+\end{center}
+ 
+To add extra space after each top level group in a two-way
+classification, use \code{spacing = 1} in the
+top level factor.  For example:
+\begin{center}
+<<results=tex>>=
+latex( tabular( RowFactor(dose, name="Dose", spacing=1, space=0.5)
+                * Factor(supp, name="Supplement")  
+                ~ (Length = len)*mean, data=ToothGrowth) )
+@
+\end{center}
 
 For longer tables, 
 the \code{"longtable"} environment allows the table to cross page boundaries.  Using
@@ -776,6 +789,11 @@ latex( tabular( Factor(subset)  ~
        suppress=3 ) )
 @
 \end{center}
+(It is actually possible to get this to work with \code{RowFactor()}, but it
+is ugly: set the name and level names to \code{""}, and set the
+justification to \verb!"l@{}"! to suppress the intercolumn spacing.  Then
+the column of row labels will be there, but it will be zero width and
+invisible.)
 
 To get group labels to span multiple columns, the \code{levelnames} argument
 can be used with embedded \LaTeX\ code.  For example,
@@ -835,7 +853,7 @@ the code
 <<eval=FALSE>>=
 latex( tabular( mean ~ A*B_label, data=df ) ) 
 @
-wouild fail, as the labels would include the special characters.  But this will work:
+would fail, as the labels would include the special characters.  But this will work:
 \begin{center}
 <<results=tex>>=
 latex( tabular( mean ~ Factor(A)*All(df), data=df ) ) 
