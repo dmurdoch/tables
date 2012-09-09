@@ -56,41 +56,47 @@ latex.tabular <- function(object, file="", options=NULL, ...) {
     chars <- format(object, latex = TRUE, ...) # format without justification
     
     vjust <- attr(object, "justification")
-    ind <- !is.na(vjust) & vjust != opts$justification
+    vjustdefs <- rep(opts$justification, length.out=ncol(object))
+    ind <- !is.na(vjust) & vjust != rep(vjustdefs, each=nrow(vjust))
     chars[ind] <- sprintf("\\multicolumn{1}{%s}{%s}",
     			  vjust[ind], chars[ind])
     
     rowLabels <- attr(object, "rowLabels")
+    nleading <- ncol(rowLabels)
     rowLabels[is.na(rowLabels)] <- ""
     rjust <- attr(rowLabels, "justification")
-    ind <- !is.na(rjust) & (rjust != opts$rowlabeljustification)
+    rjustdefs <- rep(opts$rowlabeljustification, length.out=nleading)
+    ind <- !is.na(rjust) & rjust != rep(rjustdefs, each=nrow(rowLabels))
     rowLabels[ind] <- sprintf("\\multicolumn{1}{%s}{%s}",
     			      rjust[ind], rowLabels[ind])
-    nleading <- ncol(rowLabels)
     rlabels <- apply(rowLabels, 1, paste, collapse = " & ")
     colnamejust <- attr(rowLabels, "colnamejust")
-    colnamejust[is.na(colnamejust)] <- opts$rowlabeljustification
-    ind <- colnamejust != opts$rowlabeljustification
+    colnamejust <- rep(colnamejust, length.out=nleading)
+    ind <- is.na(colnamejust)
+    colnamejust[ind] <- rjustdefs[ind]
+    ind <- colnamejust != rjustdefs
     colnames(rowLabels)[ind] <- sprintf("\\multicolumn{1}{%s}{%s}", 
     		colnamejust[ind], colnames(rowLabels)[ind])
     clabels <- attr(object, "colLabels")
     leadin <- paste(rep("&", max(nleading - 1, 0)), collapse=" ")
     cjust <- attr(clabels, "justification")
-    cjust[is.na(cjust)] <- opts$justification
+    ind <- is.na(cjust)
+    cjust[ind] <- rep(vjustdefs, each=nrow(cjust))[ind]
 
     clines <- character(nrow(clabels))
+    vdefs <- c(vjustdefs, "STOP") # match length to row
     for (i in seq_len(nrow(clabels))) {
     	row <- c(clabels[i,], "STOP") # add sentinel
-    	rowjust <- c(cjust[i,], "")
+    	rowjust <- c(cjust[i,], "STOP")
     	result <- leadin
     	titlerules <- ""
     	label <- ""
-    	just <- opts$justification
+    	just <- vdefs[1]
     	ncols <- 0
     	for (j in seq_along(row)) {
     	    if (!is.na(row[j])) {
     	    	if (ncols > 0) {
-    	    	    if (ncols > 1 || just != opts$justification) {
+    	    	    if (ncols > 1 || just != vdefs[j]) {
     	    	        result <- c(result, 
     	    	            sprintf("& \\multicolumn{%d}{%s}{%s}", ncols, just, label))
     	    	        if (ncols > 1 && i < nrow(clabels) && !is.null(opts$titlerule))
@@ -122,8 +128,8 @@ latex.tabular <- function(object, file="", options=NULL, ...) {
     	    	  clabels[length(clabels)])
     if (opts$doBegin)
         mycat("\\begin{", opts$tabular, "}{", 
-    	  paste(rep(opts$rowlabeljustification, nleading), collapse=""),
-    	  paste(rep(opts$justification, ncol(chars)), collapse=""), 
+    	  paste(rjustdefs, collapse=""),
+    	  paste(vjustdefs, collapse=""), 
     	  "}\n", sep="")
     if (opts$doHeader) {
 	mycat(opts$toprule, "\n", sep="")
