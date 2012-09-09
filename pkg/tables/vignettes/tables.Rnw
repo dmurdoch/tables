@@ -204,7 +204,7 @@ The arguments are:
 \item[justification] The default text justification to use when printing.  For text display, the
 recognized values are \code{"n", "l", "c", "r"}, standing for none, left, center and right
 justification respectively.  For \LaTeX\ the justification is 
-specified via the \code{table_options()} function. 
+specified via the \code{table_options()} function (section \ref{sec:booktabs}).
 \item[file] The default method for the \code{Hmisc::latex()} generic writes the \LaTeX\ code
 to a file; \code{latex.tabular()} can optionally do the same, but it defaults to writing to screen,
 for use in Sweave documents like this one.
@@ -246,8 +246,10 @@ method:
 \begin{description}
 \item[justification] This is the default justification for data columns and their headers.
 Any justification string will be accepted; it should be
-one that the \LaTeX\ \verb+\tabular+ environment (or substitute) accepts.
-\item[rowlabeljustification] This is the default justification for row labels.
+one that the \LaTeX\ \verb+\tabular+ environment (or substitute) accepts.  If a vector
+of strings is specified they will be recycled across the columns of the table.
+\item[rowlabeljustification] This is the default justification for row labels.  A vector of
+strings will be recycled across the row label columns.
 \item[tabular] The environment to use in \LaTeX.  Alternatives to \code{"tabular"} such as
 \code{"longtable"} can be used here.  Those often also need 
 modifications within the table; the \code{Literal()} (section \ref{sec:Literal}) function may be
@@ -567,7 +569,8 @@ latex( tabular( (Heading("$\\Phi$")*F+1) ~ (n=1)
 The \code{Justify()} pseudo-function is used to specify the text justification of the headers and data values in the table.
 If called with one argument, that value is used for both labels and data; if called with two arguments, the first is used for the 
 labels, the second for the data.  If no \code{Justify()} specification is given, the default passed to \code{format()}, \code{print()} or \code{latex()} will
-be used.
+be used.  Values may be specified without quotes if they are legal R names; quoted strings may also be used.  (The latter is useful
+for \LaTeX\ output, for example \verb!Justify("r@{}")!, to suppress column spacing on the right.)
 
 Example: 
 \begin{center}
@@ -584,7 +587,7 @@ Currently several examples of formula functions are provided.   Not all are
 particularly robust; e.g. \code{Hline()} only works for \LaTeX\ output and must be in a
 particular position in the formula.  Users can provide their own as well.  
 Such functions
-should return a language object, which will be substituted into the formula in place of the Formula
+should return a language object, which will be substituted into the formula in place of the formula
 function call.
 
 \subsubsection{\code{All()}}
@@ -736,14 +739,18 @@ latex( tabular( RowFactor(subset, "$i$", spacing=5)  ~
 @
 \end{center}
  
-To add extra space after each top level group in a two-way
-classification, use \code{spacing = 1} in the
-top level factor.  For example:
+To add extra space after each high level group in a multi-way
+classification, use \code{spacing = 1}.  For example:
 \begin{center}
 <<results=tex>>=
-latex( tabular( RowFactor(dose, name="Dose", spacing=1, space=0.5)
-                * Factor(supp, name="Supplement")  
-                ~ (Length = len)*mean, data=ToothGrowth) )
+dat <- expand.grid(Block=1:3, Treatment=LETTERS[1:2], 
+                                Subset=letters[1:2])
+dat$Response <- rnorm(12)
+latex( tabular( RowFactor(Block, spacing=1)
+                * RowFactor(Treatment, spacing=1, space=0.5)
+                * Factor(Subset)
+                ~ Response*Heading()*identity, data=dat),
+                options=list(rowlabeljustification="c"))
 @
 \end{center}
 
@@ -900,7 +907,8 @@ latex( tabular(
 
 \section*{Acknowledgments}
 
-I gratefully acknowledge helpful suggestions and hints from Rich Heiberger, Frank Harrell and Dieter Menne.
+I gratefully acknowledge helpful suggestions and hints from Rich
+Heiberger, Frank Harrell, Dieter Menne and Marius Hofert.
 
 \bibliography{tables}
 
