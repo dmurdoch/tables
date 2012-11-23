@@ -32,6 +32,7 @@ term2table <- function(rowterm, colterm, env, n) {
     	    }
     	    
     	    if (!asis && is.logical(arg)) {
+    	    	arg <- arg & !is.na(arg)
     	    	if (is.null(subset))
     	    	    subset <- arg
     	    	else
@@ -285,10 +286,13 @@ expandFactors <- function(e, env) {
     	    levs <- levels(v)
     	    if (length(levs)) {
     	     	f <- call("*", call("Heading", as.name(levs[1])), 
-    	     		       call("==", e, levs[1]))
-    	     	for (i in seq_along(levs)[-1]) 
+    	     		       call("==", call("as.integer", e), 1L))
+    	     	for (i in seq_along(levs)[-1]) {
+    	     	    test <- i  # Work around a bug in R 2.12.x!
+    	     	    test <- call("==", call("as.integer", e), i)
     	     	    f <- call("+", f, call("*", call("Heading", as.name(levs[i])), 
-    	     	                                call("==", e, levs[i])))
+    	     	                                test))
+    	     	}
     	     	e <- call("*", call("Heading", as.name(deparse(e))), f)
     	     }
     	}
