@@ -10,7 +10,8 @@ term2table <- function(rowterm, colterm, env, n) {
     rowargs <- factors(rowterm)
     colargs <- factors(colterm)
     allargs <- c(rowargs, colargs)
-    subset <- NULL
+    rowsubset <- TRUE
+    colsubset <- TRUE
     values <- NULL
     summary <- NULL
     format <- NA
@@ -22,7 +23,22 @@ term2table <- function(rowterm, colterm, env, n) {
             format <- e[[2]]
         else if (fn == "Justify") 
             justification <- as.character(e[[if (length(e) > 2) 3 else 2]])
-    	else if (fn != "Heading" && !identical(e, 1)) {
+        else if (fn == "Percent") {
+            env1 <- new.env(parent=env)
+            percent <- function(x, y) 100*length(x)/length(y)
+            env1$Percent <- function(denom="all", fn=percent) {
+              if (is.null(summary)) {
+                if (identical(denom, "all")) summary <<- function(x) fn(x, values)
+                else if (identical(denom, "row")) summary <<- function(x) fn(x, values[rowsubset])
+                else if (identical(denom, "col")) summary <<- function(x) fn(x, values[colsubset])
+                else if (is.logical(denom)) summary <<- function(x) fn(x, values[denom])
+                else summary <<- function(x) fn(x, denom)
+                summaryname <<- "Percent"
+              } else
+    	        stop("Summary fn not allowed with Percent")
+            }
+            eval(e, env1)
+        } else if (fn != "Heading" && !identical(e, 1)) {
     	    arg <- eval(e, env)
     	    asis <- inherits(arg, "AsIs")
     	    if (asis || is.vector(arg)) {
@@ -33,10 +49,10 @@ term2table <- function(rowterm, colterm, env, n) {
     	    
     	    if (!asis && is.logical(arg)) {
     	    	arg <- arg & !is.na(arg)
-    	    	if (is.null(subset))
-    	    	    subset <- arg
+    	    	if (i <= length(rowargs))
+    	    	    rowsubset <- rowsubset & arg
     	    	else
-    	    	    subset <- subset & arg
+    	    	    colsubset <- colsubset & arg
     	    } else if (asis || is.atomic(arg)) {
     	    	if (is.null(values)) {
     	    	    values <- arg
@@ -60,7 +76,7 @@ term2table <- function(rowterm, colterm, env, n) {
     	     "indeterminate")    
     if (is.null(summary)) summary <- length
     if (is.null(values)) values <- rep(NA, n)
-    if (is.null(subset)) subset <- TRUE 
+    subset <- rowsubset & colsubset 
     structure(list(summary(values[subset])), n=n, format=format, 
                    justification=justification)
 }
@@ -209,9 +225,11 @@ getLabels <- function(e, rows=TRUE, justify=NA, head=NULL, suppress=0) {
     	    suppress <- suppress + 1
     } else if (op == "Justify") {
     	justify <- as.character(e[[2]])
-    } else if (suppress > 0)  # The rest just add a single label; suppress it
+    } else if (suppress > 0) {  # The rest just add a single label; suppress it
     	suppress <- suppress - 1
-    else if (!is.null(head)) {
+    } else if (op == "Percent" && is.null(head)) {
+      result <- matrix("Percent", 1,1, dimnames=list(NULL, ""))
+    } else if (!is.null(head)) {
     	result <- matrix(head, 1,1, dimnames=list(NULL, ""))
     	Heading <- NULL
     } else if (identical(e, 1)) 
@@ -232,7 +250,8 @@ expandExpressions <- function(e, env) {
 	    if (length(e) > 2)
 		e[[3]] <- expandExpressions(e[[3]], env)
 	} else if (op == "Format" || op == ".Format" 
-	        || op == "Heading" || op == "Justify")
+	        || op == "Heading" || op == "Justify"
+	        || op == "Percent")
 	    e
 	else {
 	    v <- eval(e, envir=env)
@@ -278,7 +297,8 @@ expandFactors <- function(e, env) {
     else if (op == "=")
     	call("*", call("Heading", as.name(deparse(e[[2]]))),
     		  expandFactors(e[[3]], env))
-    else if (op == ".Format" || op == "Heading" || op == "Justify")
+    else if (op == ".Format" || op == "Heading" || 
+             op == "Justify" || op == "Percent")
     	e
     else {
     	v <- eval(e, envir=env)
@@ -393,7 +413,7 @@ tabular.formula <- function(table, data=NULL, n, suppressLabels=0, ...) {
     	    justification <- attr(term, "justification")
     	    row <- cbind(row, term)
     	    rowformats <- cbind(rowformats, format)
-    	    rowjustification <- cbind(rowjustification, justification) 
+    	    rowjustification <- cbind(rowjustification, justification)
     	}
     	result <- rbind(result, row)
     	formats <- rbind(formats, rowformats)
