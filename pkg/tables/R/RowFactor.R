@@ -1,30 +1,35 @@
-Factor <- function(x, name = deparse(substitute(x)), levelnames=levels(x),
-		   texify = TRUE) {
+Factor <- function(x, name = deparse(expr), levelnames=levels(x),
+		   texify = TRUE, expr = substitute(x)) {
     force(name)
+    force(expr)
     x <- as.factor(x)
     if (texify) 
     	levels(x) <- texify(levels(x))    
     force(levelnames)
     RowFactor(x, name = name, levelnames = levelnames, spacing=FALSE, 
-              texify = FALSE)
+              texify = FALSE, expr = expr)
 }
 
-Multicolumn <- function(x, name = deparse(substitute(x)),
+Multicolumn <- function(x, name = deparse(expr),
                         levelnames = levels(x),
                         width = 2, first = 1, justify = "l", 
-                        texify = TRUE) {
+                        texify = TRUE, expr = substitute(x)) {
+    force(name)
+    force(expr)
     x <- as.factor(x)
     levelnames <- sprintf("\\multicolumn{%d}{%s}{%s} \\\\ %s",
                   width, justify, levelnames, 
                   paste(rep("&", first-1), collapse=" "))
-    RowFactor(x, name, levelnames, spacing=FALSE, texify = texify)
+    RowFactor(x, name, levelnames, spacing=FALSE, texify = texify, 
+              expr = expr)
 }
 
-RowFactor <- function(x, name = deparse(substitute(x)), levelnames=levels(x),
+RowFactor <- function(x, name = deparse(expr), levelnames=levels(x),
                       spacing=3, space=1, suppressfirst=TRUE,
                       nopagebreak = "\\nopagebreak ",
-                      texify = TRUE) {
+                      texify = TRUE, expr = substitute(x) ) {
     force(name)
+    force(expr)
     x <- as.factor(x)
     if (texify)
     	levels(x) <- texify(levels(x))        
@@ -48,8 +53,10 @@ RowFactor <- function(x, name = deparse(substitute(x)), levelnames=levels(x),
             else if (!groups) insert <- ""
             else insert <- nopagebreak
             catname <- paste(insert, levelnames[i], sep="")
+    	    test <- i  # Work around a bug in R 2.12.x!
+    	    test <- call("==", call("as.integer", call("as.factor", expr)), i)
             term <- call("*", call("Heading", as.name(catname)), 
-                                                call("==", x, levs[i]))
+                              test)
             if (i == 1)
             	f <- term
             else

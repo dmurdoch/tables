@@ -13,15 +13,15 @@ LaTeX, and displays the label in a style with the level on a line by
 itself, spanning multiple columns.
 }
 \usage{
-Factor(x, name, levelnames = levels(x), texify = TRUE)
-RowFactor(x, name = deparse(substitute(x)), 
+Factor(x, name = deparse(expr), levelnames = levels(x), texify = TRUE, expr = substitute(x))
+RowFactor(x, name = deparse(expr), 
 	  levelnames = levels(x), 
           spacing = 3, space = 1, suppressfirst = TRUE,
           nopagebreak = "\\\\nopagebreak ",
-          texify = TRUE)
-Multicolumn(x, name, levelnames = levels(x), 
+          texify = TRUE, expr = substitute(x))
+Multicolumn(x, name = deparse(expr), levelnames = levels(x), 
             width=2, first=1, justify="l",
-            texify = TRUE)
+            texify = TRUE, expr = substitute(x))
 }
 \arguments{
   \item{x}{
@@ -37,6 +37,11 @@ The strings to use as levels of \code{x}.
 If \code{TRUE}, characters that would be interpreted specially by LaTeX 
 are escaped (using \code{\link[Hmisc]{latexTranslate}}) so
 they will print properly.
+}
+  \item{expr}{
+The expression to use in evaluating the factor.  Generally the same
+as the expression passed as \code{x}, but internal uses
+may differ.
 }
   \item{spacing}{
 Extra spacing will be added before every \code{spacing} lines.
