@@ -88,7 +88,7 @@ getLabels <- function(e, rows=TRUE, justify=NA, head=NULL, suppress=0) {
     Heading <- head
     result <- if (rows) matrix(NA, ncol=0, nrow=1)
     	      else      matrix(NA, ncol=1, nrow=0)
-    if (is.call(e) && (op <- as.character(e[[1]])) %in% c("*", "+") ) {
+    if (is.call(e) && (op <- as.character(e[[1]])) == "*")  {
         leftLabels <- getLabels(e[[2]], rows, justify, head, suppress)
 	nrl <- nrow(leftLabels)
 	ncl <- ncol(leftLabels)
@@ -98,12 +98,10 @@ getLabels <- function(e, rows=TRUE, justify=NA, head=NULL, suppress=0) {
 	leftjustify <- attr(leftLabels, "justify")
 	Heading <- attr(leftLabels, "Heading")
 	leftsuppress <- attr(leftLabels, "suppress")
-	if (op == "*") {
-	    righthead <- Heading
-	    suppress <- leftsuppress
-	    if (!is.null(leftjustify))
-	    	justify <- leftjustify
-	} else righthead <- head   
+	righthead <- Heading
+	suppress <- leftsuppress
+	if (!is.null(leftjustify))
+	    justify <- leftjustify
 	leftjustification <- attr(leftLabels, "justification")
 	leftcolnamejust <- attr(leftLabels, "colnamejust")
 
@@ -113,102 +111,197 @@ getLabels <- function(e, rows=TRUE, justify=NA, head=NULL, suppress=0) {
 	rightjustify <- attr(rightLabels, "justify")
 	Heading <- attr(rightLabels, "Heading")
 	suppress <- attr(rightLabels, "suppress")
-	if (op == "*") {
-	    if (!is.null(rightjustify))
-		justify <- rightjustify
-	}
+	if (!is.null(rightjustify))
+	    justify <- rightjustify
 	rightjustification <- attr(rightLabels, "justification")
 	rightcolnamejust <- attr(rightLabels, "colnamejust")
-    	switch(op,
-        "*" = {
-            if (rows) {
-		result <- justification <- matrix(NA_character_, nrl*nrr, ncl + ncr)
-		colnames(result) <- c(colnames(leftLabels), colnames(rightLabels))
-		colnamejust <- c(leftcolnamejust, rightcolnamejust)
-		if (!is.null(head)) {
-		    if (ncr > 0) {
-		        colnames(result)[ncl + 1] <- head
-		        colnamejust[ncl + 1] <- leftjustify
-		    } else if (is.null(Heading))
-		    	Heading <- head
-		}
-		for (i in seq_len(nrl)) {
-		    j <- 1 + (i-1)*nrr
-		    k <- seq_len(ncl)
-		    result[j, k] <- leftLabels[i,]
-		    if (!is.null(leftjustification))
-		    	justification[j, k] <- leftjustification[i,]
-		    j <- (i-1)*nrr + seq_len(nrr)
-		    k <- ncl+seq_len(ncr)
-		    result[j, k] <- rightLabels
-		    if (!is.null(rightjustification))
-		    	justification[j, k] <- rightjustification
-		}
-	    } else {
-		result <- justification <- matrix(NA_character_, nrl + nrr, ncl*ncr)
-		for (i in seq_len(ncl)) {
-		    j <- seq_len(nrl)
-		    k <- 1 + (i-1)*ncr
-		    result[j, k] <- leftLabels[,i]
-		    if (!is.null(leftjustification))
-		    	justification[j,k] <- leftjustification[,i]
-		    j <- nrl+seq_len(nrr)
-		    k <- (i-1)*ncr + seq_len(ncr)
-		    result[j, k] <- rightLabels
-		    if (!is.null(rightjustification))
-		    	justification[j,k] <- rightjustification
-		}
+
+	if (rows) {
+	    result <- justification <- matrix(NA_character_, nrl*nrr, ncl + ncr)
+	    colnames(result) <- c(colnames(leftLabels), colnames(rightLabels))
+	    colnamejust <- c(leftcolnamejust, rightcolnamejust)
+	    if (!is.null(head)) {
+		if (ncr > 0) {
+		    colnames(result)[ncl + 1] <- head
+		    colnamejust[ncl + 1] <- leftjustify
+		} else if (is.null(Heading))
+		    Heading <- head
 	    }
-        },
-        "+" = {
-            if (rows) {
-		cols <- max(ncl, ncr)
-		result <- matrix("", nrl + nrr, cols)
-		justification <- matrix(NA_character_, nrl + nrr, cols)
-		colnames(result) <- colnames(leftLabels)
-		colnamejust <- leftcolnamejust
-		j <- seq_len(nrl)
-		k <- (cols-ncl) + seq_len(ncl)
-		result[j, k] <- leftLabels
-		if (!is.null(leftjustification))
-		    justification[j, k] <- leftjustification
-		j <- nrl+seq_len(nrr)
-		k <- (cols-ncr) + seq_len(ncr)
-		result[j, k] <- rightLabels
-		if (!is.null(rightjustification))
-		    justification[j, k] <- rightjustification 
-	    } else {
-		nrows <- max(nrl, nrr)
-		result <- matrix("", nrows, ncl + ncr)
-		justification <- matrix(NA_character_, nrows, ncl + ncr)
-		j <- (nrows-nrl) + seq_len(nrl)
+	    for (i in seq_len(nrl)) {
+		j <- 1 + (i-1)*nrr
 		k <- seq_len(ncl)
-		result[j, k] <- leftLabels
+		result[j, k] <- leftLabels[i,]
 		if (!is.null(leftjustification))
-		    justification[j, k] <- leftjustification
-		j <- (nrows-nrr) + seq_len(nrr)
+		    justification[j, k] <- leftjustification[i,]
+		j <- (i-1)*nrr + seq_len(nrr)
 		k <- ncl+seq_len(ncr)
-		result[j,k] <- rightLabels
+		result[j, k] <- rightLabels
 		if (!is.null(rightjustification))
 		    justification[j, k] <- rightjustification
 	    }
-        })
-    } else if (op == "(") {
-    	result <- getLabels(e[[2]], rows, justify, NULL, suppress)
-    	if (!is.null(head)) {
-	    if (suppress == 0) {
-		saveattrs <- attributes(result)
-		if (rows) {
-		    result <- cbind("", result)
-		    justification <- cbind(justify, justification)
-		} else {
-		    result <- rbind("", result)
-		    justification <- rbind(justify, justification)
-		}
+	} else {
+	    result <- justification <- matrix(NA_character_, nrl + nrr, ncl*ncr)
+	    for (i in seq_len(ncl)) {
+		j <- seq_len(nrl)
+		k <- 1 + (i-1)*ncr
+		result[j, k] <- leftLabels[,i]
+		if (!is.null(leftjustification))
+		    justification[j,k] <- leftjustification[,i]
+		j <- nrl+seq_len(nrr)
+		k <- (i-1)*ncr + seq_len(ncr)
+		result[j, k] <- rightLabels
+		if (!is.null(rightjustification))
+		    justification[j,k] <- rightjustification
+	    }
+	}
+    } else if (op == "+") {
+        leftLabels <- getLabels(e[[2]], rows, justify, NULL, suppress)
+	nrl <- nrow(leftLabels)
+	ncl <- ncol(leftLabels)
+	# Heading and justify are the settings to carry on to later terms
+	# justification is the matrix of justifications for
+	# each label
+	leftjustify <- attr(leftLabels, "justify")
+	Heading <- attr(leftLabels, "Heading")
+	leftsuppress <- attr(leftLabels, "suppress")
+	leftjustification <- attr(leftLabels, "justification")
+	leftcolnamejust <- attr(leftLabels, "colnamejust")
+
+	rightLabels <- getLabels(e[[3]], rows, justify, NULL, suppress)
+	nrr <- nrow(rightLabels)
+	ncr <- ncol(rightLabels)
+	rightjustify <- attr(rightLabels, "justify")
+	Heading <- attr(rightLabels, "Heading")
+	suppress <- attr(rightLabels, "suppress")
+
+	rightjustification <- attr(rightLabels, "justification")
+	rightcolnamejust <- attr(rightLabels, "colnamejust")
+
+	if (rows) {
+	    # Here we have a problem:  we need to stack two things, each of which
+	    # may have column names.  We use the following rule:
+	    #  - if the column names for both things match, just use them.
+	    #  - if the left one has a name, and the right doesn't, use the left name
+	    #  - if both have names that don't match, add them as extra column(s)
+	    #  - if the right has a name, and the left doesn't, treat as unmatched names
+	    cols <- max(ncl, ncr)
+	    
+	    leftnames <- colnames(leftLabels)
+	    if (is.null(leftnames)) leftnames <- rep("", ncl)
+	    rightnames <- colnames(rightLabels)
+	    if (is.null(rightnames)) rightnames <- rep("", ncr)
+	    # Pad all to same width
+	    if (ncl < ncr) {
+	        pad <- rep("", ncr-ncl)
+	    	leftnames <- c(pad, leftnames)
+	    	if (length(leftcolnamejust)) {
+	    	  pad[TRUE] <- NA_character_
+	    	  leftcolnamejust <- c(pad, leftcolnamejust)
+	    	}
+	    	pad <- matrix("", nrl, ncr-ncl)
+	    	leftLabels <- cbind(pad, leftLabels)
+	    	if (!is.null(leftjustification)) {
+	    	  pad[TRUE] <- NA_character_
+	    	  leftjustification <- cbind(pad, leftjustification)
+	    	}
+	    	ncl <- ncr
+	    } else if (ncl > ncr) {
+	        pad <- rep("", ncl-ncr)
+	    	rightnames <- c(pad, rightnames)
+	    	if (length(rightcolnamejust)) {
+	    	  pad[TRUE] <- NA_character_
+	    	  rightcolnamejust <- c(pad, rightcolnamejust)
+	    	}
+	    	pad <- matrix("", nrr, ncl-ncr)
+	    	rightLabels <- cbind(pad, rightLabels)
+	    	if (!is.null(rightjustification)) {
+	    	  pad[TRUE] <- NA_character_
+	    	  rightjustification <- cbind(pad, rightjustification)
+	    	}
+	    	ncr <- ncl
+	    }
+	    differ <- which( rightnames != "" & rightnames != leftnames )
+	    if (length(differ)) {
+	      cat("Before: leftnames=", leftnames, "rightnames=", rightnames, "leftLabels=\n")
+	      print(matrix(leftLabels, ncol=ncl))
+	      cat("rightLabels=\n")
+	      print(matrix(rightLabels, ncol=ncr))
+	    }  
+	    for (i in rev(differ)) {
+	        before <- seq_len(i-1)
+	        after <- seq_len(ncol(leftLabels) - i + 1) + i - 1
+	    	leftLabels <- cbind(leftLabels[,before], "", leftLabels[,after])
+	    	leftLabels[1,i] <- leftnames[i]
+	    	leftnames <- c(leftnames[before], "", "", leftnames[after][-1])
+	    	if (length(leftcolnamejust))
+	    	    leftcolnamejust <- c(leftcolnamejust[before], NA_character_, leftcolnamejust[after])
+	    	if (!is.null(leftjustification))
+	    	    leftjustification <- cbind(leftjustification[,before], NA_character_, leftjustification[,after])
+		ncl <- ncl + 1
+		
+	    	rightLabels <- cbind(rightLabels[,before], "", rightLabels[,after])
+	    	rightLabels[1,i] <- rightnames[i]
+	    	rightnames <- c(rightnames[before], "", "", rightnames[after][-1])
+	    	if (length(rightcolnamejust))
+	    	    rightcolnamejust <- c(rightcolnamejust[before], NA_character_, rightcolnamejust[after])
+	    	if (!is.null(rightjustification))
+	    	    rightjustification <- cbind(rightjustification[,before], NA_character_, rightjustification[,after])
+		ncr <- ncr + 1
+
+		cols <- cols + 1		
+	    }
+	    if (length(differ)) {
+	      cat("After: leftnames=", leftnames, "rightnames=", rightnames, "leftLabels=\n")
+	      print(matrix(leftLabels, ncol=ncl))
+	      cat("rightLabels=\n")
+	      print(matrix(rightLabels, ncol=ncr))
+	    }  
+	    
+	    result <- matrix("", nrl + nrr, cols)
+	    justification <- matrix(NA_character_, nrl + nrr, cols)
+	    colnames <- rep("", cols)
+	    colnamejust <- rep(NA_character_, cols)
+	    j <- seq_len(nrl)
+	    result[j, ] <- leftLabels
+	    colnames <- leftnames
+	    if (length(leftcolnamejust))
+	        colnamejust <- leftcolnamejust	    
+	    if (length(leftjustification))
+		justification[j, ] <- leftjustification
+
+	    j <- nrl+seq_len(nrr)
+	    result[j, ] <- rightLabels
+	    
+	    if (!is.null(rightjustification))
+		justification[j, ] <- rightjustification 
+	    if (!is.null(head)) {
+		colnames[1] <- head
+		head <- NULL
+	    }
+	    colnames(result) <- colnames
+	} else {
+	    nrows <- max(nrl, nrr)
+	    result <- matrix("", nrows, ncl + ncr)
+	    justification <- matrix(NA_character_, nrows, ncl + ncr)
+	    j <- (nrows-nrl) + seq_len(nrl)
+	    k <- seq_len(ncl)
+	    result[j, k] <- leftLabels
+	    if (!is.null(leftjustification))
+		justification[j, k] <- leftjustification
+	    j <- (nrows-nrr) + seq_len(nrr)
+	    k <- ncl+seq_len(ncr)
+	    result[j,k] <- rightLabels
+	    if (!is.null(rightjustification))
+		justification[j, k] <- rightjustification
+	    if (!is.null(head)) {
+		result <- rbind(rep(NA_character_, ncol(result)),
+				result)
 		result[1,1] <- head
-	    } else 
-		suppress <- suppress - 1
-        } 	
+		justification <- rbind(justification[1,], justification)
+	    }
+	}
+    } else if (op == "(") {
+    	return(getLabels(e[[2]], rows, justify, head, suppress))
     } else if (op == ".Format") {
     	result <- if (rows) matrix(NA, ncol=0, nrow=1)
     		  else      matrix(NA, ncol=1, nrow=0)
@@ -218,7 +311,7 @@ getLabels <- function(e, rows=TRUE, justify=NA, head=NULL, suppress=0) {
     	    	if (is.character(e[[2]]))
     	    	    Heading <- e[[2]]
     	    	else
-    	    	    Heading=deparse(e[[2]])
+    	    	    Heading <- deparse(e[[2]])
     	    } else 
     	    	suppress <- suppress - 1
     	} else
@@ -227,17 +320,18 @@ getLabels <- function(e, rows=TRUE, justify=NA, head=NULL, suppress=0) {
     	justify <- as.character(e[[2]])
     } else if (suppress > 0) {  # The rest just add a single label; suppress it
     	suppress <- suppress - 1
-    } else if (op == "Percent" && is.null(head)) {
-      result <- matrix("Percent", 1,1, dimnames=list(NULL, ""))
     } else if (!is.null(head)) {
     	result <- matrix(head, 1,1, dimnames=list(NULL, ""))
     	Heading <- NULL
+    } else if (op == "Percent") {
+        result <- matrix("Percent", 1,1, dimnames=list(NULL, ""))
     } else if (identical(e, 1)) 
     	result <- matrix("All", 1,1, dimnames=list(NULL, ""))
     else
     	result <- matrix(deparse(e), 1,1, dimnames=list(NULL, ""))
     if (is.null(justification))
     	justification <- matrix(justify, nrow(result), ncol(result))
+    stopifnot(identical(dim(result), dim(justification)))
     structure(result, justification = justification, 
     	colnamejust = colnamejust, justify = justify,
    	Heading = Heading, suppress = suppress)
@@ -294,28 +388,21 @@ expandFactors <- function(e, env) {
     	call(op, expandFactors(e[[2]],env),expandFactors(e[[3]],env))
     else if (op == "(")
     	expandFactors(e[[2]],env)
-    else if (op == "=")
-    	call("*", call("Heading", as.name(deparse(e[[2]]))),
-    		  expandFactors(e[[3]], env))
-    else if (op == ".Format" || op == "Heading" || 
+    else if (op == "=") {
+    	rhs <- expandFactors(e[[3]], env)
+    	if (is.call(rhs) && as.character(rhs[[1]]) == "*"
+    	 && is.call(rhs[[2]]) && as.character(rhs[[c(2,1)]]) == "Heading") {
+    	    rhs[[c(2,2)]] <- as.name(deparse(e[[2]]))
+    	    rhs
+    	} else
+    	    call("*", call("Heading", as.name(deparse(e[[2]]))), rhs)
+    } else if (op == ".Format" || op == "Heading" || 
              op == "Justify" || op == "Percent")
     	e
     else {
     	v <- eval(e, envir=env)
-    	if (is.factor(v) & !inherits(v, "AsIs")) {
-    	    levs <- levels(v)
-    	    if (length(levs)) {
-    	     	f <- call("*", call("Heading", as.name(levs[1])), 
-    	     		       call("==", call("as.integer", e), 1L))
-    	     	for (i in seq_along(levs)[-1]) {
-    	     	    test <- i  # Work around a bug in R 2.12.x!
-    	     	    test <- call("==", call("as.integer", e), i)
-    	     	    f <- call("+", f, call("*", call("Heading", as.name(levs[i])), 
-    	     	                                test))
-    	     	}
-    	     	e <- call("*", call("Heading", as.name(deparse(e))), f)
-    	     }
-    	}
+    	if (is.factor(v) & !inherits(v, "AsIs")) 
+    	    e <- Factor(v, expr=e)
     	e
     }
 }

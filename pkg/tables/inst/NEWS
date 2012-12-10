@@ -37,12 +37,14 @@
       Fixed handling of data with an Hmisc "labelled" class attached.
 	(Reported by Thomas MacFarland.)
 	
-0.6.39:
+0.6.40:
       RowFactor now allows spacing=1.
       Specifications for justification in table_options() are now 
       recycled.
       Missing values were not handled correctly when computing counts,
       and when working with factors.  (Reported by Manuel Reif.)
       Added Percent() pseudo-function. 
+      Cleaned up handling of row and column labels, especially in cases
+      where rows with different column headings are summed.
       
       

@@ -57,7 +57,8 @@ the output table.
 }
 }
 These may be set persistently by calling \code{table_options()}, or just for the duration
-of the call by passing them in a list to \code{latex()}.
+of the call by passing them in a list via \code{latex(options=list( ... ))}.  Additional 
+\code{...} arguments to \code{latex} are passed to \code{\link{format}}.
 
 The \code{booktabs()} function sets the \code{table_options()} values to different defaults, 
 suitable for use with the \pkg{booktabs} LaTeX package.
