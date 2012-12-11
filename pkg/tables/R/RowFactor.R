@@ -1,5 +1,5 @@
 Factor <- function(x, name = deparse(expr), levelnames=levels(x),
-		   texify = TRUE, expr = substitute(x)) {
+		   texify = TRUE, expr = substitute(x), override = TRUE) {
     force(name)
     force(expr)
     x <- as.factor(x)
@@ -7,13 +7,13 @@ Factor <- function(x, name = deparse(expr), levelnames=levels(x),
     	levels(x) <- texify(levels(x))    
     force(levelnames)
     RowFactor(x, name = name, levelnames = levelnames, spacing=FALSE, 
-              texify = FALSE, expr = expr)
+              texify = FALSE, expr = expr, override = override)
 }
 
 Multicolumn <- function(x, name = deparse(expr),
                         levelnames = levels(x),
                         width = 2, first = 1, justify = "l", 
-                        texify = TRUE, expr = substitute(x)) {
+                        texify = TRUE, expr = substitute(x), override = TRUE) {
     force(name)
     force(expr)
     x <- as.factor(x)
@@ -27,7 +27,7 @@ Multicolumn <- function(x, name = deparse(expr),
 RowFactor <- function(x, name = deparse(expr), levelnames=levels(x),
                       spacing=3, space=1, suppressfirst=TRUE,
                       nopagebreak = "\\nopagebreak ",
-                      texify = TRUE, expr = substitute(x) ) {
+                      texify = TRUE, expr = substitute(x), override = TRUE ) {
     force(name)
     force(expr)
     x <- as.factor(x)
@@ -62,7 +62,7 @@ RowFactor <- function(x, name = deparse(expr), levelnames=levels(x),
             else
             	f <- call("+", f, term)
         }
-        return(call("*", call("Heading", name), f))
+        return(call("*", call("Heading", name, override), f))
      } else
         stop("No levels in x!")
 }

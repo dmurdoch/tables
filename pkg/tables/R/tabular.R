@@ -120,13 +120,6 @@ getLabels <- function(e, rows=TRUE, justify=NA, head=NULL, suppress=0) {
 	    result <- justification <- matrix(NA_character_, nrl*nrr, ncl + ncr)
 	    colnames(result) <- c(colnames(leftLabels), colnames(rightLabels))
 	    colnamejust <- c(leftcolnamejust, rightcolnamejust)
-	    if (!is.null(head)) {
-		if (ncr > 0) {
-		    colnames(result)[ncl + 1] <- head
-		    colnamejust[ncl + 1] <- leftjustify
-		} else if (is.null(Heading))
-		    Heading <- head
-	    }
 	    for (i in seq_len(nrl)) {
 		j <- 1 + (i-1)*nrr
 		k <- seq_len(ncl)
@@ -295,7 +288,14 @@ getLabels <- function(e, rows=TRUE, justify=NA, head=NULL, suppress=0) {
     		  else      matrix(NA, ncol=1, nrow=0)
     } else if (op == "Heading") {
     	if (length(e) > 1) {
-    	    if (suppress <= 0) {
+    	    override <- TRUE
+    	    if (length(e) > 2) {
+    	    	override <- as.logical(e[[3]])
+    	    	if (is.na(override))
+    	    	    stop("Second argument in ", deparse(e), " must be logical",
+    	    	         call. = FALSE)
+    	    }
+    	    if (suppress <= 0 && (is.null(Heading) || override)) {
     	    	if (is.character(e[[2]]))
     	    	    Heading <- e[[2]]
     	    	else
@@ -390,7 +390,7 @@ expandFactors <- function(e, env) {
     else {
     	v <- eval(e, envir=env)
     	if (is.factor(v) & !inherits(v, "AsIs")) 
-    	    e <- Factor(v, expr=e)
+    	    e <- Factor(v, expr=e, override=FALSE)
     	e
     }
 }

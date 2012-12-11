@@ -13,15 +13,18 @@ LaTeX, and displays the label in a style with the level on a line by
 itself, spanning multiple columns.
 }
 \usage{
-Factor(x, name = deparse(expr), levelnames = levels(x), texify = TRUE, expr = substitute(x))
+Factor(x, name = deparse(expr), levelnames = levels(x), texify = TRUE, expr = substitute(x),
+       override = TRUE)
 RowFactor(x, name = deparse(expr), 
 	  levelnames = levels(x), 
           spacing = 3, space = 1, suppressfirst = TRUE,
           nopagebreak = "\\\\nopagebreak ",
-          texify = TRUE, expr = substitute(x))
+          texify = TRUE, expr = substitute(x),
+          override = TRUE)
 Multicolumn(x, name = deparse(expr), levelnames = levels(x), 
             width=2, first=1, justify="l",
-            texify = TRUE, expr = substitute(x))
+            texify = TRUE, expr = substitute(x),
+            override = TRUE)
 }
 \arguments{
   \item{x}{
@@ -42,6 +45,10 @@ they will print properly.
 The expression to use in evaluating the factor.  Generally the same
 as the expression passed as \code{x}, but internal uses
 may differ.
+}
+  \item{override}{
+Should the name for the factor override any previously specified
+\code{Heading()} setting?
 }
   \item{spacing}{
 Extra spacing will be added before every \code{spacing} lines.
