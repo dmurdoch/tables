@@ -1,0 +1,638 @@
+
+> options(width = 60)
+
+> library(tables)
+Loading required package: Hmisc
+Loading required package: survival
+Loading required package: splines
+Hmisc library by Frank E Harrell Jr
+
+Type library(help='Hmisc'), ?Overview, or ?Hmisc.Overview')
+to see overall documentation.
+
+NOTE:Hmisc no longer redefines [.factor to drop unused levels when
+subsetting.  To get the old behavior of Hmisc type dropUnusedLevels().
+
+
+Attaching package: 'Hmisc'
+
+The following object(s) are masked from 'package:survival':
+
+    untangle.specials
+
+The following object(s) are masked from 'package:base':
+
+    format.pval, round.POSIXt, trunc.POSIXt, units
+
+
+> tabular((Species + 1) ~ (n = 1) + Format(digits = 2) * 
++     (Sepal.Length + Sepal.Width) * (mean + sd), data = iris)
+                                                  
+                Sepal.Length      Sepal.Width     
+ Species    n   mean         sd   mean        sd  
+ setosa      50 5.01         0.35 3.43        0.38
+ versicolor  50 5.94         0.52 2.77        0.31
+ virginica   50 6.59         0.64 2.97        0.32
+ All        150 5.84         0.83 3.06        0.44
+
+> latex(tabular((Species + 1) ~ (n = 1) + Format(digits = 2) * 
++     (Sepal.Length + Sepal.Width) * (mean + sd), data = iris))
+\begin{tabular}{lccccc}
+\hline
+ &  & \multicolumn{2}{c}{Sepal.Length} & \multicolumn{2}{c}{Sepal.Width} \\ 
+Species  & n & mean & sd & mean & \multicolumn{1}{c}{sd} \\ 
+\hline
+setosa  & $\phantom{0}50$ & $5.01$ & $0.35$ & $3.43$ & $0.38$ \\
+versicolor  & $\phantom{0}50$ & $5.94$ & $0.52$ & $2.77$ & $0.31$ \\
+virginica  & $\phantom{0}50$ & $6.59$ & $0.64$ & $2.97$ & $0.32$ \\
+All  & $150$ & $5.84$ & $0.83$ & $3.06$ & $0.44$ \\
+\hline 
+\end{tabular}
+
+> saved.options <- table_options()
+
+> booktabs()
+$toprule
+[1] "\\hline"
+
+$midrule
+[1] "\\hline"
+
+$bottomrule
+[1] "\\hline"
+
+$titlerule
+NULL
+
+
+> latex(tabular((Species + 1) ~ (n = 1) + Format(digits = 2) * 
++     (Sepal.Length + Sepal.Width) * (mean + sd), data = iris))
+\begin{tabular}{lccccc}
+\toprule
+ &  & \multicolumn{2}{c}{Sepal.Length} & \multicolumn{2}{c}{Sepal.Width} \\ \cmidrule(lr){3-4}\cmidrule(lr){5-6}
+Species  & n & mean & sd & mean & \multicolumn{1}{c}{sd} \\ 
+\midrule
+setosa  & $\phantom{0}50$ & $5.01$ & $0.35$ & $3.43$ & $0.38$ \\
+versicolor  & $\phantom{0}50$ & $5.94$ & $0.52$ & $2.77$ & $0.31$ \\
+virginica  & $\phantom{0}50$ & $6.59$ & $0.64$ & $2.97$ & $0.32$ \\
+All  & $150$ & $5.84$ & $0.83$ & $3.06$ & $0.44$ \\
+\bottomrule 
+\end{tabular}
+
+> set.seed(100)
+
+> X <- rnorm(10)
+
+> X
+ [1] -0.50219235  0.13153117 -0.07891709  0.88678481
+ [5]  0.11697127  0.31863009 -0.58179068  0.71453271
+ [9] -0.82525943 -0.35986213
+
+> A <- sample(letters[1:2], 10, rep = TRUE)
+
+> A
+ [1] "b" "b" "b" "b" "a" "a" "b" "b" "b" "a"
+
+> F <- factor(A)
+
+> F
+ [1] b b b b a a b b b a
+Levels: a b
+
+> saved.options
+$justification
+[1] "c"
+
+$rowlabeljustification
+[1] "l"
+
+$tabular
+[1] "tabular"
+
+$toprule
+[1] "\\hline"
+
+$midrule
+[1] "\\hline"
+
+$bottomrule
+[1] "\\hline"
+
+$titlerule
+NULL
+
+$doBegin
+[1] TRUE
+
+$doHeader
+[1] TRUE
+
+$doBody
+[1] TRUE
+
+$doFooter
+[1] TRUE
+
+$doEnd
+[1] TRUE
+
+
+> table_options()[c("toprule", "midrule", "bottomrule", 
++     "titlerule")]
+$toprule
+[1] "\\toprule"
+
+$midrule
+[1] "\\midrule"
+
+$bottomrule
+[1] "\\bottomrule"
+
+$titlerule
+[1] "\\cmidrule(lr)"
+
+
+> latex(tabular((Species + 1) ~ (n = 1) + Format(digits = 2) * 
++     (Sepal.Length + Sepal.Width) * (mean + sd), data = iris))
+\begin{tabular}{lccccc}
+\toprule
+ &  & \multicolumn{2}{c}{Sepal.Length} & \multicolumn{2}{c}{Sepal.Width} \\ \cmidrule(lr){3-4}\cmidrule(lr){5-6}
+Species  & n & mean & sd & mean & \multicolumn{1}{c}{sd} \\ 
+\midrule
+setosa  & $\phantom{0}50$ & $5.01$ & $0.35$ & $3.43$ & $0.38$ \\
+versicolor  & $\phantom{0}50$ & $5.94$ & $0.52$ & $2.77$ & $0.31$ \\
+virginica  & $\phantom{0}50$ & $6.59$ & $0.64$ & $2.97$ & $0.32$ \\
+All  & $150$ & $5.84$ & $0.83$ & $3.06$ & $0.44$ \\
+\bottomrule 
+\end{tabular}
+
+> latex(tabular(Species ~ (n = 1) + Format(digits = 2) * 
++     (Sepal.Length + Sepal.Width) * (mean + sd), data = iris), 
++     options = list(doFoot .... [TRUNCATED] 
+\begin{tabular}{lccccc}
+\toprule
+ &  & \multicolumn{2}{c}{Sepal.Length} & \multicolumn{2}{c}{Sepal.Width} \\ \cmidrule(lr){3-4}\cmidrule(lr){5-6}
+Species  & n & mean & sd & mean & \multicolumn{1}{c}{sd} \\ 
+\midrule
+setosa  & $50$ & $5.01$ & $0.35$ & $3.43$ & $0.38$ \\
+versicolor  & $50$ & $5.94$ & $0.52$ & $2.77$ & $0.31$ \\
+virginica  & $50$ & $6.59$ & $0.64$ & $2.97$ & $0.32$ \\
+
+> cat("\\ \\\\ \\multicolumn{6}{l}{\n\\textit{Overall, we see the following: }} \\\\\n\\ \\\\")
+\ \\ \multicolumn{6}{l}{
+\textit{Overall, we see the following: }} \\
+\ \\
+> latex(tabular(1 ~ (n = 1) + Format(digits = 2) * (Sepal.Length + 
++     Sepal.Width) * (mean + sd), data = iris), options = list(doBegin = FALSE, 
++ .... [TRUNCATED] 
+All  & $150$ & $5.84$ & $0.83$ & $3.06$ & $0.44$ \\
+\bottomrule 
+\end{tabular}
+
+> latex(tabular(F + 1 ~ 1))
+\begin{tabular}{lc}
+\toprule
+F  & \multicolumn{1}{c}{All} \\ 
+\midrule
+a  & $\phantom{0}3$ \\
+b  & $\phantom{0}7$ \\
+All  & $10$ \\
+\bottomrule 
+\end{tabular}
+
+> latex(tabular(X * F * (mean + sd) ~ 1))
+\begin{tabular}{lllc}
+\toprule
+ & F &  & \multicolumn{1}{c}{All} \\ 
+\midrule
+X & a & mean  & $\phantom{-}0.02525$ \\
+ &  & sd  & $\phantom{-}0.34842$ \\
+ & b & mean  & $-0.03647$ \\
+ &  & sd  & $\phantom{-}0.65611$ \\
+\bottomrule 
+\end{tabular}
+
+> latex(tabular(X * F ~ mean + sd))
+\begin{tabular}{llcc}
+\toprule
+ & F & mean & \multicolumn{1}{c}{sd} \\ 
+\midrule
+X & a  & $\phantom{-}0.02525$ & $0.3484$ \\
+ & b  & $-0.03647$ & $0.6561$ \\
+\bottomrule 
+\end{tabular}
+
+> latex(tabular(X * (Newname = F) ~ mean + sd))
+\begin{tabular}{llcc}
+\toprule
+ & Newname & mean & \multicolumn{1}{c}{sd} \\ 
+\midrule
+X & a  & $\phantom{-}0.02525$ & $0.3484$ \\
+ & b  & $-0.03647$ & $0.6561$ \\
+\bottomrule 
+\end{tabular}
+
+> latex(tabular((F + 1) ~ (n = 1) + X * (mean + sd)))
+\begin{tabular}{lccc}
+\toprule
+ &  & \multicolumn{2}{c}{X} \\ \cmidrule(lr){3-4}
+F  & n & mean & \multicolumn{1}{c}{sd} \\ 
+\midrule
+a  & $\phantom{0}3$ & $\phantom{-}0.02525$ & $0.3484$ \\
+b  & $\phantom{0}7$ & $-0.03647$ & $0.6561$ \\
+All  & $10$ & $-0.01796$ & $0.5611$ \\
+\bottomrule 
+\end{tabular}
+
+> latex(tabular((i = factor(seq_along(X))) ~ Heading() * 
++     identity * (X + A + (F = as.character(F)))))
+\begin{tabular}{lccc}
+\toprule
+i  & X & A & \multicolumn{1}{c}{F} \\ 
+\midrule
+1  & $-0.50219$ & b & b \\
+2  & $\phantom{-}0.13153$ & b & b \\
+3  & $-0.07892$ & b & b \\
+4  & $\phantom{-}0.88678$ & b & b \\
+5  & $\phantom{-}0.11697$ & a & a \\
+6  & $\phantom{-}0.31863$ & a & a \\
+7  & $-0.58179$ & b & b \\
+8  & $\phantom{-}0.71453$ & b & b \\
+9  & $-0.82526$ & b & b \\
+10  & $-0.35986$ & a & a \\
+\bottomrule 
+\end{tabular}
+
+> latex(tabular((X > 0) + (X < 0) + 1 ~ ((n = 1) + X * 
++     (mean + sd))))
+\begin{tabular}{lccc}
+\toprule
+ &  & \multicolumn{2}{c}{X} \\ \cmidrule(lr){3-4}
+  & n & mean & \multicolumn{1}{c}{sd} \\ 
+\midrule
+X > 0  & $\phantom{0}5$ & $\phantom{-}0.43369$ & $0.3496$ \\
+X < 0  & $\phantom{0}5$ & $-0.46960$ & $0.2761$ \\
+All  & $10$ & $-0.01796$ & $0.5611$ \\
+\bottomrule 
+\end{tabular}
+
+> latex(tabular(I(X > 0) + I(X < 0) ~ ((n = 1) + mean + 
++     sd)))
+\begin{tabular}{lccc}
+\toprule
+  & n & mean & \multicolumn{1}{c}{sd} \\ 
+\midrule
+I(X > 0)  & $10$ & $0.5$ & $0.527$ \\
+I(X < 0)  & $10$ & $0.5$ & $0.527$ \\
+\bottomrule 
+\end{tabular}
+
+> latex(tabular((F + 1) ~ (n = 1) + Format(digits = 2) * 
++     X * (mean + sd)))
+\begin{tabular}{lccc}
+\toprule
+ &  & \multicolumn{2}{c}{X} \\ \cmidrule(lr){3-4}
+F  & n & mean & \multicolumn{1}{c}{sd} \\ 
+\midrule
+a  & $\phantom{0}3$ & $\phantom{-}0.025$ & $\phantom{-}0.348$ \\
+b  & $\phantom{0}7$ & $-0.036$ & $\phantom{-}0.656$ \\
+All  & $10$ & $-0.018$ & $\phantom{-}0.561$ \\
+\bottomrule 
+\end{tabular}
+
+> stderr <- function(x) sd(x)/sqrt(length(x))
+
+> fmt <- function(x, digits, ...) {
++     s <- format(x, digits = digits, ...)
++     is_stderr <- (1:length(s)) > length(s)%/%2
++     s[is_stderr] <-  .... [TRUNCATED] 
+
+> latex(tabular(Format(fmt(digits = 1)) * (F + 1) ~ 
++     X * (mean + stderr)))
+\begin{tabular}{lcc}
+\toprule
+ & \multicolumn{2}{c}{X} \\ \cmidrule(lr){2-3}
+F  & mean & \multicolumn{1}{c}{stderr} \\ 
+\midrule
+a  & $\phantom{-}0.03$ & $( 0.20)$ \\
+b  & $-0.04$ & $( 0.25)$ \\
+All  & $-0.02$ & $( 0.18)$ \\
+\bottomrule 
+\end{tabular}
+
+> latex(tabular((F + 1) ~ X * (Format(digits = 2) * 
++     mean + (n = 1) + .Format(1) * sd)))
+\begin{tabular}{lccc}
+\toprule
+ & \multicolumn{3}{c}{X} \\ \cmidrule(lr){2-4}
+F  & mean & n & \multicolumn{1}{c}{sd} \\ 
+\midrule
+a  & $\phantom{-}0.025$ & $\phantom{0}3$ & $\phantom{-}0.348$ \\
+b  & $-0.036$ & $\phantom{0}7$ & $\phantom{-}0.656$ \\
+All  & $-0.018$ & $10$ & $\phantom{-}0.561$ \\
+\bottomrule 
+\end{tabular}
+
+> latex(tabular((Heading("$\\Phi$") * F + 1) ~ (n = 1) + 
++     Format(digits = 2) * Heading() * X * (mean + sd)))
+\begin{tabular}{lccc}
+\toprule
+$\Phi$  & n & mean & \multicolumn{1}{c}{sd} \\ 
+\midrule
+a  & $\phantom{0}3$ & $\phantom{-}0.025$ & $\phantom{-}0.348$ \\
+b  & $\phantom{0}7$ & $-0.036$ & $\phantom{-}0.656$ \\
+All  & $10$ & $-0.018$ & $\phantom{-}0.561$ \\
+\bottomrule 
+\end{tabular}
+
+> latex(tabular(Justify(r) * (F + 1) ~ Justify(c) * 
++     (n = 1) + Justify(c, r) * Format(digits = 2) * X * (mean + 
++     sd)))
+\begin{tabular}{lccc}
+\toprule
+ &  & \multicolumn{2}{c}{X} \\ \cmidrule(lr){3-4}
+F  & n & mean & \multicolumn{1}{c}{sd} \\ 
+\midrule
+\multicolumn{1}{r}{a}  & $\phantom{0}3$ & \multicolumn{1}{r}{$\phantom{-}0.025$} & \multicolumn{1}{r}{$\phantom{-}0.348$} \\
+\multicolumn{1}{r}{b}  & $\phantom{0}7$ & \multicolumn{1}{r}{$-0.036$} & \multicolumn{1}{r}{$\phantom{-}0.656$} \\
+\multicolumn{1}{r}{All}  & $10$ & \multicolumn{1}{r}{$-0.018$} & \multicolumn{1}{r}{$\phantom{-}0.561$} \\
+\bottomrule 
+\end{tabular}
+
+> latex(tabular((Factor(gear, "Gears") + 1) * ((n = 1) + 
++     Percent() + (RowPct = Percent("row")) + (ColPct = Percent("col"))) ~ 
++     (Factor(ca .... [TRUNCATED] 
+\begin{tabular}{llccccccc}
+\toprule
+& & \multicolumn{6}{c}{Carburetors} & \multicolumn{1}{c}{} \\ \cmidrule(lr){3-8}
+Gears &  & 1 & 2 & 3 & 4 & 6 & 8 & \multicolumn{1}{c}{All} \\ 
+\midrule
+3 & n  & $\phantom{00}3$ & $\phantom{00}4$ & $\phantom{00}3$ & $\phantom{00}5$ & $\phantom{00}0$ & $\phantom{00}0$ & $\phantom{0}15$ \\
+ & Percent  & $\phantom{00}9$ & $\phantom{0}12$ & $\phantom{00}9$ & $\phantom{0}16$ & $\phantom{00}0$ & $\phantom{00}0$ & $\phantom{0}47$ \\
+ & RowPct  & $\phantom{0}20$ & $\phantom{0}27$ & $\phantom{0}20$ & $\phantom{0}33$ & $\phantom{00}0$ & $\phantom{00}0$ & $100$ \\
+ & ColPct  & $\phantom{0}43$ & $\phantom{0}40$ & $100$ & $\phantom{0}50$ & $\phantom{00}0$ & $\phantom{00}0$ & $\phantom{0}47$ \\
+4 & n  & $\phantom{00}4$ & $\phantom{00}4$ & $\phantom{00}0$ & $\phantom{00}4$ & $\phantom{00}0$ & $\phantom{00}0$ & $\phantom{0}12$ \\
+ & Percent  & $\phantom{0}12$ & $\phantom{0}12$ & $\phantom{00}0$ & $\phantom{0}12$ & $\phantom{00}0$ & $\phantom{00}0$ & $\phantom{0}38$ \\
+ & RowPct  & $\phantom{0}33$ & $\phantom{0}33$ & $\phantom{00}0$ & $\phantom{0}33$ & $\phantom{00}0$ & $\phantom{00}0$ & $100$ \\
+ & ColPct  & $\phantom{0}57$ & $\phantom{0}40$ & $\phantom{00}0$ & $\phantom{0}40$ & $\phantom{00}0$ & $\phantom{00}0$ & $\phantom{0}38$ \\
+5 & n  & $\phantom{00}0$ & $\phantom{00}2$ & $\phantom{00}0$ & $\phantom{00}1$ & $\phantom{00}1$ & $\phantom{00}1$ & $\phantom{00}5$ \\
+ & Percent  & $\phantom{00}0$ & $\phantom{00}6$ & $\phantom{00}0$ & $\phantom{00}3$ & $\phantom{00}3$ & $\phantom{00}3$ & $\phantom{0}16$ \\
+ & RowPct  & $\phantom{00}0$ & $\phantom{0}40$ & $\phantom{00}0$ & $\phantom{0}20$ & $\phantom{0}20$ & $\phantom{0}20$ & $100$ \\
+ & ColPct  & $\phantom{00}0$ & $\phantom{0}20$ & $\phantom{00}0$ & $\phantom{0}10$ & $100$ & $100$ & $\phantom{0}16$ \\
+All & n  & $\phantom{00}7$ & $\phantom{0}10$ & $\phantom{00}3$ & $\phantom{0}10$ & $\phantom{00}1$ & $\phantom{00}1$ & $\phantom{0}32$ \\
+ & Percent  & $\phantom{0}22$ & $\phantom{0}31$ & $\phantom{00}9$ & $\phantom{0}31$ & $\phantom{00}3$ & $\phantom{00}3$ & $100$ \\
+ & RowPct  & $\phantom{0}22$ & $\phantom{0}31$ & $\phantom{00}9$ & $\phantom{0}31$ & $\phantom{00}3$ & $\phantom{00}3$ & $100$ \\
+ & ColPct  & $100$ & $100$ & $100$ & $100$ & $100$ & $100$ & $100$ \\
+\bottomrule 
+\end{tabular}
+
+> latex(tabular(Species ~ Heading() * mean * All(iris), 
++     data = iris))
+\begin{tabular}{lcccc}
+\toprule
+Species  & Sepal.Length & Sepal.Width & Petal.Length & \multicolumn{1}{c}{Petal.Width} \\ 
+\midrule
+setosa  & $5.006$ & $3.428$ & $1.462$ & $0.246$ \\
+versicolor  & $5.936$ & $2.770$ & $4.260$ & $1.326$ \\
+virginica  & $6.588$ & $2.974$ & $5.552$ & $2.026$ \\
+\bottomrule 
+\end{tabular}
+
+> latex(tabular(Species + Hline(2:5) + 1 ~ Heading() * 
++     mean * All(iris), data = iris))
+\begin{tabular}{lcccc}
+\toprule
+Species  & Sepal.Length & Sepal.Width & Petal.Length & \multicolumn{1}{c}{Petal.Width} \\ 
+\midrule
+setosa  & $5.006$ & $3.428$ & $1.462$ & $0.246$ \\
+versicolor  & $5.936$ & $2.770$ & $4.260$ & $1.326$ \\
+virginica  & $6.588$ & $2.974$ & $5.552$ & $2.026$ \\
+\cmidrule(lr){2-5} %  &  &  &  &  \\
+All  & $5.843$ & $3.057$ & $3.758$ & $1.199$ \\
+\bottomrule 
+\end{tabular}
+
+> stderr <- function(x) sd(x)/sqrt(length(x))
+
+> latex(tabular((Species + 1) ~ All(iris) * PlusMinus(mean, 
++     stderr, digits = 1), data = iris))
+\begin{tabular}{lcccccccc}
+\toprule
+Species  & \multicolumn{2}{c}{Sepal.Length} & \multicolumn{2}{c}{Sepal.Width} & \multicolumn{2}{c}{Petal.Length} & \multicolumn{2}{c}{Petal.Width} \\ 
+\midrule
+setosa  & \multicolumn{1}{r@{}}{$5.01$} & \multicolumn{1}{@{ $\pm$ }l}{$0.05$} & \multicolumn{1}{r@{}}{$3.43$} & \multicolumn{1}{@{ $\pm$ }l}{$0.05$} & \multicolumn{1}{r@{}}{$1.46$} & \multicolumn{1}{@{ $\pm$ }l}{$0.02$} & \multicolumn{1}{r@{}}{$0.25$} & \multicolumn{1}{@{ $\pm$ }l}{$0.01$} \\
+versicolor  & \multicolumn{1}{r@{}}{$5.94$} & \multicolumn{1}{@{ $\pm$ }l}{$0.07$} & \multicolumn{1}{r@{}}{$2.77$} & \multicolumn{1}{@{ $\pm$ }l}{$0.04$} & \multicolumn{1}{r@{}}{$4.26$} & \multicolumn{1}{@{ $\pm$ }l}{$0.07$} & \multicolumn{1}{r@{}}{$1.33$} & \multicolumn{1}{@{ $\pm$ }l}{$0.03$} \\
+virginica  & \multicolumn{1}{r@{}}{$6.59$} & \multicolumn{1}{@{ $\pm$ }l}{$0.09$} & \multicolumn{1}{r@{}}{$2.97$} & \multicolumn{1}{@{ $\pm$ }l}{$0.05$} & \multicolumn{1}{r@{}}{$5.55$} & \multicolumn{1}{@{ $\pm$ }l}{$0.08$} & \multicolumn{1}{r@{}}{$2.03$} & \multicolumn{1}{@{ $\pm$ }l}{$0.04$} \\
+All  & \multicolumn{1}{r@{}}{$5.84$} & \multicolumn{1}{@{ $\pm$ }l}{$0.07$} & \multicolumn{1}{r@{}}{$3.06$} & \multicolumn{1}{@{ $\pm$ }l}{$0.04$} & \multicolumn{1}{r@{}}{$3.76$} & \multicolumn{1}{@{ $\pm$ }l}{$0.14$} & \multicolumn{1}{r@{}}{$1.20$} & \multicolumn{1}{@{ $\pm$ }l}{$0.06$} \\
+\bottomrule 
+\end{tabular}
+
+> subset <- 1:15
+
+> latex(tabular(RowFactor(subset, "$i$", spacing = 5) ~ 
++     All(iris[subset, ], factor = as.character) * Heading() * 
++         identity))
+\begin{tabular}{lccccc}
+\toprule
+$i$  & Sepal.Length & Sepal.Width & Petal.Length & Petal.Width & \multicolumn{1}{c}{Species} \\ 
+\midrule
+\nopagebreak 1  & $5.1$ & $3.5$ & $1.4$ & $0.2$ & setosa \\
+\nopagebreak 2  & $4.9$ & $3.0$ & $1.4$ & $0.2$ & setosa \\
+\nopagebreak 3  & $4.7$ & $3.2$ & $1.3$ & $0.2$ & setosa \\
+\nopagebreak 4  & $4.6$ & $3.1$ & $1.5$ & $0.2$ & setosa \\
+\nopagebreak 5  & $5.0$ & $3.6$ & $1.4$ & $0.2$ & setosa \\
+\rule{0pt}{1.7\normalbaselineskip}6  & $5.4$ & $3.9$ & $1.7$ & $0.4$ & setosa \\
+\nopagebreak 7  & $4.6$ & $3.4$ & $1.4$ & $0.3$ & setosa \\
+\nopagebreak 8  & $5.0$ & $3.4$ & $1.5$ & $0.2$ & setosa \\
+\nopagebreak 9  & $4.4$ & $2.9$ & $1.4$ & $0.2$ & setosa \\
+\nopagebreak 10  & $4.9$ & $3.1$ & $1.5$ & $0.1$ & setosa \\
+\rule{0pt}{1.7\normalbaselineskip}11  & $5.4$ & $3.7$ & $1.5$ & $0.2$ & setosa \\
+\nopagebreak 12  & $4.8$ & $3.4$ & $1.6$ & $0.2$ & setosa \\
+\nopagebreak 13  & $4.8$ & $3.0$ & $1.4$ & $0.1$ & setosa \\
+\nopagebreak 14  & $4.3$ & $3.0$ & $1.1$ & $0.1$ & setosa \\
+\nopagebreak 15  & $5.8$ & $4.0$ & $1.2$ & $0.2$ & setosa \\
+\bottomrule 
+\end{tabular}
+
+> dat <- expand.grid(Block = 1:3, Treatment = LETTERS[1:2], 
++     Subset = letters[1:2])
+
+> dat$Response <- rnorm(12)
+
+> latex(tabular(RowFactor(Block, spacing = 1) * RowFactor(Treatment, 
++     spacing = 1, space = 0.5) * Factor(Subset) ~ Response * Heading() * 
++     .... [TRUNCATED] 
+\begin{tabular}{cccc}
+\toprule
+Block & Treatment & Subset & \multicolumn{1}{c}{Response} \\ 
+\midrule
+\nopagebreak 1 & \nopagebreak A & a  & $-0.02932$ \\
+ &  & b  & $\phantom{-}0.76406$ \\
+ & \rule{0pt}{1.2\normalbaselineskip}B & a  & $-0.91381$ \\
+ &  & b  & $-0.81438$ \\
+\rule{0pt}{1.7\normalbaselineskip}2 & \nopagebreak A & a  & $-0.38885$ \\
+ &  & b  & $\phantom{-}0.26196$ \\
+ & \rule{0pt}{1.2\normalbaselineskip}B & a  & $\phantom{-}2.31030$ \\
+ &  & b  & $-0.43845$ \\
+\rule{0pt}{1.7\normalbaselineskip}3 & \nopagebreak A & a  & $\phantom{-}0.51086$ \\
+ &  & b  & $\phantom{-}0.77340$ \\
+ & \rule{0pt}{1.2\normalbaselineskip}B & a  & $-0.43809$ \\
+ &  & b  & $-0.72022$ \\
+\bottomrule 
+\end{tabular}
+
+> subset <- 1:50
+
+> latex(tabular(RowFactor(subset, "$i$", spacing = 5, 
++     suppressfirst = FALSE) ~ All(iris[subset, ], factor = as.character) * 
++     Heading() *  .... [TRUNCATED] 
+\begin{longtable}{lccccc}
+\caption{This table crosses page boundaries.}\\
+              \toprule
+$i$  & Sepal.Length & Sepal.Width & Petal.Length & Petal.Width & \multicolumn{1}{c}{Species} \\ 
+\midrule\\[-2\normalbaselineskip]\endhead\hline\endfoot
+\rule{0pt}{1.7\normalbaselineskip}1  & $5.1$ & $3.5$ & $1.4$ & $0.2$ & setosa \\
+\nopagebreak 2  & $4.9$ & $3.0$ & $1.4$ & $0.2$ & setosa \\
+\nopagebreak 3  & $4.7$ & $3.2$ & $1.3$ & $0.2$ & setosa \\
+\nopagebreak 4  & $4.6$ & $3.1$ & $1.5$ & $0.2$ & setosa \\
+\nopagebreak 5  & $5.0$ & $3.6$ & $1.4$ & $0.2$ & setosa \\
+\rule{0pt}{1.7\normalbaselineskip}6  & $5.4$ & $3.9$ & $1.7$ & $0.4$ & setosa \\
+\nopagebreak 7  & $4.6$ & $3.4$ & $1.4$ & $0.3$ & setosa \\
+\nopagebreak 8  & $5.0$ & $3.4$ & $1.5$ & $0.2$ & setosa \\
+\nopagebreak 9  & $4.4$ & $2.9$ & $1.4$ & $0.2$ & setosa \\
+\nopagebreak 10  & $4.9$ & $3.1$ & $1.5$ & $0.1$ & setosa \\
+\rule{0pt}{1.7\normalbaselineskip}11  & $5.4$ & $3.7$ & $1.5$ & $0.2$ & setosa \\
+\nopagebreak 12  & $4.8$ & $3.4$ & $1.6$ & $0.2$ & setosa \\
+\nopagebreak 13  & $4.8$ & $3.0$ & $1.4$ & $0.1$ & setosa \\
+\nopagebreak 14  & $4.3$ & $3.0$ & $1.1$ & $0.1$ & setosa \\
+\nopagebreak 15  & $5.8$ & $4.0$ & $1.2$ & $0.2$ & setosa \\
+\rule{0pt}{1.7\normalbaselineskip}16  & $5.7$ & $4.4$ & $1.5$ & $0.4$ & setosa \\
+\nopagebreak 17  & $5.4$ & $3.9$ & $1.3$ & $0.4$ & setosa \\
+\nopagebreak 18  & $5.1$ & $3.5$ & $1.4$ & $0.3$ & setosa \\
+\nopagebreak 19  & $5.7$ & $3.8$ & $1.7$ & $0.3$ & setosa \\
+\nopagebreak 20  & $5.1$ & $3.8$ & $1.5$ & $0.3$ & setosa \\
+\rule{0pt}{1.7\normalbaselineskip}21  & $5.4$ & $3.4$ & $1.7$ & $0.2$ & setosa \\
+\nopagebreak 22  & $5.1$ & $3.7$ & $1.5$ & $0.4$ & setosa \\
+\nopagebreak 23  & $4.6$ & $3.6$ & $1.0$ & $0.2$ & setosa \\
+\nopagebreak 24  & $5.1$ & $3.3$ & $1.7$ & $0.5$ & setosa \\
+\nopagebreak 25  & $4.8$ & $3.4$ & $1.9$ & $0.2$ & setosa \\
+\rule{0pt}{1.7\normalbaselineskip}26  & $5.0$ & $3.0$ & $1.6$ & $0.2$ & setosa \\
+\nopagebreak 27  & $5.0$ & $3.4$ & $1.6$ & $0.4$ & setosa \\
+\nopagebreak 28  & $5.2$ & $3.5$ & $1.5$ & $0.2$ & setosa \\
+\nopagebreak 29  & $5.2$ & $3.4$ & $1.4$ & $0.2$ & setosa \\
+\nopagebreak 30  & $4.7$ & $3.2$ & $1.6$ & $0.2$ & setosa \\
+\rule{0pt}{1.7\normalbaselineskip}31  & $4.8$ & $3.1$ & $1.6$ & $0.2$ & setosa \\
+\nopagebreak 32  & $5.4$ & $3.4$ & $1.5$ & $0.4$ & setosa \\
+\nopagebreak 33  & $5.2$ & $4.1$ & $1.5$ & $0.1$ & setosa \\
+\nopagebreak 34  & $5.5$ & $4.2$ & $1.4$ & $0.2$ & setosa \\
+\nopagebreak 35  & $4.9$ & $3.1$ & $1.5$ & $0.2$ & setosa \\
+\rule{0pt}{1.7\normalbaselineskip}36  & $5.0$ & $3.2$ & $1.2$ & $0.2$ & setosa \\
+\nopagebreak 37  & $5.5$ & $3.5$ & $1.3$ & $0.2$ & setosa \\
+\nopagebreak 38  & $4.9$ & $3.6$ & $1.4$ & $0.1$ & setosa \\
+\nopagebreak 39  & $4.4$ & $3.0$ & $1.3$ & $0.2$ & setosa \\
+\nopagebreak 40  & $5.1$ & $3.4$ & $1.5$ & $0.2$ & setosa \\
+\rule{0pt}{1.7\normalbaselineskip}41  & $5.0$ & $3.5$ & $1.3$ & $0.3$ & setosa \\
+\nopagebreak 42  & $4.5$ & $2.3$ & $1.3$ & $0.3$ & setosa \\
+\nopagebreak 43  & $4.4$ & $3.2$ & $1.3$ & $0.2$ & setosa \\
+\nopagebreak 44  & $5.0$ & $3.5$ & $1.6$ & $0.6$ & setosa \\
+\nopagebreak 45  & $5.1$ & $3.8$ & $1.9$ & $0.4$ & setosa \\
+\rule{0pt}{1.7\normalbaselineskip}46  & $4.8$ & $3.0$ & $1.4$ & $0.3$ & setosa \\
+\nopagebreak 47  & $5.1$ & $3.8$ & $1.6$ & $0.2$ & setosa \\
+\nopagebreak 48  & $4.6$ & $3.2$ & $1.4$ & $0.2$ & setosa \\
+\nopagebreak 49  & $5.3$ & $3.7$ & $1.5$ & $0.2$ & setosa \\
+\nopagebreak 50  & $5.0$ & $3.3$ & $1.4$ & $0.2$ & setosa \\
+\bottomrule 
+\end{longtable}
+
+> subset <- 1:10
+
+> latex(tabular(Factor(subset) ~ All(iris[subset, ], 
++     factor = as.character) * Heading() * identity, suppress = 3))
+\begin{tabular}{ccccc}
+\toprule
+   Sepal.Length & Sepal.Width & Petal.Length & Petal.Width & \multicolumn{1}{c}{Species} \\ 
+\midrule
+ $5.1$ & $3.5$ & $1.4$ & $0.2$ & setosa \\
+ $4.9$ & $3.0$ & $1.4$ & $0.2$ & setosa \\
+ $4.7$ & $3.2$ & $1.3$ & $0.2$ & setosa \\
+ $4.6$ & $3.1$ & $1.5$ & $0.2$ & setosa \\
+ $5.0$ & $3.6$ & $1.4$ & $0.2$ & setosa \\
+ $5.4$ & $3.9$ & $1.7$ & $0.4$ & setosa \\
+ $4.6$ & $3.4$ & $1.4$ & $0.3$ & setosa \\
+ $5.0$ & $3.4$ & $1.5$ & $0.2$ & setosa \\
+ $4.4$ & $2.9$ & $1.4$ & $0.2$ & setosa \\
+ $4.9$ & $3.1$ & $1.5$ & $0.1$ & setosa \\
+\bottomrule 
+\end{tabular}
+
+> latex(tabular(Multicolumn(Species, width = 3, levelnames = paste("\\textit{Iris", 
++     levels(Species), "}")) * (mean + sd) ~ All(iris), data = ir .... [TRUNCATED] 
+\begin{tabular}{llcccc}
+\toprule
+ &  & Sepal.Length & Sepal.Width & Petal.Length & \multicolumn{1}{c}{Petal.Width} \\ 
+\midrule
+\multicolumn{3}{l}{\textit{Iris setosa }} \\  & mean  & $5.0060$ & $3.4280$ & $1.4620$ & $0.2460$ \\
+ & sd  & $0.3525$ & $0.3791$ & $0.1737$ & $0.1054$ \\
+\multicolumn{3}{l}{\textit{Iris versicolor }} \\  & mean  & $5.9360$ & $2.7700$ & $4.2600$ & $1.3260$ \\
+ & sd  & $0.5162$ & $0.3138$ & $0.4699$ & $0.1978$ \\
+\multicolumn{3}{l}{\textit{Iris virginica }} \\  & mean  & $6.5880$ & $2.9740$ & $5.5520$ & $2.0260$ \\
+ & sd  & $0.6359$ & $0.3225$ & $0.5519$ & $0.2747$ \\
+\bottomrule 
+\end{tabular}
+
+> df <- data.frame(A = factor(c("$", "\\")), B_label = 1:2)
+
+> latex(tabular(mean ~ Factor(A) * All(df), data = df))
+\begin{tabular}{lcc}
+\toprule
+ & \multicolumn{2}{c}{A} \\ \cmidrule(lr){2-3}
+ & \$ & \multicolumn{1}{c}{\textbackslash{}} \\ 
+  & B\_label & \multicolumn{1}{c}{B\_label} \\ 
+\midrule
+mean  & $1$ & $2$ \\
+\bottomrule 
+\end{tabular}
+
+> dat <- data.frame(a = c(1, 2, 3, NA), b = 1:4)
+
+> mean(dat$a)
+[1] NA
+
+> mean(dat$a, na.rm = TRUE)
+[1] 2
+
+> Mean <- function(x) base::mean(x, na.rm = TRUE)
+
+> latex(tabular(Mean ~ a + b, data = dat))
+\begin{tabular}{lcc}
+\toprule
+  & a & \multicolumn{1}{c}{b} \\ 
+\midrule
+Mean  & $2$ & $2.5$ \\
+\bottomrule 
+\end{tabular}
+
+> latex(tabular(mean ~ a + b, data = na.omit(dat)))
+\begin{tabular}{lcc}
+\toprule
+  & a & \multicolumn{1}{c}{b} \\ 
+\midrule
+mean  & $2$ & $2$ \\
+\bottomrule 
+\end{tabular}
+
+> latex(tabular(Mean ~ (1 + Heading(Complete) * complete.cases(dat)) * 
++     (a + b), data = dat))
+\begin{tabular}{lcccc}
+\toprule
+ & \multicolumn{2}{c}{All} & \multicolumn{2}{c}{Complete} \\ \cmidrule(lr){2-3}\cmidrule(lr){4-5}
+  & a & b & a & \multicolumn{1}{c}{b} \\ 
+\midrule
+Mean  & $2$ & $2.5$ & $2$ & $2$ \\
+\bottomrule 
+\end{tabular}
+
+ *** Run successfully completed ***
+> proc.time()
+   user  system elapsed 
+   1.40    0.28    1.73 
