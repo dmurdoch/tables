@@ -46,5 +46,7 @@
       Added Percent() pseudo-function. 
       Cleaned up handling of row and column labels, especially in cases
       where rows with different column headings are summed.
+      Added optional parameter to Heading() to use it only if another
+      hasn't already been set.
       
       

@@ -556,6 +556,13 @@ function or a string in quotes, which will be displayed as entered (so \LaTeX\ c
 
 If no argument is passed, the next label is suppressed.
 
+There's an optional third argument, which must be either \code{TRUE}
+or \code{FALSE} if present.  If it is \code{TRUE} (or not present),
+then the heading will override a previously specified heading.  If
+\code{FALSE}, it will not.  The latter seems likely only to be of use
+in automatically generated code, and is used in the automatically
+generated labels for factors.
+
 Example:  Replace \code{F} with a Greek $\Phi$, and suppress the label for \code{X}.
 \begin{center}
 <<results=tex>>=
