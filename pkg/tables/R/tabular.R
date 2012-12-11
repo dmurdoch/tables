@@ -221,41 +221,29 @@ getLabels <- function(e, rows=TRUE, justify=NA, head=NULL, suppress=0) {
 	    	ncr <- ncl
 	    }
 	    differ <- which( rightnames != "" & rightnames != leftnames )
-	    if (length(differ)) {
-	      cat("Before: leftnames=", leftnames, "rightnames=", rightnames, "leftLabels=\n")
-	      print(matrix(leftLabels, ncol=ncl))
-	      cat("rightLabels=\n")
-	      print(matrix(rightLabels, ncol=ncr))
-	    }  
 	    for (i in rev(differ)) {
 	        before <- seq_len(i-1)
 	        after <- seq_len(ncol(leftLabels) - i + 1) + i - 1
-	    	leftLabels <- cbind(leftLabels[,before], "", leftLabels[,after])
+	    	leftLabels <- cbind(leftLabels[,before,drop=FALSE], "", leftLabels[,after,drop=FALSE])
 	    	leftLabels[1,i] <- leftnames[i]
 	    	leftnames <- c(leftnames[before], "", "", leftnames[after][-1])
 	    	if (length(leftcolnamejust))
 	    	    leftcolnamejust <- c(leftcolnamejust[before], NA_character_, leftcolnamejust[after])
 	    	if (!is.null(leftjustification))
-	    	    leftjustification <- cbind(leftjustification[,before], NA_character_, leftjustification[,after])
+	    	    leftjustification <- cbind(leftjustification[,before,drop=FALSE], NA_character_, leftjustification[,after,drop=FALSE])
 		ncl <- ncl + 1
 		
-	    	rightLabels <- cbind(rightLabels[,before], "", rightLabels[,after])
+	    	rightLabels <- cbind(rightLabels[,before,drop=FALSE], "", rightLabels[,after,drop=FALSE])
 	    	rightLabels[1,i] <- rightnames[i]
 	    	rightnames <- c(rightnames[before], "", "", rightnames[after][-1])
 	    	if (length(rightcolnamejust))
 	    	    rightcolnamejust <- c(rightcolnamejust[before], NA_character_, rightcolnamejust[after])
 	    	if (!is.null(rightjustification))
-	    	    rightjustification <- cbind(rightjustification[,before], NA_character_, rightjustification[,after])
+	    	    rightjustification <- cbind(rightjustification[,before,drop=FALSE], NA_character_, rightjustification[,after,drop=FALSE])
 		ncr <- ncr + 1
 
 		cols <- cols + 1		
 	    }
-	    if (length(differ)) {
-	      cat("After: leftnames=", leftnames, "rightnames=", rightnames, "leftLabels=\n")
-	      print(matrix(leftLabels, ncol=ncl))
-	      cat("rightLabels=\n")
-	      print(matrix(rightLabels, ncol=ncr))
-	    }  
 	    
 	    result <- matrix("", nrl + nrr, cols)
 	    justification <- matrix(NA_character_, nrl + nrr, cols)
