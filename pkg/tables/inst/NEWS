@@ -37,7 +37,7 @@
       Fixed handling of data with an Hmisc "labelled" class attached.
 	(Reported by Thomas MacFarland.)
 	
-0.6.44:
+0.7:
       RowFactor now allows spacing=1.
       Specifications for justification in table_options() are now 
       recycled.
