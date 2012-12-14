@@ -81,6 +81,35 @@ term2table <- function(rowterm, colterm, env, n) {
                    justification=justification)
 }
 
+# This moves column names into their own column
+moveColnames <- function(labels, do_move = (names != "")) {
+    attrs <- attributes(labels)
+    names <- colnames(labels)
+    colnamejust <- attrs$colnamejust
+    justification <- attrs$justification
+    for (i in rev(seq_along(do_move))) {
+    	if (do_move[i]) {
+	    before <- seq_len(i-1)
+	    after <- seq_len(ncol(labels) - i + 1) + i - 1
+    	    labels <- cbind(labels[,before,drop=FALSE], "", labels[,after,drop=FALSE])
+	    labels[1,i] <- names[i]
+	    names <- c(names[before], "", "", names[after][-1])
+	    if (length(colnamejust)) {
+	    	colnamejust <- c(colnamejust[before], NA_character_, colnamejust[after])
+	    }
+	    if (length(justification)) 
+	    	justification <- cbind(justification[,before,drop=FALSE], 
+	    	    NA_character_, justification[,after,drop=FALSE])
+	}
+    }
+    attrs$colnamejust <- colnamejust
+    attrs$justification <- justification
+    attrs$dim <- dim(labels)
+    attrs$dimnames[[2]] <- names
+    attributes(labels) <- attrs
+    labels
+}
+    	
 getLabels <- function(e, rows=TRUE, justify=NA, head=NULL, suppress=0) {
     op <- ""
     justification <- NULL
@@ -177,12 +206,21 @@ getLabels <- function(e, rows=TRUE, justify=NA, head=NULL, suppress=0) {
 	    #  - if the left one has a name, and the right doesn't, use the left name
 	    #  - if both have names that don't match, add them as extra column(s)
 	    #  - if the right has a name, and the left doesn't, treat as unmatched names
-	    cols <- max(ncl, ncr)
 	    
 	    leftnames <- colnames(leftLabels)
 	    if (is.null(leftnames)) leftnames <- rep("", ncl)
 	    rightnames <- colnames(rightLabels)
 	    if (is.null(rightnames)) rightnames <- rep("", ncr)
+	    if (!identical(rightnames, rep("", ncr)) &&
+	        !identical(leftnames, rightnames)) {
+	        rightLabels <- moveColnames(rightLabels)
+	        leftLabels <- moveColnames(leftLabels)
+	        ncr <- ncol(rightLabels)
+	        ncl <- ncol(leftLabels)
+	        rightnames <- rep("", ncr)
+	        leftnames <- rep("", ncl)
+	    }    
+	    cols <- max(ncl, ncr)
 	    # Pad all to same width
 	    if (ncl < ncr) {
 	        pad <- rep("", ncr-ncl)
@@ -213,31 +251,6 @@ getLabels <- function(e, rows=TRUE, justify=NA, head=NULL, suppress=0) {
 	    	}
 	    	ncr <- ncl
 	    }
-	    differ <- which( rightnames != "" & rightnames != leftnames )
-	    for (i in rev(differ)) {
-	        before <- seq_len(i-1)
-	        after <- seq_len(ncol(leftLabels) - i + 1) + i - 1
-	    	leftLabels <- cbind(leftLabels[,before,drop=FALSE], "", leftLabels[,after,drop=FALSE])
-	    	leftLabels[1,i] <- leftnames[i]
-	    	leftnames <- c(leftnames[before], "", "", leftnames[after][-1])
-	    	if (length(leftcolnamejust))
-	    	    leftcolnamejust <- c(leftcolnamejust[before], NA_character_, leftcolnamejust[after])
-	    	if (!is.null(leftjustification))
-	    	    leftjustification <- cbind(leftjustification[,before,drop=FALSE], NA_character_, leftjustification[,after,drop=FALSE])
-		ncl <- ncl + 1
-		
-	    	rightLabels <- cbind(rightLabels[,before,drop=FALSE], "", rightLabels[,after,drop=FALSE])
-	    	rightLabels[1,i] <- rightnames[i]
-	    	rightnames <- c(rightnames[before], "", "", rightnames[after][-1])
-	    	if (length(rightcolnamejust))
-	    	    rightcolnamejust <- c(rightcolnamejust[before], NA_character_, rightcolnamejust[after])
-	    	if (!is.null(rightjustification))
-	    	    rightjustification <- cbind(rightjustification[,before,drop=FALSE], NA_character_, rightjustification[,after,drop=FALSE])
-		ncr <- ncr + 1
-
-		cols <- cols + 1		
-	    }
-	    
 	    result <- matrix("", nrl + nrr, cols)
 	    justification <- matrix(NA_character_, nrl + nrr, cols)
 	    colnames <- rep("", cols)
