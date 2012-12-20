@@ -49,4 +49,5 @@
       Added optional parameter to Heading() to use it only if another
       hasn't already been set.
       
-      
+0.7.46:
+      Default formatting now skips character cells.
