@@ -496,10 +496,11 @@ the \code{Format(digits=2)} directive will only apply to \code{Z}, and neither w
 
 By default \pkg{tables} formats each column
 using the standard \code{format()} function, with arguments taken from the
-\code{format.tabular()} call (see section \ref{sec:formatsyntax}).
+\code{format.tabular()} call (see section \ref{sec:formatsyntax}).  
 
 The \code{Format()} pseudo-function does two
-things:  it changes the formatting, and it specifies that all values it applies to will be formatted together.   The ``call'' to \code{Format} looks like a call to \code{format}, but without 
+things:  it changes the formatting, and it specifies that all values it applies to will be formatted together.  
+The ``call'' to \code{Format} looks like a call to \code{format}, but without 
 specifying the argument \code{x}.  When \code{tabular()} formats the output it will construct
 \code{x} from the entries in the table governed by the \code{Format()} specification.
 
@@ -533,6 +534,8 @@ latex( tabular( Format(fmt(digits=1))*(F+1) ~ X*(mean + stderr) ) )
 @
 \end{center}
 
+ Character values in cells in the table are handled specially; see section \ref{sec:formatdetails}
+ below.
 
 \subsubsection{\code{.Format()}}
 
@@ -850,9 +853,11 @@ latex( tabular( Multicolumn(Species, width=3,
 As mentioned in \ref{sec:formats}, formatting in \pkg{tables} depends on the standard \code{format()}
 function or other user-selected functions.  Here are the details of how it is done.
 
-The \code{format.tabular()} method does the first part of the work.  It constructs the calls
-to the appropriate formatting functions and uses them to format all of the entries in the table.
+The \code{format.tabular()} method does the first part of the work.  First, it constructs the calls
+to the appropriate formatting functions, and uses them to format all of the non-character entries in the table.
+The character entries are left as-is, except as described below.
 This converts the \code{tabular} object to a character array.
+
 
 The procedure goes as follows:
 \begin{enumerate}
@@ -896,6 +901,15 @@ would fail, as the labels would include the special characters.  But this will w
 latex( tabular( mean ~ Factor(A)*All(df), data=df ) ) 
 @
 \end{center}
+
+As mentioned above, character values in cells in the table are handled
+specially. If the default \code{format} function (or a custom function
+named \code{format}) is used, then those character values are not
+formatted, they are just copied into the result.  (This is  so that a column
+can have mixed numeric and character values, and the numerics are
+not converted to character before formatting.)  If you want to use
+\code{format} on character values, you will need to use a custom formatting
+function with a different name.
 
 \subsection{Missing Values}
 

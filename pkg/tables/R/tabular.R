@@ -577,9 +577,12 @@ format.tabular <- function(x, digits=4, justification="n",
     fmtlist <- attr(attr(x, "table"), "fmtlist")
     justify <- attr(x, "justification")
     justify[is.na(justify)] <- justification
+    ischar <- sapply(result, is.character)
     chars <- matrix(NA_character_, nrow(result), ncol(result))
+    chars[ischar] <- unlist(result[ischar])
+    
     for (i in seq_len(ncol(result))) {
-        ind <- col(result) == i & is.na(formats)
+        ind <- col(result) == i & is.na(formats) & !ischar
         if (any(ind)) {
             x <- do.call(c, result[ind])
     	    chars[ind] <- format(x, digits=digits, ...)
@@ -591,12 +594,15 @@ format.tabular <- function(x, digits=4, justification="n",
     	ind <- !is.na(formats) & formats == i
     	if (any(ind)) {        
             call <- fmtlist[[i]]
+            isformat <- identical(call[[1]], as.name("format"))
+            if (isformat) skip <- ischar
+            else skip <- ischar & FALSE
 	    last <- length(call)
-       	    x <- do.call(c, result[ind])
+       	    x <- do.call(c, result[ind & !skip])
        	    call[[last+1]] <- x
        	    names(call)[last+1] <- "x"
-       	    chars[ind] <- eval(call, parent.frame())
-       	    if (latex && identical(call[[1]], as.name("format")))
+       	    chars[ind & !skip] <- eval(call, parent.frame())
+       	    if (latex && isformat)
        	    	if (is.numeric(x))
        	    	    chars[ind] <- latexNumeric(chars[ind])
        	    	else
