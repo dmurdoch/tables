@@ -3,28 +3,41 @@ as.matrix.tabular <- function(x, format=TRUE,
 			justification="n", ...) {
     if (isTRUE(format)) {
     	chars <- format(x, ...)
+	justify <- attr(x, "justification")
 	rlabels <- attr(x, "rowLabels")
 	rlabels[is.na(rlabels)] <- ""
+	rjustify <- attr(rlabels, "justification")
 	clabels <- attr(x, "colLabels")
 	clabels[is.na(clabels)] <- ""
+	cjustify <- attr(clabels, "justification")
 	colnamejust <- attr(rlabels, "colnamejust")
 	colnamejust[is.na(colnamejust)] <- justification
 	corner <- matrix("", nrow(clabels), ncol(rlabels))
-	for (i in seq_len(ncol(rlabels)))
-	    corner[nrow(clabels),i] <- justify(colnames(rlabels)[i],
-					      colnamejust[i])
+	corjustify <- matrix(NA, nrow(clabels), ncol(rlabels))
+	for (i in seq_len(ncol(rlabels))) {
+	    corner[nrow(clabels),i] <- colnames(rlabels)[i]
+	    corjustify[nrow(clabels),i] <- rjustify[1,i]
+	}
 	if (rowLabels) {
-	    if (colLabels)
+	    if (colLabels) {
 		result <- rbind(cbind(corner, clabels),
 			cbind(rlabels, chars))
-	    else
+	        justify <- rbind(cbind(corjustify, cjustify),
+	                cbind(rjustify, justify))
+	    } else {
 	    	result <- cbind(rlabels, chars)
+	    	justify <- cbind(rjustify, justify)
+	    }
 	} else {
-	    if (colLabels)
+	    if (colLabels) {
 	    	result <- rbind(clabels, chars)
-	    else
+	    	justify <- rbind(cjustify, justify)
+	    } else 
 	    	result <- chars
 	}
+	justify[is.na(justify)] <- justification
+	for (i in seq_len(ncol(result)))
+	    result[,i] <- justify(result[,i], justify[,i])
 	dimnames(result) <- NULL
     } else {
     	result <- x
@@ -64,7 +77,7 @@ write.table.tabular <- function(x, file="",
 }
 
 print.tabular <- function(x, justification = "n", ...) {
-    chars <- format(x, justification = justification, ...)
+   # chars <- format(x, justification = justification, ...)
     
     result <- as.matrix(x, justification = justification, ...)
 

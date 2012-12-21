@@ -49,5 +49,7 @@
       Added optional parameter to Heading() to use it only if another
       hasn't already been set.
       
-0.7.46:
+0.7.47:
       Default formatting now skips character cells.
+      Justification of labels in text mode wasn't being done properly.
+      
