@@ -521,6 +521,7 @@ justify <- function(x, justification="c", width=max(nchar(x))) {
     y <- sub("^ *", "", y)
     y <- sub(" *$", "", y)
     width <- rep(width, len=length(x))
+    width <- width[change]
     lens <- nchar(y)
     ind <- justification == "c"
     if (any(ind)) {
