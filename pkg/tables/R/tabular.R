@@ -313,6 +313,7 @@ getLabels <- function(e, rows=TRUE, justify=NA, head=NULL, suppress=0) {
     	    	    Heading <- e[[2]]
     	    	else
     	    	    Heading <- deparse(e[[2]])
+    	    	suppress <- 0
     	    } else 
     	    	suppress <- suppress - 1
     	} else
