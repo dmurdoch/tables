@@ -1,12 +1,15 @@
 
 htmlify <- function (x) # Taken from the tools package
 {
+    fsub <- function(pattern, replacement, x) 
+       gsub(pattern, replacement, x, fixed=TRUE, useBytes=TRUE)
+   
     x <- fsub("&", "&amp;", x)
     x <- fsub("---", "&mdash;", x)
     x <- fsub("--", "&ndash;", x)
     x <- fsub("``", "&ldquo;", x)
     x <- fsub("''", "&rdquo;", x)
-    x <- psub("`([^']+)'", "&lsquo;\\1&rsquo;", x)
+    x <- gsub("`([^']+)'", "&lsquo;\\1&rsquo;", x, perl=TRUE, useBytes=TRUE)
     x <- fsub("`", "'", x)
     x <- fsub("<", "&lt;", x)
     x <- fsub(">", "&gt;", x)

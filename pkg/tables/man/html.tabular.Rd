@@ -29,7 +29,7 @@ Settings for default formatting.  See Details below.
 }  
 }
 \details{
-The \code{html()} method produces HTML output suitable for inclusion in an \code{\link{HTML}} page.
+The \code{html()} method produces HTML output suitable for inclusion in an HTML page.
 
 See \code{\link{table_options}} for a number of options that control formatting. 
 
