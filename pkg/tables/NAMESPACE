@@ -4,7 +4,7 @@ export(tabular, htmlNumeric, latexNumeric, PlusMinus, Hline, Factor, RowFactor, 
 # pseudo-function exports; not meant to be called, but meant to make the checks happy
 export(Format, Heading, Justify, Percent)
 
-importFrom(Hmisc, latex)
+importFrom(Hmisc, latex, html)
 S3method(print, tabular)
 S3method(format, tabular)
 S3method(latex, tabular)

@@ -574,7 +574,7 @@ latexNumeric <- function(chars, minus=TRUE, leftpad=TRUE, rightpad=TRUE,
 
 format.tabular <- function(x, digits=4, justification="n", 
                            latex=FALSE, html=FALSE, 
-                           leftpad = TRUE, rightpad = TRUE, minus = TRUE, ...) {
+                           leftpad = TRUE, rightpad = TRUE, minus = TRUE, mathmode = TRUE, ...) {
     if (latex && html) stop("Only one of 'latex' and 'html' may be requested")
     result <- unclass(x) 
     formats <- attr(x, "formats")
@@ -592,7 +592,7 @@ format.tabular <- function(x, digits=4, justification="n",
     	    chars[ind] <- format(x, digits=digits, ...)
     	    if (is.numeric(x)) {
  		if (latex)
-    	    	    chars[ind] <- latexNumeric(chars[ind], leftpad = leftpad, rightpad = rightpad, minus = minus)
+    	    	    chars[ind] <- latexNumeric(chars[ind], leftpad = leftpad, rightpad = rightpad, minus = minus, mathmode = mathmode)
     	    	else if (html)
     	    	    chars[ind] <- htmlNumeric(chars[ind], leftpad = leftpad, rightpad = rightpad, minus = minus)
     	    }
@@ -613,12 +613,12 @@ format.tabular <- function(x, digits=4, justification="n",
        	    if (isformat) {
        	    	if (latex) {
        	    	    if (is.numeric(x))
-       	    	    	chars[ind] <- latexNumeric(chars[ind])
+       	    	    	chars[ind] <- latexNumeric(chars[ind], leftpad = leftpad, rightpad = rightpad, minus = minus, mathmode = mathmode)
        	    	    else
        	    	    	chars[ind] <- texify(chars[ind])
        	    	} else if (html) {
        	    	    if (is.numeric(x))
-       	    	    	chars[ind] <- htmlNumeric(chars[ind])
+       	    	    	chars[ind] <- htmlNumeric(chars[ind], leftpad = leftpad, rightpad = rightpad, minus = minus)
        	    	    else
        	    	    	chars[ind] <- htmlify(chars[ind])
        	    	}

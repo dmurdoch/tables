@@ -42,10 +42,15 @@ that name, with class \code{"html"}.
 \code{\link{print.tabular}}, \code{\link{latex.tabular}}, \code{\link[Hmisc]{html}}, \code{\link{htmloptions}}
 }
 \examples{
-tab <- tabular( (Species + 1) ~ (n=1) + Format(digits=2)*
-         (Sepal.Length + Sepal.Width)*(mean + sd), data=iris )
+\donttest{
+X <- rnorm(100)
+Group <- factor(sample(letters[1:5], 100, rep=TRUE))
+
+tab <- tabular( Group*Format(digits=2) ~ X*((Mean=mean) + Heading("Std Dev")*sd) )
 
 save <- table_options()
+table_options(rowlabeljustification="c")
+
 f <- tempfile(fileext=".html")
 con <- file(f, "wt")
 
@@ -61,5 +66,5 @@ html(tab, con, options=htmloptions(head=FALSE, table=TRUE, pad=TRUE))
 table_options(save)
 close(con)
 browseURL(f)
-
+}
 }

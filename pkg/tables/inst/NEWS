@@ -53,3 +53,5 @@
       Default formatting now skips character cells.
       Justification of labels in text mode wasn't being done properly.
       
+0.7.51:
+      Added support for HTML output.

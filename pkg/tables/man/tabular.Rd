@@ -15,7 +15,8 @@ tabular(table, ...)
 \method{tabular}{default}(table, ...)
 \method{tabular}{formula}(table, data = NULL, n, suppressLabels = 0, ...)
 \method{print}{tabular}(x, justification="n", ...)
-\method{format}{tabular}(x, digits=4, justification="n", latex=FALSE, ...)
+\method{format}{tabular}(x, digits=4, justification="n", latex=FALSE, html=FALSE, 
+                         leftpad = TRUE, rightpad = TRUE, minus = TRUE, mathmode = TRUE, ...)
 }
 \arguments{
   \item{table}{
@@ -44,6 +45,15 @@ The default justification to use in the table.
 If \code{TRUE}, the \code{\link{latexNumeric}} function will be applied when formatting
 numeric columns after \code{\link{format}}, to maintain spacing and handle signs properly.
 }
+  \item{html}{
+If \code{TRUE}, the \code{\link{htmlNumeric}} function will be applied when formatting
+numeric columns after \code{\link{format}}, to maintain spacing and handle signs properly.
+}
+  \item{leftpad, rightpad, minus, mathmode}{
+Options to pass to \code{\link{latexNumeric}} or \code{\link{htmlNumeric}} to
+control details of formatting.  See those pages for details.
+}
+
 }
 \details{
 For the purposes of this function, a "table" is a rectangular array of values, computed
