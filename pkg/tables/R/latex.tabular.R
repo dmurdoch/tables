@@ -1,41 +1,3 @@
-
-table_options <- local({
-    opts <- list(justification="c",
-    		 rowlabeljustification="l",
-    		 tabular="tabular",
-    		 toprule="\\hline",
-    		 midrule="\\hline",
-    		 bottomrule="\\hline",
-    		 titlerule=NULL,
-    		 doBegin=TRUE,
-    		 doHeader=TRUE,
-    		 doBody=TRUE,
-    		 doFooter=TRUE,
-    		 doEnd=TRUE
-    		 )
-    function(...) {
-        args <- list(...)
-        if (!length(args))
-            return(opts)
-        else {
-            if (is.list(args[[1L]])) args <- args[[1L]]
-            result <- opts[names(args)]
-            opts[names(args)] <<- args
-            invisible(result)
-        }
-    }
-})
-
-booktabs <- function(...) { 
-    save <- table_options(
-                  toprule="\\toprule",
-    		  midrule="\\midrule",
-    		  bottomrule="\\bottomrule",
-    		  titlerule="\\cmidrule(lr)")
-    table_options(...)
-    save
-}
-
 texify <- function(x) Hmisc::latexTranslate(x, inn="\\", out="\\textbackslash{}")
 
 latex.tabular <- function(object, file="", options=NULL, ...) {
@@ -53,7 +15,9 @@ latex.tabular <- function(object, file="", options=NULL, ...) {
     
     mycat <- function(...) cat(..., file=out)
     
-    chars <- format(object, latex = TRUE, ...) # format without justification
+    chars <- format(object, latex = TRUE, minus = opts$latexminus, 
+                               leftpad = opts$latexleftpad, 
+                               rightpad = opts$latexrightpad,...) # format without justification
     
     vjust <- attr(object, "justification")
     vjustdefs <- rep(opts$justification, length.out=ncol(object))

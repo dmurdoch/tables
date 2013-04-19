@@ -573,7 +573,9 @@ latexNumeric <- function(chars, minus=TRUE, leftpad=TRUE, rightpad=TRUE,
 }
 
 format.tabular <- function(x, digits=4, justification="n", 
-                           latex=FALSE, ...) {
+                           latex=FALSE, html=FALSE, 
+                           leftpad = TRUE, rightpad = TRUE, minus = TRUE, ...) {
+    if (latex && html) stop("Only one of 'latex' and 'html' may be requested")
     result <- unclass(x) 
     formats <- attr(x, "formats")
     fmtlist <- attr(attr(x, "table"), "fmtlist")
@@ -588,8 +590,12 @@ format.tabular <- function(x, digits=4, justification="n",
         if (any(ind)) {
             x <- do.call(c, result[ind])
     	    chars[ind] <- format(x, digits=digits, ...)
-    	    if (latex && is.numeric(x))
-    	    	chars[ind] <- latexNumeric(chars[ind])
+    	    if (is.numeric(x)) {
+ 		if (latex)
+    	    	    chars[ind] <- latexNumeric(chars[ind], leftpad = leftpad, rightpad = rightpad, minus = minus)
+    	    	else if (html)
+    	    	    chars[ind] <- htmlNumeric(chars[ind], leftpad = leftpad, rightpad = rightpad, minus = minus)
+    	    }
     	}
     }
     for (i in seq_along(fmtlist)) {
@@ -604,14 +610,22 @@ format.tabular <- function(x, digits=4, justification="n",
        	    call[[last+1]] <- x
        	    names(call)[last+1] <- "x"
        	    chars[ind & !skip] <- eval(call, parent.frame())
-       	    if (latex && isformat)
-       	    	if (is.numeric(x))
-       	    	    chars[ind] <- latexNumeric(chars[ind])
-       	    	else
-       	    	    chars[ind] <- texify(chars[ind])
+       	    if (isformat) {
+       	    	if (latex) {
+       	    	    if (is.numeric(x))
+       	    	    	chars[ind] <- latexNumeric(chars[ind])
+       	    	    else
+       	    	    	chars[ind] <- texify(chars[ind])
+       	    	} else if (html) {
+       	    	    if (is.numeric(x))
+       	    	    	chars[ind] <- htmlNumeric(chars[ind])
+       	    	    else
+       	    	    	chars[ind] <- htmlify(chars[ind])
+       	    	}
+       	    }
        	}
     }
-    if (!latex)
+    if (!latex && !html)
     	for (i in seq_len(ncol(result))) 
     	    chars[,i] <- justify(chars[,i], justify[,i])
     chars

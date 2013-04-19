@@ -1,5 +1,5 @@
-export(tabular, latexNumeric, PlusMinus, Hline, Factor, RowFactor, All, Literal,
-       Multicolumn, table_options, booktabs, write.csv.tabular, write.table.tabular)
+export(tabular, htmlNumeric, latexNumeric, PlusMinus, Hline, Factor, RowFactor, All, Literal,
+       Multicolumn, table_options, booktabs, htmloptions, write.csv.tabular, write.table.tabular)
 
 # pseudo-function exports; not meant to be called, but meant to make the checks happy
 export(Format, Heading, Justify, Percent)
@@ -8,6 +8,7 @@ importFrom(Hmisc, latex)
 S3method(print, tabular)
 S3method(format, tabular)
 S3method(latex, tabular)
+S3method(html, tabular)
 S3method(as.matrix, tabular)
 S3method(tabular, default)
 S3method(tabular, formula)
