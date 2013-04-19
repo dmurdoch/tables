@@ -156,5 +156,5 @@ html.tabular <- function(object, file="",
     }
     if (opts$doEnd)
     	mycat("</table>\n")
-    structure(list(file=file), class="html")
+    invisible(structure(list(file=file), class="html"))
 }
