@@ -1,16 +1,18 @@
 \name{latexNumeric}
 \alias{latexNumeric}
+\alias{htmlNumeric}
 \title{
-Process numeric LaTeX values.
+Process numeric LaTeX or HTML values.
 }
 \description{
 This takes formatted strings as produced by \code{\link{format}} from numeric
-values, and modifies them to LaTeX code that retains the spacing, and renders
+values, and modifies them to LaTeX or HTML code that retains the spacing, and renders
 minus signs properly.  The default formatting in \code{\link{tabular}}
 uses this to maintain proper alignment.
 }
 \usage{
 latexNumeric(chars, minus = TRUE, leftpad = TRUE, rightpad = TRUE, mathmode = TRUE)
+htmlNumeric(chars, minus = TRUE, leftpad = TRUE, rightpad = TRUE)
 }
 \arguments{
   \item{chars}{
@@ -32,4 +34,5 @@ to render properly in LaTeX.
 }
 \examples{
 latexNumeric(format(c(1.1,-1,10,-10)))
+htmlNumeric(format(c(1.1,-1,10,-10)))
 }
