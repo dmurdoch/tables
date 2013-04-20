@@ -11,12 +11,11 @@ These functions set or query options for table formatting in LaTeX or HTML outpu
 \usage{
 table_options(...)
 booktabs(...)
-htmloptions(head=TRUE, table=TRUE, border=0, pad=FALSE, ...)
+htmloptions(head=TRUE, table=TRUE, pad=FALSE, ...)
 }
 \arguments{
   \item{head}{logical; enables all of the HTML header options}
   \item{table}{logical; enables output of all parts of the table itself}
-  \item{border}{numeric; border width for the table}
   \item{pad}{logical; enables all of the HTML padding options}
   \item{...}{
 Any of the options listed in the Details below.
@@ -32,7 +31,7 @@ Default justification for the data columns in the table.
   \item{\code{rowlabeljustification = "l"}}{
 Default justification for row labels.
 }
-  \item{\code{doBegin, doHeader, doBody, doEnd}}{
+  \item{\code{doBegin, doHeader, doBody, doFooter, doEnd}}{
 These logical values (all defaults are \code{TRUE}) control the inclusion of specific parts of
 the output table.}
 }
@@ -48,9 +47,6 @@ The LaTeX macros to use for the lines in the table.  By default they are all \co
   \item{\code{titlerule = NULL}}{
 The LaTeX macro to use to underline multicolumn titles.  If \code{NULL}, no underlining
 is done.  
-}
-  \item{\code{doFooter = TRUE}}{
-Whether to output code for the footer of the table.
 }
   \item{\code{latexleftpad, latexrightpad, latexminus, mathmode}}{
 These control formatting of numbers in the table.  If \code{TRUE} (the default), blanks
@@ -71,13 +67,23 @@ If present, the string \code{"CHARSET"} will be replaced with the result of
 \code{"#ID"} will be replaced with \code{"#"} followed by the \code{id}
 argument to \code{\link{html.tabular}} (or removed if that is blank).
 }
-\item{\code{border = 0}}{The desired border width in the table.}
 \item{\code{HTMLleftpad, HTMLrightpad, HTMLminus}}{
 These control formatting of numbers in the table.  If \code{TRUE}, blanks
 in \R's formatting are converted to hard spaces in the HTML output, and negative
 signs are rendered properly.  Generally this makes output look better, but 
 cut and paste from the table may include these special characters
 and not be recognized by other software.  The default is \code{FALSE}.
+}
+\item{\code{HTMLattributes}}{
+This is a string to add to the \code{"<table>"} declaration at the top of the table.  By
+default, the attributes are \code{'frame="hsides" rules="groups"'}.
+These set horizontal rules on the top and bottom of the table and between the header,
+body, and footer (if present).
+}
+\item{\code{HTMLfooter}}{
+This is \code{NULL} for no footer, or HTML code to insert in the table.  Note
+that in HTML the footer should be specified before the body of the table;
+\code{\link{html.tabular}} will do this if both are written in the same call.
 }
 }
 These may be set persistently by calling \code{table_options()}, or just for the duration

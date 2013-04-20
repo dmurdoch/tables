@@ -5,18 +5,10 @@ HTMLheaderdefault <- '<!DOCTYPE html>
 '
 
 CSSdefault <- '<style>
-#ID .left
-{
-text-align:left;
-}
-#ID .center
-{
-text-align:center;
-}
-#ID .right
-{
-text-align:right;
-}
+#ID .left   { text-align:left; }
+#ID .center { text-align:center; }
+#ID .right  { text-align:right; }
+#ID table   { margin: 12pt 12pt; }
 </style>
 '
 
@@ -44,7 +36,8 @@ table_options <- local({
     		 CSS=CSSdefault,
     		 HTMLhead=HTMLheaderdefault,
     		 HTMLbody="<body>\n",
-    		 border=0,
+    		 HTMLattributes='frame="hsides" rules="groups"',
+    		 HTMLfooter=NULL,
     		 HTMLleftpad=FALSE,
     		 HTMLrightpad=FALSE,
     		 HTMLminus=FALSE
@@ -72,7 +65,7 @@ booktabs <- function(...) {
     save
 }
 
-htmloptions <- function(head=TRUE, table=TRUE, border=0, pad=FALSE, ...) {
+htmloptions <- function(head=TRUE, table=TRUE, pad=FALSE, ...) {
     save <- table_options()
     on.exit(table_options(save))
     table_options(
@@ -81,9 +74,9 @@ htmloptions <- function(head=TRUE, table=TRUE, border=0, pad=FALSE, ...) {
     		 doHTMLbody=head,                 
     		 doBegin=table,
     		 doHeader=table,
+    		 doFooter=table,
     		 doBody=table,
     		 doEnd=table,
-    		 border=border,
 		 HTMLleftpad=pad,
 		 HTMLrightpad=pad,
 		 HTMLminus=pad)
