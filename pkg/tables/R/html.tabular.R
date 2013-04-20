@@ -50,7 +50,7 @@ CSSclassname <- function(just)
     ifelse(just == "r", "right", just)))
 
 html.tabular <- function(object, file="", 
-                         options=NULL, id="", ...) {
+                         options=NULL, id=NULL, ...) {
     if (is.character(file)) {
 	if (file == "")
     	    out <- ""
@@ -131,7 +131,7 @@ html.tabular <- function(object, file="",
     }
      	
     if (opts$doCSS) {
-        if (id == "") 
+        if (is.null(id)) 
             css <- gsub("#ID ", "", opts$CSS, fixed=TRUE)
         else
             css <- gsub("#ID", paste0("#", id), opts$CSS, fixed=TRUE)
@@ -142,17 +142,28 @@ html.tabular <- function(object, file="",
      	mycat(opts$HTMLbody)
    
     if (opts$doBegin) {
-    	if (id != "") 
+    	if (is.null(id)) 
+    	    id <- ""
+        else
     	    id <- sprintf(' id="%s"', id)
-        mycat(sprintf('<table border="%d"%s>\n', opts$border, id))
+        mycat(sprintf('<table%s %s>\n', id, opts$HTMLattributes))
     }
     if (opts$doHeader) {
         rows <- apply(cbind(rowLabelHeadings, clabels), 1, paste0, collapse="")
+        mycat('<thead>\n')
 	mycat(sprintf('<tr class="%s">\n%s</tr>\n', CSSclassname(defjust), rows))
+	mycat('</thead>\n')
+    }
+    if (opts$doFooter && !is.null(opts$HTMLfooter)) {
+        mycat('<tfoot>\n')
+        mycat(opts$HTMLfooter)
+        mycat('</tfoot>\n')
     }
     if (opts$doBody) {
 	rows <- apply(cbind(rowLabels, chars), 1, paste0, collapse="")
+	mycat('<tbody>\n')
 	mycat(sprintf('<tr class="%s">\n%s</tr>\n', CSSclassname(defjust), rows))
+	mycat('</tbody>\n')
     }
     if (opts$doEnd)
     	mycat("</table>\n")
