@@ -1,6 +1,6 @@
 `[.tabular` <- function(x, i, j, ..., drop=FALSE) {
 	
-	if (drop) return(unlist(unclass(x)[i,j, drop=TRUE]))
+	if (drop) return(unclass(x)[i,j, drop=TRUE])
 	
 	attrs <- attributes(x)
 	x <- unclass(x)[i,j, drop=FALSE]
