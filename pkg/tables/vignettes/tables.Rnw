@@ -949,6 +949,30 @@ latex( tabular(
 @
 \end{center}
 
+\subsection{Subsetting Tables}
+
+It is possible to select a subset of a table using the usual R matrix indexing on the table
+object.  For example, this table contains rows with no data in them, and those
+yield ugly NA and NaN statistics:
+\begin{center}
+<<results=tex>>=
+q <- data.frame(p = rep(c("A","B"),each=10,len=30),
+                           a = rep(c(1,2,3),each=10),id=seq(30),
+                           b = round(runif(30,10,20)),
+                           c = round(runif(30,40,70)))
+tab <- tabular(((p=factor(p))*(a=factor(a))+1) 
+                        ~ (N = 1) + (b + c)*(mean+sd),data=q)
+latex(tab)
+@
+\end{center}
+To omit those rows,  use matrix-like subsetting to select the rows where the
+first column of data (i.e. $N$) is greater than zero:
+\begin{center}
+<<results=tex>>=
+latex(tab[ tab[,1] > 0, ])
+@
+\end{center}
+
 \section*{Acknowledgments}
 
 I gratefully acknowledge helpful suggestions and hints from Rich
