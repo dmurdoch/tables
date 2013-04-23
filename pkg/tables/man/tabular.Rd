@@ -4,6 +4,7 @@
 \alias{tabular.formula}
 \alias{print.tabular}
 \alias{format.tabular}
+\alias{[.tabular}
 \title{
 Compute complex table
 }
@@ -17,6 +18,7 @@ tabular(table, ...)
 \method{print}{tabular}(x, justification="n", ...)
 \method{format}{tabular}(x, digits=4, justification="n", latex=FALSE, html=FALSE, 
                          leftpad = TRUE, rightpad = TRUE, minus = TRUE, mathmode = TRUE, ...)
+\method{[}{tabular}(x, i, j, ..., drop=FALSE)
 }
 \arguments{
   \item{table}{
@@ -32,7 +34,7 @@ An optional value giving the length of the data.  See the Details below.
 How many initial labels to suppress?
 }
   \item{x}{ 
-The object to print.
+The object to print, format, or subset.
 }
   \item{digits, ...}{
 In the print and format methods, how many significant digits or other parameters to show by default?  See
@@ -52,6 +54,9 @@ numeric columns after \code{\link{format}}, to maintain spacing and handle signs
   \item{leftpad, rightpad, minus, mathmode}{
 Options to pass to \code{\link{latexNumeric}} or \code{\link{htmlNumeric}} to
 control details of formatting.  See those pages for details.
+}
+  \item{i, j, drop}{
+The usual arguments for matrix indexing, but see the Details below.
 }
 
 }
@@ -110,6 +115,15 @@ they were columns in a dataframe (but they can be computed values).  If \code{n}
 missing but \code{data} is a dataframe, \code{n} is set from that.  Otherwise, if terms such
 as \code{1} appear in a table, the length is assumed to be the same as for previous terms.
 As a last resort, set the \code{n} argument in the call to \code{tabular()} explicitly.
+
+The \code{"["} method extracts a subset of the table.
+For indexing, consider the table to consist of a matrix containing the values.
+If \code{drop=TRUE}, the labels and attributes are dropped.  If \code{drop=FALSE},
+the default, the \code{i} and \code{j} indices must select 
+a rectangular block of the table; matrix indexing (using a two column
+matrix or a full matrix of logical values) is not supported.  Rearranging
+the order of rows or columns is likely to lead to incorrect labelling.
+
 }
 
 \section{Formatting}{
@@ -214,5 +228,9 @@ fmt <- function(x) {
   s[even] <- sprintf("(\%s)", s[even])
   s
 }
-tabular( Justify(c)*Heading()*z*Sex*Heading(Statistic)*Format(fmt())*(mean+sd) ~ Status )
+tab <- tabular( Justify(c)*Heading()*z*Sex*Heading(Statistic)*Format(fmt())*(mean+sd) 
+                ~ Status )
+tab
+tab[1:2, 3]
+
 }
