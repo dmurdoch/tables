@@ -121,8 +121,7 @@ For indexing, consider the table to consist of a matrix containing the values.
 If \code{drop=TRUE}, the labels and attributes are dropped.  If \code{drop=FALSE},
 the default, the \code{i} and \code{j} indices must select 
 a rectangular block of the table; matrix indexing (using a two column
-matrix or a full matrix of logical values) is not supported.  Rearranging
-the order of rows or columns is likely to lead to incorrect labelling.
+matrix or a full matrix of logical values) is not supported.
 
 }
 
@@ -231,6 +230,5 @@ fmt <- function(x) {
 tab <- tabular( Justify(c)*Heading()*z*Sex*Heading(Statistic)*Format(fmt())*(mean+sd) 
                 ~ Status )
 tab
-tab[1:2, 3]
-
+tab[1:2, c(2,3,1)]
 }
