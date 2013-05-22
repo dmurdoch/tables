@@ -726,6 +726,46 @@ latex( tabular( (Species+1) ~ All(iris)*
 @
 \end{center}
 
+\subsubsection{\code{Paste()}}
+
+This function produces table entries made up of multiple values.  It has syntax
+\begin{Schunk}
+\begin{Sinput}
+Paste(..., head, digits=2, justify="c", prefix="", sep="",
+      postfix="")
+\end{Sinput}
+\end{Schunk}
+
+The arguments are
+\begin{description}
+\item[\code{...}] 
+Expressions to be displayed in the columns of the table. 
+\item[\code{head}]
+If not missing, this will be used as a column heading for the combined columns.
+\item[\code{digits}]
+Digits used in formatting.  If a single value
+is given, all columns will be formatted in common.
+If multiple values are given, each is formatted separately.
+\item[\code{justify}]
+One or more justifications to use on the individual columns.
+\item[\code{prefix, sep, postfix}]
+Text to use before, between, and after the columns. 
+\end{description}
+
+Example:  Display a confidence interval.
+\begin{center}
+<<results=tex>>=
+lcl <- function(x) mean(x) - qt(0.975, df=length(x)-1)*stderr(x)
+ucl <- function(x) mean(x) + qt(0.975, df=length(x)-1)*stderr(x)
+latex( tabular( (Species+1) ~ All(iris)*
+          Paste(lcl, ucl, digits=2, 
+                head="95\\% CI", sep=",", prefix="[",
+                postfix="]"), 
+          data=iris ) )
+@
+\end{center}
+
+
 \subsubsection{\code{Factor()}, \code{RowFactor()} and \code{Multicolumn()}}
 \label{sec:RowFactor}
 
