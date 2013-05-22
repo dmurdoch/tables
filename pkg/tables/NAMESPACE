@@ -1,4 +1,4 @@
-export(tabular, htmlNumeric, latexNumeric, PlusMinus, Hline, Factor, RowFactor, All, Literal,
+export(tabular, htmlNumeric, latexNumeric, PlusMinus, Paste, Hline, Factor, RowFactor, All, Literal,
        Multicolumn, table_options, booktabs, htmloptions, write.csv.tabular, write.table.tabular)
 
 # pseudo-function exports; not meant to be called, but meant to make the checks happy

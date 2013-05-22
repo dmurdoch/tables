@@ -53,7 +53,8 @@
       Default formatting now skips character cells.
       Justification of labels in text mode wasn't being done properly.
       
-0.7.54:
+0.7.58:
       Added support for HTML output.
       Added support for extraction of subsets of the matrix.
+      Added Paste() function.
       
