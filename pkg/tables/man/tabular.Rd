@@ -5,6 +5,8 @@
 \alias{print.tabular}
 \alias{format.tabular}
 \alias{[.tabular}
+\alias{cbind.tabular}
+\alias{rbind.tabular}
 \title{
 Compute complex table
 }
@@ -19,6 +21,8 @@ tabular(table, ...)
 \method{format}{tabular}(x, digits=4, justification="n", latex=FALSE, html=FALSE, 
                          leftpad = TRUE, rightpad = TRUE, minus = TRUE, mathmode = TRUE, ...)
 \method{[}{tabular}(x, i, j, ..., drop=FALSE)
+\method{cbind}{tabular}(..., deparse.level = 1)
+\method{rbind}{tabular}(..., deparse.level = 1)
 }
 \arguments{
   \item{table}{
@@ -57,6 +61,9 @@ control details of formatting.  See those pages for details.
 }
   \item{i, j, drop}{
 The usual arguments for matrix indexing, but see the Details below.
+}
+  \item{deparse.level}{
+Ignored.  (Present because the generic requires it.)
 }
 
 }
