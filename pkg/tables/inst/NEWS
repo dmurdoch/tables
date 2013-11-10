@@ -58,3 +58,8 @@
       Added support for extraction of subsets of the matrix.
       Added Paste() function.
       
+0.7.59:
+      If a summary doesn't produce a scalar value, formatting
+      messed up the display.  Now a warning will be issued and that
+      cell will be displayed as <NA> or similar.
+      Added cbind() and rbind() methods for tabular objects.

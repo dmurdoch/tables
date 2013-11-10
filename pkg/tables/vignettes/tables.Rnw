@@ -989,7 +989,7 @@ latex( tabular(
 @
 \end{center}
 
-\subsection{Subsetting Tables}
+\subsection{Subsetting and Joining Tables}
 
 It is possible to select a subset of a table using the usual R matrix indexing on the table
 object.  For example, this table contains rows with no data in them, and those
@@ -999,8 +999,9 @@ yield ugly NA and NaN statistics:
 q <- data.frame(p = rep(c("A","B"),each=10,len=30),
                            a = rep(c(1,2,3),each=10),id=seq(30),
                            b = round(runif(30,10,20)),
-                           c = round(runif(30,40,70)))
-tab <- tabular(((p=factor(p))*(a=factor(a))+1) 
+                           c = round(runif(30,40,70)),
+		stringsAsFactors = FALSE)
+tab <- tabular((Factor(p)*Factor(a)+1) 
                         ~ (N = 1) + (b + c)*(mean+sd),data=q)
 latex(tab)
 @
@@ -1010,6 +1011,18 @@ first column of data (i.e. $N$) is greater than zero:
 \begin{center}
 <<results=tex>>=
 latex(tab[ tab[,1] > 0, ])
+@
+\end{center}
+Similarly, \code{cbind()} can be used to join tables that have identical row labels,
+and \code{rbind()} can be used to join tables with identical column labels.  Thus the
+top part of the table above could be produced in another way:
+\begin{center}
+<<results=tex>>=
+formula <- Factor(p)*Factor(a) ~ 
+	   (N = 1) + (b + c)*(mean+sd)
+tab1 <- tabular( formula, data = subset(q, p == "A") )
+tab2 <- tabular( formula, data = subset(q, p == "B") )
+latex(rbind(tab1, tab2))
 @
 \end{center}
 

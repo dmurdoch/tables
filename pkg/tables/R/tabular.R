@@ -77,7 +77,10 @@ term2table <- function(rowterm, colterm, env, n) {
     if (is.null(summary)) summary <- length
     if (is.null(values)) values <- rep(NA, n)
     subset <- rowsubset & colsubset 
-    structure(list(summary(values[subset])), n=n, format=format, 
+    value <- summary(values[subset])
+    if (length(value) != 1)
+	warning("Summary statistic is length ", length(value), call. = FALSE)
+    structure(list(value), n=n, format=format, 
                    justification=justification)
 }
 
@@ -584,10 +587,11 @@ format.tabular <- function(x, digits=4, justification="n",
     ischar <- sapply(result, is.character)
     chars <- matrix(NA_character_, nrow(result), ncol(result))
     chars[ischar] <- unlist(result[ischar])
+    lengths <- lapply(result, length)
     
     for (i in seq_len(ncol(result))) {
-        ind <- col(result) == i & is.na(formats) & !ischar
-        if (any(ind)) {
+        ind <- col(result) == i & is.na(formats) & !ischar & lengths == 1
+	if (any(ind)) {
             x <- do.call(c, result[ind])
     	    chars[ind] <- format(x, digits=digits, ...)
     	    if (is.numeric(x)) {
@@ -603,7 +607,7 @@ format.tabular <- function(x, digits=4, justification="n",
     	if (any(ind)) {        
             call <- fmtlist[[i]]
             isformat <- identical(call[[1]], as.name("format"))
-            if (isformat) skip <- ischar
+            if (isformat) skip <- ischar | (lengths != 1)
             else skip <- ischar & FALSE
 	    last <- length(call)
        	    x <- do.call(c, result[ind & !skip])
