@@ -19,7 +19,8 @@ tabular(table, ...)
 \method{tabular}{formula}(table, data = NULL, n, suppressLabels = 0, ...)
 \method{print}{tabular}(x, justification="n", ...)
 \method{format}{tabular}(x, digits=4, justification="n", latex=FALSE, html=FALSE, 
-                         leftpad = TRUE, rightpad = TRUE, minus = TRUE, mathmode = TRUE, ...)
+                         leftpad = TRUE, rightpad = TRUE, minus = TRUE, 
+			 mathmode = TRUE, ...)
 \method{[}{tabular}(x, i, j, ..., drop=FALSE)
 \method{cbind}{tabular}(..., deparse.level = 1)
 \method{rbind}{tabular}(..., deparse.level = 1)
