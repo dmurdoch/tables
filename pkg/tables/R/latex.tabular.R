@@ -1,4 +1,7 @@
-texify <- function(x) Hmisc::latexTranslate(x, inn="\\", out="\\textbackslash{}")
+texify <- function(x) {
+    x <- gsub("\\", "\\textbackslash{}", x, fixed = TRUE)
+    Hmisc::latexTranslate(x)
+}
 
 latex.tabular <- function(object, file="", options=NULL, ...) {
     if (file == "")

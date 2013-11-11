@@ -407,7 +407,7 @@ expandFactors <- function(e, env) {
     else {
     	v <- eval(e, envir=env)
     	if (is.factor(v) & !inherits(v, "AsIs")) 
-    	    e <- Factor(v, expr=e, override=FALSE, texify=FALSE)
+    	    e <- Factor(v, expr=e, override=FALSE)
     	e
     }
 }

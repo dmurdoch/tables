@@ -5,22 +5,19 @@
 Loading required package: Hmisc
 Loading required package: survival
 Loading required package: splines
+Loading required package: Formula
 Hmisc library by Frank E Harrell Jr
 
 Type library(help='Hmisc'), ?Overview, or ?Hmisc.Overview')
 to see overall documentation.
 
-NOTE:Hmisc no longer redefines [.factor to drop unused levels when
-subsetting.  To get the old behavior of Hmisc type dropUnusedLevels().
-
 
 Attaching package: 'Hmisc'
 
-The following object(s) are masked from 'package:survival':
+The following object is masked from 'package:survival':
 
     untangle.specials
 
-The following object(s) are masked from 'package:base':
 
     format.pval, round.POSIXt, trunc.POSIXt, units
 
@@ -135,6 +132,48 @@ $doFooter
 
 $doEnd
 [1] TRUE
+
+$latexleftpad
+[1] TRUE
+
+$latexrightpad
+[1] TRUE
+
+$latexminus
+[1] TRUE
+
+$doHTMLheader
+[1] FALSE
+
+$doCSS
+[1] FALSE
+
+$doHTMLbody
+[1] FALSE
+
+$CSS
+[1] "<style>\n#ID .left   { text-align:left; }\n#ID .center { text-align:center; }\n#ID .right  { text-align:right; }\n#ID table   { margin: 12pt 12pt; }\n</style>\n"
+
+$HTMLhead
+[1] "<!DOCTYPE html>\n<html>\n<head>\n<meta charset=\"CHARSET\">\n"
+
+$HTMLbody
+[1] "<body>\n"
+
+$HTMLattributes
+[1] "frame=\"hsides\" rules=\"groups\""
+
+$HTMLfooter
+NULL
+
+$HTMLleftpad
+[1] FALSE
+
+$HTMLrightpad
+[1] FALSE
+
+$HTMLminus
+[1] FALSE
 
 
 > table_options()[c("toprule", "midrule", "bottomrule", 
@@ -427,6 +466,27 @@ All  & \multicolumn{1}{r@{}}{$5.84$} & \multicolumn{1}{@{ $\pm$ }l}{$0.07$} & \m
 \bottomrule 
 \end{tabular}
 
+> lcl <- function(x) mean(x) - qt(0.975, df = length(x) - 
++     1) * stderr(x)
+
+> ucl <- function(x) mean(x) + qt(0.975, df = length(x) - 
++     1) * stderr(x)
+
+> latex(tabular((Species + 1) ~ All(iris) * Paste(lcl, 
++     ucl, digits = 2, head = "95\\% CI", sep = ",", prefix = "[", 
++     postfix = "]"), data .... [TRUNCATED] 
+\begin{tabular}{lcccccccc}
+\toprule
+ & \multicolumn{2}{c}{Sepal.Length} & \multicolumn{2}{c}{Sepal.Width} & \multicolumn{2}{c}{Petal.Length} & \multicolumn{2}{c}{Petal.Width} \\ \cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}\cmidrule(lr){8-9}
+Species  & \multicolumn{2}{c}{95\% CI} & \multicolumn{2}{c}{95\% CI} & \multicolumn{2}{c}{95\% CI} & \multicolumn{2}{c}{95\% CI} \\ 
+\midrule
+setosa  & \multicolumn{1}{@{\hspace{\tabcolsep}[}c@{,}}{$4.91$} & \multicolumn{1}{c@{]\hspace{\tabcolsep}}}{$5.11$} & \multicolumn{1}{@{\hspace{\tabcolsep}[}c@{,}}{$3.32$} & \multicolumn{1}{c@{]\hspace{\tabcolsep}}}{$3.54$} & \multicolumn{1}{@{\hspace{\tabcolsep}[}c@{,}}{$1.41$} & \multicolumn{1}{c@{]\hspace{\tabcolsep}}}{$1.51$} & \multicolumn{1}{@{\hspace{\tabcolsep}[}c@{,}}{$0.22$} & \multicolumn{1}{c@{]\hspace{\tabcolsep}}}{$0.28$} \\
+versicolor  & \multicolumn{1}{@{\hspace{\tabcolsep}[}c@{,}}{$5.79$} & \multicolumn{1}{c@{]\hspace{\tabcolsep}}}{$6.08$} & \multicolumn{1}{@{\hspace{\tabcolsep}[}c@{,}}{$2.68$} & \multicolumn{1}{c@{]\hspace{\tabcolsep}}}{$2.86$} & \multicolumn{1}{@{\hspace{\tabcolsep}[}c@{,}}{$4.13$} & \multicolumn{1}{c@{]\hspace{\tabcolsep}}}{$4.39$} & \multicolumn{1}{@{\hspace{\tabcolsep}[}c@{,}}{$1.27$} & \multicolumn{1}{c@{]\hspace{\tabcolsep}}}{$1.38$} \\
+virginica  & \multicolumn{1}{@{\hspace{\tabcolsep}[}c@{,}}{$6.41$} & \multicolumn{1}{c@{]\hspace{\tabcolsep}}}{$6.77$} & \multicolumn{1}{@{\hspace{\tabcolsep}[}c@{,}}{$2.88$} & \multicolumn{1}{c@{]\hspace{\tabcolsep}}}{$3.07$} & \multicolumn{1}{@{\hspace{\tabcolsep}[}c@{,}}{$5.40$} & \multicolumn{1}{c@{]\hspace{\tabcolsep}}}{$5.71$} & \multicolumn{1}{@{\hspace{\tabcolsep}[}c@{,}}{$1.95$} & \multicolumn{1}{c@{]\hspace{\tabcolsep}}}{$2.10$} \\
+All  & \multicolumn{1}{@{\hspace{\tabcolsep}[}c@{,}}{$5.71$} & \multicolumn{1}{c@{]\hspace{\tabcolsep}}}{$5.98$} & \multicolumn{1}{@{\hspace{\tabcolsep}[}c@{,}}{$2.99$} & \multicolumn{1}{c@{]\hspace{\tabcolsep}}}{$3.13$} & \multicolumn{1}{@{\hspace{\tabcolsep}[}c@{,}}{$3.47$} & \multicolumn{1}{c@{]\hspace{\tabcolsep}}}{$4.04$} & \multicolumn{1}{@{\hspace{\tabcolsep}[}c@{,}}{$1.08$} & \multicolumn{1}{c@{]\hspace{\tabcolsep}}}{$1.32$} \\
+\bottomrule 
+\end{tabular}
+
 > subset <- 1:15
 
 > latex(tabular(RowFactor(subset, "$i$", spacing = 5) ~ 
@@ -632,7 +692,62 @@ Mean  & $2$ & $2.5$ & $2$ & $2$ \\
 \bottomrule 
 \end{tabular}
 
+> q <- data.frame(p = rep(c("A", "B"), each = 10, len = 30), 
++     a = rep(c(1, 2, 3), each = 10), id = seq(30), b = round(runif(30, 
++         10, 2 .... [TRUNCATED] 
+
+> tab <- tabular((Factor(p) * Factor(a) + 1) ~ (N = 1) + 
++     (b + c) * (mean + sd), data = q)
+
+> latex(tab)
+\begin{tabular}{llccccc}
+\toprule
+& &  & \multicolumn{2}{c}{b} & \multicolumn{2}{c}{c} \\ \cmidrule(lr){4-5}\cmidrule(lr){6-7}
+p & a & N & mean & sd & mean & \multicolumn{1}{c}{sd} \\ 
+\midrule
+A & 1  & $10$ & $14.80$ & $2.781$ & $53.5$ & $8.303$ \\
+ & 2  & $\phantom{0}0$ & $\phantom{00}NaN$ & $\phantom{000}NA$ & $\phantom{0}NaN$ & $\phantom{000}NA$ \\
+ & 3  & $10$ & $16.90$ & $2.601$ & $56.2$ & $9.987$ \\
+B & 1  & $\phantom{0}0$ & $\phantom{00}NaN$ & $\phantom{000}NA$ & $\phantom{0}NaN$ & $\phantom{000}NA$ \\
+ & 2  & $10$ & $14.90$ & $2.283$ & $51.7$ & $8.642$ \\
+ & 3  & $\phantom{0}0$ & $\phantom{00}NaN$ & $\phantom{000}NA$ & $\phantom{0}NaN$ & $\phantom{000}NA$ \\
+ & All  & $30$ & $15.53$ & $2.662$ & $53.8$ & $8.892$ \\
+\bottomrule 
+\end{tabular}
+
+> latex(tab[tab[, 1] > 0, ])
+\begin{tabular}{llccccc}
+\toprule
+& &  & \multicolumn{2}{c}{b} & \multicolumn{2}{c}{c} \\ \cmidrule(lr){4-5}\cmidrule(lr){6-7}
+p & a & N & mean & sd & mean & \multicolumn{1}{c}{sd} \\ 
+\midrule
+A & 1  & $10$ & $14.80$ & $2.781$ & $53.5$ & $8.303$ \\
+ & 3  & $10$ & $16.90$ & $2.601$ & $56.2$ & $9.987$ \\
+B & 2  & $10$ & $14.90$ & $2.283$ & $51.7$ & $8.642$ \\
+ & All  & $30$ & $15.53$ & $2.662$ & $53.8$ & $8.892$ \\
+\bottomrule 
+\end{tabular}
+
+> formula <- Factor(p) * Factor(a) ~ (N = 1) + (b + 
++     c) * (mean + sd)
+
+> tab1 <- tabular(formula, data = subset(q, p == "A"))
+
+> tab2 <- tabular(formula, data = subset(q, p == "B"))
+
+> latex(rbind(tab1, tab2))
+\begin{tabular}{llccccc}
+\toprule
+& &  & \multicolumn{2}{c}{b} & \multicolumn{2}{c}{c} \\ \cmidrule(lr){4-5}\cmidrule(lr){6-7}
+ & a & N & mean & sd & mean & \multicolumn{1}{c}{sd} \\ 
+\midrule
+A & 1  & $10$ & $14.8$ & $2.781$ & $53.5$ & $8.303$ \\
+ & 3  & $10$ & $16.9$ & $2.601$ & $56.2$ & $9.987$ \\
+B & 2  & $10$ & $14.9$ & $2.283$ & $51.7$ & $8.642$ \\
+\bottomrule 
+\end{tabular}
+
  *** Run successfully completed ***
 > proc.time()
    user  system elapsed 
-   1.40    0.28    1.73 
+   1.35    0.39    1.79 
