@@ -13,8 +13,8 @@ LaTeX, and displays the label in a style with the level on a line by
 itself, spanning multiple columns.
 }
 \usage{
-Factor(x, name = deparse(expr), levelnames = levels(x), texify = TRUE, expr = substitute(x),
-       override = TRUE)
+Factor(x, name = deparse(expr), levelnames = levels(x), texify = TRUE, 
+       expr = substitute(x), override = TRUE)
 RowFactor(x, name = deparse(expr), 
 	  levelnames = levels(x), 
           spacing = 3, space = 1, suppressfirst = TRUE,
