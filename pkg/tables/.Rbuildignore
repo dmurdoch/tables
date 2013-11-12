@@ -1,2 +1,10 @@
-vignettes/tables.blg
+vignettes/tables.aux
 vignettes/tables.bbl
+vignettes/tables.blg
+vignettes/tables.log
+vignettes/tables.out
+vignettes/tables.pdf
+vignettes/tables.synctex
+vignettes/tables.tex
+vignettes/tables.toc
+vignettes/tables-concordance.tex

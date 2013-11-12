@@ -18,6 +18,7 @@ The following object is masked from 'package:survival':
 
     untangle.specials
 
+The following objects are masked from 'package:base':
 
     format.pval, round.POSIXt, trunc.POSIXt, units
 
@@ -750,4 +751,4 @@ B & 2  & $10$ & $14.9$ & $2.283$ & $51.7$ & $8.642$ \\
  *** Run successfully completed ***
 > proc.time()
    user  system elapsed 
-   1.35    0.39    1.79 
+   1.20    0.06    1.24 

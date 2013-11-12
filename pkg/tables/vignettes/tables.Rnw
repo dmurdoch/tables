@@ -220,7 +220,7 @@ as.matrix(x, format = TRUE,
     rowLabels = TRUE, colLabels = TRUE, justification = "n", ...)
 write.csv.tabular(x, file = "", justification = "n", row.names=FALSE, 
     write.options=list(), ...)
- write.table.tabular(x, file="", 
+write.table.tabular(x, file="", 
     justification = "n", row.names=FALSE, col.names=FALSE,
     write.options=list(), ...)   
 \end{Sinput}
