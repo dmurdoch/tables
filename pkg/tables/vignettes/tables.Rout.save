@@ -732,11 +732,12 @@ B & 2  & $10$ & $14.90$ & $2.283$ & $51.7$ & $8.642$ \\
 > formula <- Factor(p) * Factor(a) ~ (N = 1) + (b + 
 +     c) * (mean + sd)
 
-> tab1 <- tabular(formula, data = subset(q, p == "A"))
+> tab <- NULL
 
-> tab2 <- tabular(formula, data = subset(q, p == "B"))
+> for (sub in c("A", "B")) tab <- rbind(tab, tabular(formula, 
++     data = subset(q, p == sub)))
 
-> latex(rbind(tab1, tab2))
+> latex(rbind(tab))
 \begin{tabular}{llccccc}
 \toprule
 & &  & \multicolumn{2}{c}{b} & \multicolumn{2}{c}{c} \\ \cmidrule(lr){4-5}\cmidrule(lr){6-7}
@@ -751,4 +752,4 @@ B & 2  & $10$ & $14.9$ & $2.283$ & $51.7$ & $8.642$ \\
  *** Run successfully completed ***
 > proc.time()
    user  system elapsed 
-   1.20    0.06    1.24 
+   1.20    0.04    1.23 

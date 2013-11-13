@@ -63,3 +63,7 @@
       Added cbind() and rbind() methods for tabular objects.
       The internal texify() function did not work properly.
       
+0.7.65:
+      The cbind() and rbind() methods now allow NULL in the list
+      of arguments.  (Suggestion of Jeff Newmiller.)
+      

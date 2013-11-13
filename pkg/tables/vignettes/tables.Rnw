@@ -1020,16 +1020,18 @@ top part of the table above could be produced in another way:
 <<results=tex>>=
 formula <- Factor(p)*Factor(a) ~ 
 	   (N = 1) + (b + c)*(mean+sd)
-tab1 <- tabular( formula, data = subset(q, p == "A") )
-tab2 <- tabular( formula, data = subset(q, p == "B") )
-latex(rbind(tab1, tab2))
+tab <- NULL
+for (sub in c("A", "B")) 
+    tab <- rbind(tab, tabular( formula, 
+                               data = subset(q, p == sub) ) )
+latex(rbind(tab))
 @
 \end{center}
 
 \section*{Acknowledgments}
 
 I gratefully acknowledge helpful suggestions and hints from Rich
-Heiberger, Frank Harrell, Dieter Menne and Marius Hofert.
+Heiberger, Frank Harrell, Dieter Menne, Marius Hofert and Jeff Newmiller.
 
 \bibliography{tables}
 
