@@ -875,6 +875,18 @@ justification to \verb!"l@{}"! to suppress the intercolumn spacing.  Then
 the column of row labels will be there, but it will be zero width and
 invisible.)
 
+\code{RowFactor} with \code{spacing > 1} will add the \code{nopagebreak} macro
+at the beginning of each label except the first in the group.  This can produce \LaTeX\ errors
+in any column except the first one.  One workaround for this is to post-process the table
+to move the macro.  For example, if \code{tab} contains the result of \code{tabular()} and
+\LaTeX complains about misplaced \verb!\nopagebreak! macros, 
+this will allow it to be displayed properly:
+<<eval=FALSE>>=
+code <- capture.output( latex( tab ) )
+code <- sub("^(.*)(\\\\nopagebreak )", "\\2\\1", code)
+cat(code, sep = "\n")
+@
+
 To get group labels to span multiple columns, the \code{levelnames} argument
 can be used with embedded \LaTeX\ code.  For example,
 \begin{center}
@@ -1031,7 +1043,8 @@ latex(rbind(tab))
 \section*{Acknowledgments}
 
 I gratefully acknowledge helpful suggestions and hints from Rich
-Heiberger, Frank Harrell, Dieter Menne, Marius Hofert and Jeff Newmiller.
+Heiberger, Frank Harrell, Dieter Menne, Marius Hofert, Jeff Newmiller and Jeffrey
+Miller.
 
 \bibliography{tables}
 
