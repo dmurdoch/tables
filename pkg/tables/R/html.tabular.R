@@ -148,6 +148,9 @@ html.tabular <- function(object, file="",
     	    id <- sprintf(' id="%s"', id)
         mycat(sprintf('<table%s %s>\n', id, opts$HTMLattributes))
     }
+    if (!is.null(opts$HTMLcaption))
+        mycat(sprintf('<caption>%s</caption>\n', opts$HTMLcaption))
+	
     if (opts$doHeader) {
         rows <- apply(cbind(rowLabelHeadings, clabels), 1, paste0, collapse="")
         mycat('<thead>\n')
