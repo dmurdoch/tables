@@ -37,6 +37,7 @@ table_options <- local({
     		 HTMLhead=HTMLheaderdefault,
     		 HTMLbody="<body>\n",
     		 HTMLattributes='frame="hsides" rules="groups"',
+		 HTMLcaption=NULL,
     		 HTMLfooter=NULL,
     		 HTMLleftpad=FALSE,
     		 HTMLrightpad=FALSE,

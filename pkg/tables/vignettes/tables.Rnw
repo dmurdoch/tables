@@ -75,9 +75,12 @@ latex(
 )
 @
 
-
 \end{center}
 Details on \code{booktabs()} are given in section \ref{sec:booktabs} below.
+
+There is also the \code{html.tabular} method for the \code{Hmisc::html()} generic;
+it produces output in HTML format.  Finally, see section \ref{sec:csv} for other 
+output formats.
 
 The idea of a table in the \pkg{tables} package is a rectangular array of values, with
 each row and column labelled, and possibly with groups of rows and groups of columns
@@ -213,6 +216,7 @@ will be set only for the duration of the call to \code{latex()}.
 \end{description}
 
 \subsubsection{\code{as.matrix(), write.csv.tabular(), write.table.tabular()}}
+\label{sec:csv}
 
 \begin{Schunk}
 \begin{Sinput}
@@ -265,6 +269,8 @@ The defaults are
 <<echo=FALSE>>=
 saved.options
 @
+Some options only apply to HTML output; see the help page 
+\code{?table\textunderscore options} for details.
 
 If you are using the \LaTeX\ \pkg{booktabs} package, the \code{booktabs()} function will
 set different options.  Currently those are:
@@ -300,6 +306,7 @@ latex(tabular(1 ~ (n=1) + Format(digits=2)*
 <<split>>
 @
 \end{center}
+
 
 \subsubsection{\code{latexNumeric()}}
 \label{sec:latexNumeric}

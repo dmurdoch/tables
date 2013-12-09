@@ -164,6 +164,9 @@ $HTMLbody
 $HTMLattributes
 [1] "frame=\"hsides\" rules=\"groups\""
 
+$HTMLcaption
+NULL
+
 $HTMLfooter
 NULL
 

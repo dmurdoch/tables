@@ -11,7 +11,8 @@ These functions set or query options for table formatting in LaTeX or HTML outpu
 \usage{
 table_options(...)
 booktabs(...)
-htmloptions(head=TRUE, table=TRUE, pad=FALSE, ...)
+htmloptions(head=TRUE, table=TRUE, pad=FALSE, 
+            ...)
 }
 \arguments{
   \item{head}{logical; enables all of the HTML header options}
@@ -67,6 +68,10 @@ If present, the string \code{"CHARSET"} will be replaced with the result of
 \code{"#ID"} will be replaced with \code{"#"} followed by the \code{id}
 argument to \code{\link{html.tabular}} (or removed if that is blank).
 }
+\item{\code{HTMLcaption}}{
+This is an optional HTML caption for the table.  If \code{NULL}, no
+caption is emitted.
+}
 \item{\code{HTMLleftpad, HTMLrightpad, HTMLminus}}{
 These control formatting of numbers in the table.  If \code{TRUE}, blanks
 in \R's formatting are converted to hard spaces in the HTML output, and negative
@@ -118,4 +123,11 @@ latex(tab)
 save <- booktabs()
 latex(tab)
 table_options(save)
+
+\donttest{
+f <- tempfile(fileext = ".html")
+browseURL( html(tab, f, 
+  options=htmloptions(HTMLcaption="Table of Iris Data",
+                      pad = TRUE))$file )
+}
 }
