@@ -120,33 +120,46 @@ getLabels <- function(e, rows=TRUE, justify=NA, head=NULL, suppress=0) {
     Heading <- head
     result <- if (rows) matrix(NA, ncol=0, nrow=1)
     	      else      matrix(NA, ncol=1, nrow=0)
+    nrl <- ncl <- leftjustify <- leftheading <- leftsuppress <- 
+           leftjustification <- leftcolnamejust <- 
+           nrr <- ncr <- rightjustify <- rightheading <- rightsuppress <-
+           rightjustification <- rightcolnamejust <- NULL
+    getLeft <- function() {
+	nrl <<- nrow(leftLabels)
+	ncl <<- ncol(leftLabels)
+	leftjustify <<- attr(leftLabels, "justify")
+        leftheading <<- attr(leftLabels, "Heading")
+	leftsuppress <<- attr(leftLabels, "suppress")
+	leftjustification <<- attr(leftLabels, "justification")
+	leftcolnamejust <<- attr(leftLabels, "colnamejust")
+    }
+    getRight <- function() {
+	nrr <<- nrow(rightLabels)
+	ncr <<- ncol(rightLabels)
+	rightjustify <<- attr(rightLabels, "justify")
+        rightheading <<- attr(rightLabels, "Heading")
+	rightsuppress <<- attr(rightLabels, "suppress")
+	rightjustification <- attr(rightLabels, "justification")
+	rightcolnamejust <- attr(rightLabels, "colnamejust")
+    }
     if (is.call(e) && (op <- as.character(e[[1]])) == "*")  {
         leftLabels <- getLabels(e[[2]], rows, justify, head, suppress)
-	nrl <- nrow(leftLabels)
-	ncl <- ncol(leftLabels)
+        getLeft()
 	# Heading and justify are the settings to carry on to later terms
 	# justification is the matrix of justifications for
 	# each label
-	leftjustify <- attr(leftLabels, "justify")
-	Heading <- attr(leftLabels, "Heading")
-	leftsuppress <- attr(leftLabels, "suppress")
-	righthead <- Heading
+	righthead <- Heading <- leftheading
 	suppress <- leftsuppress
 	if (!is.null(leftjustify))
 	    justify <- leftjustify
-	leftjustification <- attr(leftLabels, "justification")
-	leftcolnamejust <- attr(leftLabels, "colnamejust")
 
 	rightLabels <- getLabels(e[[3]], rows, justify, righthead, suppress)
-	nrr <- nrow(rightLabels)
-	ncr <- ncol(rightLabels)
-	rightjustify <- attr(rightLabels, "justify")
-	Heading <- attr(rightLabels, "Heading")
-	suppress <- attr(rightLabels, "suppress")
+	getRight()
+	Heading <- rightheading
+	suppress <- rightsuppress
+	
 	if (!is.null(rightjustify))
 	    justify <- rightjustify
-	rightjustification <- attr(rightLabels, "justification")
-	rightcolnamejust <- attr(rightLabels, "colnamejust")
 
 	if (rows) {
 	    result <- justification <- matrix(NA_character_, nrl*nrr, ncl + ncr)
@@ -181,26 +194,13 @@ getLabels <- function(e, rows=TRUE, justify=NA, head=NULL, suppress=0) {
 	}
     } else if (op == "+") {
         leftLabels <- getLabels(e[[2]], rows, justify, NULL, suppress)
-	nrl <- nrow(leftLabels)
-	ncl <- ncol(leftLabels)
-	# Heading and justify are the settings to carry on to later terms
-	# justification is the matrix of justifications for
-	# each label
-	leftjustify <- attr(leftLabels, "justify")
-	Heading <- attr(leftLabels, "Heading")
-	leftsuppress <- attr(leftLabels, "suppress")
-	leftjustification <- attr(leftLabels, "justification")
-	leftcolnamejust <- attr(leftLabels, "colnamejust")
+        getLeft()
+	Heading <- leftheading
 
 	rightLabels <- getLabels(e[[3]], rows, justify, NULL, suppress)
-	nrr <- nrow(rightLabels)
-	ncr <- ncol(rightLabels)
-	rightjustify <- attr(rightLabels, "justify")
-	Heading <- attr(rightLabels, "Heading")
-	suppress <- attr(rightLabels, "suppress")
-
-	rightjustification <- attr(rightLabels, "justification")
-	rightcolnamejust <- attr(rightLabels, "colnamejust")
+	getRight()
+	Heading <- rightheading
+	suppress <- rightsuppress
 
 	if (rows) {
 	    # Here we have a problem:  we need to stack two things, each of which
@@ -217,9 +217,11 @@ getLabels <- function(e, rows=TRUE, justify=NA, head=NULL, suppress=0) {
 	    if (!identical(rightnames, rep("", ncr)) &&
 	        !identical(leftnames, rightnames)) {
 	        rightLabels <- moveColnames(rightLabels)
+		# some properties may have changed; just get them again
+	        getRight()
 	        leftLabels <- moveColnames(leftLabels)
-	        ncr <- ncol(rightLabels)
-	        ncl <- ncol(leftLabels)
+	        getLeft()
+		Heading <- rightheading
 	        rightnames <- rep("", ncr)
 	        leftnames <- rep("", ncl)
 	    }    

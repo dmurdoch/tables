@@ -72,3 +72,6 @@
       Added HTMLcaption to the table options to insert an HTML caption.
       (Suggestion of Joseph Larmarange.)
       
+0.7.68:
+      Bug fix in setting up column headings (reported by Lars Bishop).
+      
