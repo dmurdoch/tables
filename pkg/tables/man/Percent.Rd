@@ -25,7 +25,14 @@ arguments.  The first is the usual vector of values
 to which this statistic applies, and the second 
 is another vector of reference values, determined
 by \code{denom}.  The default function is \code{percent},
-defined as \code{function(x, y) 100*length(x)/length(y)}.
+defined as 
+\verb{
+percent <- function(x, y) 
+    if (length(x)) 
+        100*length(x)/length(y) 
+    else 
+        0
+}
 
 With the default \code{denom = "all"}, all values of the
 analysis variable in the dataset are used as the reference.  Other possibilities
@@ -36,7 +43,9 @@ or column subset are used.
 The special syntax \code{denom = Equal(...)} will evaluate 
 each expression in \code{...} and defines the reference values to be
 all of those which evaluate to one of the same values as
-the current cell's subset does.  
+the current cell's subset does.  Similarly, \code{denom = Unequal(...)}
+sets the reference values to be those that differ in any
+of the \code{...} expressions.
 
 Finally, other possible \code{denom} values 
 are a logical vector, in which
@@ -46,8 +55,8 @@ be passed to \code{fn} as \code{y}.
 \section{Pseudo-functions}{
 \code{Percent} is a \dQuote{pseudo-function}:  it takes the form of a function call, but is
 never actually called:  it is 
-handled specially by \code{\link{tabular}}.  \code{Equal} 
-is also a pseudo-function, but is only special when used
+handled specially by \code{\link{tabular}}.  \code{Equal} and \code{Unequal}
+are also pseudo-functions, but are only special when used
 as the \code{denom} argument to \code{Percent}.
 }
 
