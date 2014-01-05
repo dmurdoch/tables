@@ -12,6 +12,8 @@ term2table <- function(rowterm, colterm, env, n) {
     allargs <- c(rowargs, colargs)
     rowsubset <- TRUE
     colsubset <- TRUE
+    pctdenom <- NULL
+    pctsubset <- TRUE
     values <- NULL
     summary <- NULL
     format <- NA
@@ -26,13 +28,21 @@ term2table <- function(rowterm, colterm, env, n) {
         else if (fn == "Percent") {
             env1 <- new.env(parent=env)
             percent <- function(x, y) 100*length(x)/length(y)
+            env1$Equal <- env1$Unequal <- function(...) sys.call()
             env1$Percent <- function(denom="all", fn=percent) {
               if (is.null(summary)) {
                 if (identical(denom, "all")) summary <<- function(x) fn(x, values)
                 else if (identical(denom, "row")) summary <<- function(x) fn(x, values[rowsubset])
                 else if (identical(denom, "col")) summary <<- function(x) fn(x, values[colsubset])
-                else if (is.logical(denom)) summary <<- function(x) fn(x, values[denom])
-                else summary <<- function(x) fn(x, denom)
+                else if (is.call(denom) && deparse(denom[[1]]) %in% c("Equal", "Unequal")) { 
+                    summary <<- local({
+                        pctdenom <<- sapply(as.list(denom), deparse, width.cutoff = 500L)
+             		pctsubset <<- pctdenom[1] == "Equal"
+                    	function(x) {
+			    fn(x, values[pctsubset])
+			}})
+		} else if (is.logical(denom)) summary <<- function(x) fn(x, values[denom])
+		else summary <<- function(x) fn(x, denom)
                 summaryname <<- "Percent"
               } else
     	        stop("Summary fn not allowed with Percent")
@@ -41,7 +51,7 @@ term2table <- function(rowterm, colterm, env, n) {
         } else if (fn != "Heading" && !identical(e, 1)) {
     	    arg <- eval(e, env)
     	    asis <- inherits(arg, "AsIs")
-    	    if (asis || is.vector(arg)) {
+    	    if (asis || is.vector(arg) || inherits(arg, "labelledSubset")) {
     	    	if (missing(n)) n <- length(arg)
     	    	else if (n != length(arg))
     	    	    stop("Argument ", deparse(e), " is not length ", n)
@@ -71,9 +81,34 @@ term2table <- function(rowterm, colterm, env, n) {
     	    	stop("Unrecognized entry ", deparse(e))
     	}
     }
+    if (!is.null(pctdenom)) { # We need a second pass to find the subsets
+	for (i in seq_along(allargs)) {
+	    e <- allargs[[i]]
+	    fn <- ""
+	    if (is.call(e)) 
+	    	fn <- as.character(e[[1]])
+	    if (!(fn %in% c(".Format", "Justify", "Percent", "Heading"))
+	        && !identical(e, 1)) {
+	        arg <- eval(e, env)
+	        asis <- inherits(arg, "AsIs")
+	        if (!asis && is.logical(arg)) {
+	            if (inherits(arg, "labelledSubset")) {
+	    		argexpr <- attr(arg, "label")
+	    	    	arg <- arg & !is.na(arg)
+	    	    	if (pctdenom[1] == "Equal" && argexpr %in% pctdenom[-1])
+	    	    	    pctsubset <- pctsubset & arg
+	    	    	else if (pctdenom[1] == "Unequal" && argexpr %in% pctdenom[-1])
+	    	    	    pctsubset <- pctsubset | !arg
+	    	    } else
+	    	    	pctsubset <- pctsubset & !is.na(arg) & arg
+	        }
+	    }
+	}
+    }
+    	
     if (missing(n))
     	stop("Length of ", deparse(rowterm), "~", deparse(colterm),
-    	     "indeterminate")    
+    	     " indeterminate")    
     if (is.null(summary)) summary <- length
     if (is.null(values)) values <- rep(NA, n)
     subset <- rowsubset & colsubset 

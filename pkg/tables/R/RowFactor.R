@@ -54,7 +54,9 @@ RowFactor <- function(x, name = deparse(expr), levelnames=levels(x),
             else insert <- nopagebreak
             catname <- paste(insert, levelnames[i], sep="")
     	    test <- i  # Work around a bug in R 2.12.x!
-    	    test <- call("==", call("as.integer", call("as.factor", expr)), i)
+    	    test <- call("labelSubset",
+    	                 subset = call("==", call("as.integer", call("as.factor", expr)), i),
+    	                 label = deparse(expr))
             term <- call("*", call("Heading", as.name(catname)), 
                               test)
             if (i == 1)
@@ -66,3 +68,7 @@ RowFactor <- function(x, name = deparse(expr), levelnames=levels(x),
      } else
         stop("No levels in x!")
 }
+
+labelSubset <- function(subset, label) 
+     structure(subset, label = label,
+    	       class = "labelledSubset")
