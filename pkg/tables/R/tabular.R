@@ -25,24 +25,32 @@ term2table <- function(rowterm, colterm, env, n) {
             justification <- as.character(e[[if (length(e) > 2) 3 else 2]])
         else if (fn == "Percent") {
             env1 <- new.env(parent=env)
-            percent <- function(x, y) 100*length(x)/length(y)
+            percent <- function(x, y) if (length(x)) 100*length(x)/length(y) else 0
             env1$Equal <- function(...) structure(data.frame(...), class = c("Equal", "data.frame"))
+            env1$Unequal <- function(...) structure(data.frame(...), class = c("Unequal", "data.frame"))
             env1$Percent <- function(denom="all", fn=percent) {
               if (is.null(summary)) {
                 if (identical(denom, "all")) summary <<- function(x) fn(x, values)
                 else if (identical(denom, "row")) summary <<- function(x) fn(x, values[rowsubset])
                 else if (identical(denom, "col")) summary <<- function(x) fn(x, values[colsubset])
-                else if (inherits(denom, "Equal")) { 
+                else if (inherits(denom, "Equal") || inherits(denom, "Unequal")) { 
                     summary <<- local({
                         denom <- denom
+             		equal <- inherits(denom, "Equal")
                     	function(x) {
                     	    if (nrow(denom) != n)
                     	    	stop("Wrong number of values in Percent denom")
 			    cellvals <- denom[subset,,drop=FALSE]
-			    samevals <- rep(TRUE, n)
-			    for (j in seq_len(ncol(denom)))
-			    	samevals <- samevals & (denom[,j] %in% cellvals[,j])
-			    res <- fn(x, values[samevals])
+			    if (equal) {
+			    	denomvals <- rep(TRUE, n)
+			    	for (j in seq_len(ncol(denom)))
+			    	    denomvals <- denomvals & (denom[,j] %in% cellvals[,j])
+			    } else {
+			    	denomvals <- rep(FALSE, n)
+			    	for (j in seq_len(ncol(denom)))
+			    	    denomvals <- denomvals | !(denom[,j] %in% cellvals[,j])
+			    }
+			    res <- fn(x, values[denomvals])
 			}})
 		} else if (is.logical(denom)) summary <<- function(x) fn(x, values[denom])
 		else summary <<- function(x) fn(x, denom)
