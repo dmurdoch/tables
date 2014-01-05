@@ -599,43 +599,22 @@ latex( tabular( Justify(r)*(F+1) ~ Justify(c)*(n=1)
 
 \subsubsection{\code{Percent()}}
 
-The \code{Percent()} pseudo-function is used to specify a statistic that
-depends on other values in the table.  It has two optional arguments:
+The \code{Percent()} pseudo-function is used to specify a statistic that depends on other values in the table.  It has two optional arguments:
 \begin{description}
-\item[\code{denom="all"}]  This specifies how the denominator
-(argument \code{y} to \code{fn} below) is set.  Possible values are
-\code{"all"}, meaning all values are used, \code{"row"}, meaning only
-the values in the current row are used, \code{"col"}, meaning only the
-values in the current column are used.  The special syntax \code{Equal(...)}
-will compute the values in \code{...} for every case, and use those which
-evaluate to one of the same values as the current cell as the reference
-set.   Similarly \code{Unequal(...)} will use values which differ in any
-of the expressions in \code{...}.
-
-If a logical vector is given, it is
-used to select which values form the denominator.  Anything else is just
-passed to \code{fn} as given.
-\item[\code{fn=percent}]  This is the function which actually does the
-computation.  The default definition is \code{function(x, y) 100*length(x)
-/length(y)}, giving the percentage count, but any other two argument
-function could be used.
+\item[\code{denom="all"}]  This specifies how the denominator (argument \code{y} to \code{fn} below) is set.  Possible values are \code{"all"}, meaning all values
+are used, \code{"row"}, meaning only the values in the current row are used, \code{"col"}, meaning only the values in the current column
+are used.  If a logical vector is given, it is used to select which values form the denominator.  Anything else is just passed to \code{fn}
+as given.
+\item[\code{fn=percent}]  This is the function which actually does the computation.  The default definition is \code{function(x, y) 100*length(x)/length(y)},
+giving the percentage count, but any other two argument function could be used.
 \end{description}
 
-These two examples are different ways of producing the same 
-table:
+Example:
 \begin{center}
-<<eval=false>>=
-latex( tabular( (Factor(gear, "Gears") + 1)
-          *((n=1) + Percent() 
-            + (RowPct=Percent("row")) 
-            + (ColPct=Percent("col"))) 
-         ~ (Factor(carb, "Carburetors") + 1)
-          *Format(digits=1), data=mtcars ) )
 <<results=tex>>=
 latex( tabular( (Factor(gear, "Gears") + 1)
           *((n=1) + Percent() 
-            + (RowPct=Percent(Equal(gear))) 
-            + (ColPct=Percent(Equal(carb)))) 
+            + (RowPct=Percent("row")) + (ColPct=Percent("col"))) 
          ~ (Factor(carb, "Carburetors") + 1)
           *Format(digits=1), data=mtcars ) )
 @

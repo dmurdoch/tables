@@ -75,7 +75,3 @@
 0.7.68:
       Bug fix in setting up column headings (reported by Lars Bishop).
       
-0.7.70:
-      Added Equal() and Unequal() pseudo-functions for more flexible
-      Percent() calculations.
-      
