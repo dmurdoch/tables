@@ -31,18 +31,32 @@ With the default \code{denom = "all"}, all values of the
 analysis variable in the dataset are used as the reference.  Other possibilities
 are \code{denom = "row"} or \code{denom = "col"}, for which
 the values of the variable corresponding to the current row
-or column subset are used, or a logical vector, in which
+or column subset are used.  
+
+The special syntax \code{denom = Equal(...)} will evaluate 
+each expression in \code{...} and defines the reference values to be
+all of those which evaluate to one of the same values as
+the current cell's subset does.  
+
+Finally, other possible \code{denom} values 
+are a logical vector, in which
 case those values are used, or anything else, which will
-be passed as \code{y}.
+be passed to \code{fn} as \code{y}.
 }
 \section{Pseudo-functions}{
-This is a \dQuote{pseudo-function}:  it takes the form of a function call, but is
+\code{Percent} is a \dQuote{pseudo-function}:  it takes the form of a function call, but is
 never actually called:  it is 
-handled specially by \code{\link{tabular}}.
+handled specially by \code{\link{tabular}}.  \code{Equal} 
+is also a pseudo-function, but is only special when used
+as the \code{denom} argument to \code{Percent}.
 }
 
 \examples{
 x <- factor(sample(LETTERS[1:2], 1000, rep=TRUE))
 y <- factor(sample(letters[3:4], 1000, rep=TRUE))
-tabular( (x + 1) ~ (y + 1)*(RowPct=Percent("row")))
+z <- factor(sample(LETTERS[5:6], 1000, rep=TRUE))
+
+# These both do the same thing:
+tabular( (x + 1)*(y + 1) ~ (z + 1)*(1+(RowPct=Percent("row"))))
+tabular( (x + 1)*(y + 1) ~ (z + 1)*(1+(xyPct=Percent(Equal(x, y)))))
 }

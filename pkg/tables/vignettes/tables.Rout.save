@@ -3,6 +3,9 @@
 
 > library(tables)
 Loading required package: Hmisc
+Loading required package: cluster
+Loading required package: grid
+Loading required package: lattice
 Loading required package: survival
 Loading required package: splines
 Loading required package: Formula
@@ -396,9 +399,9 @@ All  & $10$ & $-0.018$ & $\phantom{-}0.561$ \\
  &  & \multicolumn{2}{c}{X} \\ \cmidrule(lr){3-4}
 F  & n & mean & \multicolumn{1}{c}{sd} \\ 
 \midrule
-\multicolumn{1}{r}{a}  & $\phantom{0}3$ & \multicolumn{1}{r}{$\phantom{-}0.025$} & \multicolumn{1}{r}{$\phantom{-}0.348$} \\
-\multicolumn{1}{r}{b}  & $\phantom{0}7$ & \multicolumn{1}{r}{$-0.036$} & \multicolumn{1}{r}{$\phantom{-}0.656$} \\
-\multicolumn{1}{r}{All}  & $10$ & \multicolumn{1}{r}{$-0.018$} & \multicolumn{1}{r}{$\phantom{-}0.561$} \\
+a  & $\phantom{0}3$ & \multicolumn{1}{r}{$\phantom{-}0.025$} & \multicolumn{1}{r}{$\phantom{-}0.348$} \\
+b  & $\phantom{0}7$ & \multicolumn{1}{r}{$-0.036$} & \multicolumn{1}{r}{$\phantom{-}0.656$} \\
+All  & $10$ & \multicolumn{1}{r}{$-0.018$} & \multicolumn{1}{r}{$\phantom{-}0.561$} \\
 \bottomrule 
 \end{tabular}
 
@@ -425,6 +428,33 @@ Gears &  & 1 & 2 & 3 & 4 & 6 & 8 & \multicolumn{1}{c}{All} \\
 All & n  & $\phantom{00}7$ & $\phantom{0}10$ & $\phantom{00}3$ & $\phantom{0}10$ & $\phantom{00}1$ & $\phantom{00}1$ & $\phantom{0}32$ \\
  & Percent  & $\phantom{0}22$ & $\phantom{0}31$ & $\phantom{00}9$ & $\phantom{0}31$ & $\phantom{00}3$ & $\phantom{00}3$ & $100$ \\
  & RowPct  & $\phantom{0}22$ & $\phantom{0}31$ & $\phantom{00}9$ & $\phantom{0}31$ & $\phantom{00}3$ & $\phantom{00}3$ & $100$ \\
+ & ColPct  & $100$ & $100$ & $100$ & $100$ & $100$ & $100$ & $100$ \\
+\bottomrule 
+\end{tabular}
+
+> latex(tabular((Factor(gear, "Gears") + 1) * ((n = 1) + 
++     Percent() + (RowPct = Percent(Equal(gear))) + (ColPct = Percent(Equal(carb)))) ~ 
++    .... [TRUNCATED] 
+\begin{tabular}{llccccccc}
+\toprule
+& & \multicolumn{6}{c}{Carburetors} & \multicolumn{1}{c}{} \\ \cmidrule(lr){3-8}
+Gears &  & 1 & 2 & 3 & 4 & 6 & 8 & \multicolumn{1}{c}{All} \\ 
+\midrule
+3 & n  & $\phantom{00}3$ & $\phantom{00}4$ & $\phantom{00}3$ & $\phantom{00}5$ & $\phantom{00}0$ & $\phantom{00}0$ & $\phantom{0}15$ \\
+ & Percent  & $\phantom{00}9$ & $\phantom{0}12$ & $\phantom{00}9$ & $\phantom{0}16$ & $\phantom{00}0$ & $\phantom{00}0$ & $\phantom{0}47$ \\
+ & RowPct  & $\phantom{0}20$ & $\phantom{0}27$ & $\phantom{0}20$ & $\phantom{0}33$ & $NaN$ & $NaN$ & $100$ \\
+ & ColPct  & $\phantom{0}43$ & $\phantom{0}40$ & $100$ & $\phantom{0}50$ & $NaN$ & $NaN$ & $\phantom{0}50$ \\
+4 & n  & $\phantom{00}4$ & $\phantom{00}4$ & $\phantom{00}0$ & $\phantom{00}4$ & $\phantom{00}0$ & $\phantom{00}0$ & $\phantom{0}12$ \\
+ & Percent  & $\phantom{0}12$ & $\phantom{0}12$ & $\phantom{00}0$ & $\phantom{0}12$ & $\phantom{00}0$ & $\phantom{00}0$ & $\phantom{0}38$ \\
+ & RowPct  & $\phantom{0}33$ & $\phantom{0}33$ & $NaN$ & $\phantom{0}33$ & $NaN$ & $NaN$ & $100$ \\
+ & ColPct  & $\phantom{0}57$ & $\phantom{0}40$ & $NaN$ & $\phantom{0}40$ & $NaN$ & $NaN$ & $\phantom{0}44$ \\
+5 & n  & $\phantom{00}0$ & $\phantom{00}2$ & $\phantom{00}0$ & $\phantom{00}1$ & $\phantom{00}1$ & $\phantom{00}1$ & $\phantom{00}5$ \\
+ & Percent  & $\phantom{00}0$ & $\phantom{00}6$ & $\phantom{00}0$ & $\phantom{00}3$ & $\phantom{00}3$ & $\phantom{00}3$ & $\phantom{0}16$ \\
+ & RowPct  & $NaN$ & $\phantom{0}40$ & $NaN$ & $\phantom{0}20$ & $\phantom{0}20$ & $\phantom{0}20$ & $100$ \\
+ & ColPct  & $NaN$ & $\phantom{0}20$ & $NaN$ & $\phantom{0}10$ & $100$ & $100$ & $\phantom{0}23$ \\
+All & n  & $\phantom{00}7$ & $\phantom{0}10$ & $\phantom{00}3$ & $\phantom{0}10$ & $\phantom{00}1$ & $\phantom{00}1$ & $\phantom{0}32$ \\
+ & Percent  & $\phantom{0}22$ & $\phantom{0}31$ & $\phantom{00}9$ & $\phantom{0}31$ & $\phantom{00}3$ & $\phantom{00}3$ & $100$ \\
+ & RowPct  & $\phantom{0}26$ & $\phantom{0}31$ & $\phantom{0}20$ & $\phantom{0}31$ & $\phantom{0}20$ & $\phantom{0}20$ & $100$ \\
  & ColPct  & $100$ & $100$ & $100$ & $100$ & $100$ & $100$ & $100$ \\
 \bottomrule 
 \end{tabular}
@@ -755,4 +785,4 @@ B & 2  & $10$ & $14.9$ & $2.283$ & $51.7$ & $8.642$ \\
  *** Run successfully completed ***
 > proc.time()
    user  system elapsed 
-   1.20    0.04    1.23 
+   2.78    0.40    3.25 
