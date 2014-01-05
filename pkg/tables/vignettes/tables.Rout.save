@@ -3,6 +3,9 @@
 
 > library(tables)
 Loading required package: Hmisc
+Loading required package: cluster
+Loading required package: grid
+Loading required package: lattice
 Loading required package: survival
 Loading required package: splines
 Loading required package: Formula
@@ -396,15 +399,15 @@ All  & $10$ & $-0.018$ & $\phantom{-}0.561$ \\
  &  & \multicolumn{2}{c}{X} \\ \cmidrule(lr){3-4}
 F  & n & mean & \multicolumn{1}{c}{sd} \\ 
 \midrule
-\multicolumn{1}{r}{a}  & $\phantom{0}3$ & \multicolumn{1}{r}{$\phantom{-}0.025$} & \multicolumn{1}{r}{$\phantom{-}0.348$} \\
-\multicolumn{1}{r}{b}  & $\phantom{0}7$ & \multicolumn{1}{r}{$-0.036$} & \multicolumn{1}{r}{$\phantom{-}0.656$} \\
-\multicolumn{1}{r}{All}  & $10$ & \multicolumn{1}{r}{$-0.018$} & \multicolumn{1}{r}{$\phantom{-}0.561$} \\
+a  & $\phantom{0}3$ & \multicolumn{1}{r}{$\phantom{-}0.025$} & \multicolumn{1}{r}{$\phantom{-}0.348$} \\
+b  & $\phantom{0}7$ & \multicolumn{1}{r}{$-0.036$} & \multicolumn{1}{r}{$\phantom{-}0.656$} \\
+All  & $10$ & \multicolumn{1}{r}{$-0.018$} & \multicolumn{1}{r}{$\phantom{-}0.561$} \\
 \bottomrule 
 \end{tabular}
 
 > latex(tabular((Factor(gear, "Gears") + 1) * ((n = 1) + 
-+     Percent() + (RowPct = Percent("row")) + (ColPct = Percent("col"))) ~ 
-+     (Factor(ca .... [TRUNCATED] 
++     Percent() + (RowPct = Percent(Equal(gear))) + (ColPct = Percent(Equal(carb)))) ~ 
++    .... [TRUNCATED] 
 \begin{tabular}{llccccccc}
 \toprule
 & & \multicolumn{6}{c}{Carburetors} & \multicolumn{1}{c}{} \\ \cmidrule(lr){3-8}
@@ -755,4 +758,4 @@ B & 2  & $10$ & $14.9$ & $2.283$ & $51.7$ & $8.642$ \\
  *** Run successfully completed ***
 > proc.time()
    user  system elapsed 
-   1.20    0.04    1.23 
+   3.00    0.39    3.50 
