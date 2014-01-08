@@ -1,4 +1,4 @@
-Heading <- function(name = NULL) 
+Heading <- function(name = NULL, override = TRUE) 
     stop("This is a pseudo-function, not meant to be called.")
     
 Justify <- function(labels, data=labels)
