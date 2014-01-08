@@ -566,7 +566,7 @@ function or a string in quotes, which will be displayed as entered (so \LaTeX\ c
 
 If no argument is passed, the next label is suppressed.
 
-There's an optional third argument, which must be either \code{TRUE}
+There's an optional second argument, which must be either \code{TRUE}
 or \code{FALSE} if present.  If it is \code{TRUE} (or not present),
 then the heading will override a previously specified heading.  If
 \code{FALSE}, it will not.  The latter seems likely only to be of use
