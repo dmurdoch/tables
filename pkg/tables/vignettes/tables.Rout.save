@@ -699,6 +699,35 @@ Mean  & $2$ & $2.5$ & $2$ & $2$ \\
 \bottomrule 
 \end{tabular}
 
+> A <- factor(dat$a)
+
+> latex(tabular(A + 1 ~ (n = 1)))
+\begin{tabular}{lc}
+\toprule
+A  & \multicolumn{1}{c}{n} \\ 
+\midrule
+1  & $1$ \\
+2  & $1$ \\
+3  & $1$ \\
+All  & $4$ \\
+\bottomrule 
+\end{tabular}
+
+> A <- factor(dat$a, exclude = NULL)
+
+> latex(tabular(A + 1 ~ (n = 1)))
+\begin{tabular}{lc}
+\toprule
+A  & \multicolumn{1}{c}{n} \\ 
+\midrule
+1  & $1$ \\
+2  & $1$ \\
+3  & $1$ \\
+NA  & $1$ \\
+All  & $4$ \\
+\bottomrule 
+\end{tabular}
+
 > q <- data.frame(p = rep(c("A", "B"), each = 10, len = 30), 
 +     a = rep(c(1, 2, 3), each = 10), id = seq(30), b = round(runif(30, 
 +         10, 2 .... [TRUNCATED] 

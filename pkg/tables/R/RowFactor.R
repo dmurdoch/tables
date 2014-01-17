@@ -3,8 +3,10 @@ Factor <- function(x, name = deparse(expr), levelnames=levels(x),
     force(name)
     force(expr)
     x <- as.factor(x)
-    if (texify) 
-    	levels(x) <- texify(levels(x))    
+    if (texify) {
+    	levs <- sprintf("%s", levels(x)) # convert NA to "NA"
+    	levels(x) <- texify(levs)
+    }
     force(levelnames)
     RowFactor(x, name = name, levelnames = levelnames, spacing=FALSE, 
               texify = FALSE, expr = expr, override = override)
@@ -31,9 +33,10 @@ RowFactor <- function(x, name = deparse(expr), levelnames=levels(x),
     force(name)
     force(expr)
     x <- as.factor(x)
-    if (texify)
-    	levels(x) <- texify(levels(x))        
-    levs <- levels(x)
+    levs <- sprintf("%s", levels(x)) # convert NA to "NA"
+    if (texify) 
+    	levs <- texify(levs)
+    	
     n <- length(levs)
     if (is.numeric(spacing) && spacing > 0) {
         groups <- TRUE

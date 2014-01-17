@@ -1038,6 +1038,20 @@ latex( tabular(
 @
 \end{center}
 
+Missing values in factors are normally ignored, i.e. observations whose 
+value is missing won't match any category.  If you would like \code{NA}
+to be used as an additional category, use \code{exclude = NULL}
+in a call to \code{factor()} when you create the variable, e.g.
+compare the following two tables:
+\begin{center}
+<<results=tex>>=
+A <- factor(dat$a)
+latex( tabular( A + 1 ~ (n=1)) )
+A <- factor(dat$a, exclude = NULL)
+latex( tabular( A + 1 ~ (n=1) ) )
+@
+\end{center}
+
 \subsection{Subsetting and Joining Tables}
 
 It is possible to select a subset of a table using the usual R matrix indexing on the table
