@@ -501,6 +501,7 @@ tabular.default <- function(table, ...) {
 }
 
 tabular.formula <- function(table, data=NULL, n, suppressLabels=0, ...) {
+    formula <- table
     if (length(list(...)))
 	warning(gettextf("extra argument(s) %s will be disregarded",
 			 paste(sQuote(names(list(...))), collapse = ", ")),
@@ -548,7 +549,7 @@ tabular.formula <- function(table, data=NULL, n, suppressLabels=0, ...) {
     	formats <- rbind(formats, rowformats)
     	justifications <- rbind(justifications, rowjustification)
     }
-    structure(result, rowLabels=rlabels, colLabels=clabels, table=table,
+    structure(result, formula=formula, rowLabels=rlabels, colLabels=clabels, table=table,
     	      formats = formats, justification = justifications, 
     	      class = "tabular")
 }
