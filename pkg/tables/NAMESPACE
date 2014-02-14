@@ -1,6 +1,7 @@
 export(tabular, htmlNumeric, labelSubset, latexNumeric, PlusMinus, 
        Paste, Hline, Factor, RowFactor, All, Literal,
-       Multicolumn, table_options, booktabs, htmloptions, write.csv.tabular, write.table.tabular)
+       Multicolumn, table_options, booktabs, htmloptions, write.csv.tabular, write.table.tabular,
+       as.tabular)
 
 # pseudo-function exports; not meant to be called, but meant to make the checks happy
 export(Format, Heading, Justify, Percent)
@@ -16,3 +17,5 @@ S3method(tabular, formula)
 S3method("[", tabular)
 S3method(cbind, tabular)
 S3method(rbind, tabular)
+S3method(as.tabular, default)
+S3method(as.tabular, data.frame)

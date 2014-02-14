@@ -241,6 +241,21 @@ These functions export tables for further computations.  The arguments are:
 to \code{write.csv()} or \code{write.table()}.
 \end{description}
 
+\subsubsection{\code{as.tabular()}}
+
+\begin{Schunk}
+\begin{Sinput}
+as.tabular(x, ...)
+as.tabular.default(x, like=NULL, ...)
+as.tabular.data.frame(x, ...)
+\end{Sinput}
+\end{Schunk}
+
+These functions create tables from existing matrices or dataframes of values.
+The dimnames of the input are used to construct default row and column names.  If 
+more elaborate labelling is wanted, use a \code{tabular} object as the
+\code{like} argument.  The labelling for \code{like} will be used on the
+newly constructed result.
 
 \subsubsection{\code{table\textunderscore options(), booktabs()}}
 \label{sec:booktabs}

@@ -17,9 +17,9 @@ to see overall documentation.
 
 Attaching package: 'Hmisc'
 
-The following object is masked from 'package:survival':
+The following objects are masked from 'package:survival':
 
-    untangle.specials
+    survfitKM, untangle.specials
 
 The following objects are masked from 'package:base':
 
@@ -787,4 +787,4 @@ B & 2  & $10$ & $14.9$ & $2.283$ & $51.7$ & $8.642$ \\
  *** Run successfully completed ***
 > proc.time()
    user  system elapsed 
-   3.00    0.39    3.50 
+   1.68    0.53    2.23 
