@@ -16,8 +16,10 @@ Whether this heading should override one that is already present.
 }
 
 \description{
-By default, the \code{Heading} pseudo-function overrides the automatic
-heading on the following items in a table.  
+The \code{Heading} pseudo-function normally overrides the automatic
+heading on the following items in a table.  Setting 
+\code{override=FALSE} is used in automatically 
+generated expressions.
 }
 \details{
 This replaces the automatic heading or row label on the following item
