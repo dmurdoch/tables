@@ -4,7 +4,7 @@ export(tabular, htmlNumeric, labelSubset, latexNumeric, PlusMinus,
        as.tabular)
 
 # pseudo-function exports; not meant to be called, but meant to make the checks happy
-export(Format, Heading, Justify, Percent)
+export(Format, Heading, Justify, Percent, Arguments)
 
 importFrom(Hmisc, latex, html)
 S3method(print, tabular)

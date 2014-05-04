@@ -427,6 +427,7 @@ operators are other expressions.  Other than the pseudo-functions described in s
 and the actions depend on the type of the resulting value.  
 
 \subsubsection{Closures or other functions}
+\label{sec:closures}
 
 If the expression evaluates to a function (e.g. it is the name of a function), then that function
 becomes the summary statistic to be displayed.  The summary statistic should take a vector of values as input, and return a single 
@@ -478,6 +479,7 @@ to be saved and re-used.  For examples, see section \ref{sec:tableformulas}.
 
 
 \subsubsection{Other vectors}
+\label{sec:othervectors}
 
 If the expression evaluates to something other than the above, then it
 is assumed to be a vector of values to be summarized in the table.  If
@@ -504,8 +506,10 @@ latex( tabular( I(X > 0) + I(X < 0)
 \subsection{``Pseudo-functions''}
 \label{sec:pseudo}
 
-Several directives to \pkg{tables} may be embedded in the table formula.  This is done using ``pseudo-functions''.  Syntactically
-they look like function calls, but reserved names are used.  In each case, their action applies to later factors in the term in which they appear.
+Several directives to \pkg{tables} may be embedded in the table formula.  
+This is done using ``pseudo-functions''.  Syntactically
+they look like function calls, but reserved names are used.  In most cases, 
+their action applies to later factors in the term in which they appear.
 For example,
 \begin{center}
  \code{X*Justify(r)*(Y + Format(digits=2)*Z) + A}
@@ -664,6 +668,42 @@ latex( tabular( (Factor(gear, "Gears") + 1)
           *Format(digits=1), data=mtcars ) )
 @
 \end{center}
+
+\subsubsection{\code{Arguments()}}
+
+The \code{Arguments()} pseudo-function is an exception to the rule that pseudo-functions
+apply to later factors in the table.  What it does is to specify (additional) arguments to the
+summary function (see section \ref{sec:closures}).  For example, the \code{weighted.mean()} function
+takes two arguments:  \code{x} and \code{w}.  To use it in a table, you would specify the
+values to use as \code{x} via the usual mechanism for the analysis variable (section \ref{sec:othervectors}),
+and include a term \code{Arguments(w=weights)} either before or after it.  The
+function will be called as \code{weighted.mean(x[subset], w=weights[subset])}, where
+\code{subset} is a logical vector indicating which rows of data belong in the current 
+cell.
+
+It is actually a little more complicated than as described above.  The arguments to \code{Arguments}
+are evaluated in full, then only those which are length \code{n} are subsetted.  And
+if no analysis variable has been specified, but \code{Arguments()} has been, then 
+the function will be called without the \code{x[subset]} argument.  Finally, the
+\code{Arguments()} entry will not create a heading.
+
+For example:
+\begin{center}
+<<results=tex>>=
+# This is the example from the weighted.mean help page
+wt <- c(5,  5,  4,  1)/15
+x <- c(3.7,3.3,3.5,2.8)
+gp <- c(1,1,2,2)
+latex( tabular( (Factor(gp) + 1) 
+                ~ weighted.mean*x*Arguments(w = wt) ) )
+@
+\end{center}
+The same table (without the \code{x} heading) can be produced using
+<<eval=false>>=
+latex( tabular( (Factor(gp) + 1) 
+                ~ Arguments(x, w = wt)*weighted.mean ) )
+@
+The order of the \code{weighted.mean} and \code{Arguments()} factors makes no difference.
 
 \subsection{Formula Functions}
 \label{sec:tableformulas}

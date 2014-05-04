@@ -14,3 +14,6 @@ Percent <- function(denom = "all", fn = percent)
     stop("This is a pseudo-function, not meant to be called.")
 
 percent <- function(x, y) 100*length(x)/length(y)
+
+Arguments <- function (...)
+    stop("This is a pseudo-function, not meant to be called.")
