@@ -16,6 +16,7 @@ term2table <- function(rowterm, colterm, env, n) {
     pctsubset <- TRUE
     values <- NULL
     summary <- NULL
+    arguments <- NULL
     format <- NA
     justification <- NA
     for (i in seq_along(allargs)) {
@@ -48,6 +49,11 @@ term2table <- function(rowterm, colterm, env, n) {
     	        stop("Summary fn not allowed with Percent")
             }
             eval(e, env1)
+	} else if (fn == "Arguments") {
+	    if (is.null(arguments)) 
+	      arguments <- e
+	    else
+	      stop("Duplicate Arguments list: ", deparse(arguments), " and ", deparse(e))
         } else if (fn != "Heading" && !identical(e, 1)) {
     	    arg <- eval(e, env)
     	    asis <- inherits(arg, "AsIs")
@@ -109,10 +115,34 @@ term2table <- function(rowterm, colterm, env, n) {
     if (missing(n))
     	stop("Length of ", deparse(rowterm), "~", deparse(colterm),
     	     " indeterminate")    
-    if (is.null(summary)) summary <- length
-    if (is.null(values)) values <- rep(NA, n)
+    if (is.null(summary)) {
+	if (!is.null(arguments))
+	    stop(deparse(arguments), " specified without summary function.")
+        summary <- length
+    }
+    if (is.null(values) && is.null(arguments)) values <- rep(NA, n)
     subset <- rowsubset & colsubset 
-    value <- summary(values[subset])
+    if (is.null(arguments)) 
+	value <- summary(values[subset])
+    else {
+	arguments[[1]] <- summary
+	for (i in seq_along(arguments)[-1]) {
+	    arg <- eval(arguments[[i]], env)
+	    if (length(arg) == n) 
+		arg <- arg[subset]
+	    arguments[[i]] <- arg
+	}
+	if (!is.null(values)) {
+	    named <- !is.null(names(arguments))
+	    for (i in rev(seq_along(arguments)[-1])) {
+		arguments[[i+1]] <- arguments[[i]]
+		if (named) names(arguments)[i+1] <- names(arguments)[i]
+	    }
+	    arguments[[2]] <- values[subset]
+	    if (named) names(arguments)[2] <- ""
+	}
+	value <- eval(arguments, env)
+    }
     if (length(value) != 1)
 	warning("Summary statistic is length ", length(value), call. = FALSE)
     structure(list(value), n=n, format=format, 
@@ -360,6 +390,8 @@ getLabels <- function(e, rows=TRUE, justify=NA, head=NULL, suppress=0) {
     	    suppress <- suppress + 1
     } else if (op == "Justify") {
     	justify <- as.character(e[[2]])
+    } else if (op == "Arguments") {
+	#suppress <- suppress + 1
     } else if (suppress > 0) {  # The rest just add a single label; suppress it
     	suppress <- suppress - 1
     } else if (!is.null(head)) {
@@ -387,7 +419,7 @@ expandExpressions <- function(e, env) {
 		e[[3]] <- expandExpressions(e[[3]], env)
 	} else if (op == "Format" || op == ".Format" 
 	        || op == "Heading" || op == "Justify"
-	        || op == "Percent")
+	        || op == "Percent" || op == "Arguments")
 	    e
 	else {
 	    v <- eval(e, envir=env)
@@ -439,7 +471,7 @@ expandFactors <- function(e, env) {
     	} else
     	    call("*", call("Heading", as.name(deparse(e[[2]]))), rhs)
     } else if (op == ".Format" || op == "Heading" || 
-             op == "Justify" || op == "Percent")
+             op == "Justify" || op == "Percent" || op == "Arguments")
     	e
     else {
     	v <- eval(e, envir=env)

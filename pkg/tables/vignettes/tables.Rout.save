@@ -3,23 +3,13 @@
 
 > library(tables)
 Loading required package: Hmisc
-Loading required package: cluster
 Loading required package: grid
 Loading required package: lattice
 Loading required package: survival
 Loading required package: splines
 Loading required package: Formula
-Hmisc library by Frank E Harrell Jr
-
-Type library(help='Hmisc'), ?Overview, or ?Hmisc.Overview')
-to see overall documentation.
-
 
 Attaching package: 'Hmisc'
-
-The following objects are masked from 'package:survival':
-
-    survfitKM, untangle.specials
 
 The following objects are masked from 'package:base':
 
@@ -432,6 +422,25 @@ All & n  & $\phantom{00}7$ & $\phantom{0}10$ & $\phantom{00}3$ & $\phantom{0}10$
 \bottomrule 
 \end{tabular}
 
+> wt <- c(5, 5, 4, 1)/15
+
+> x <- c(3.7, 3.3, 3.5, 2.8)
+
+> gp <- c(1, 1, 2, 2)
+
+> latex(tabular((Factor(gp) + 1) ~ weighted.mean * x * 
++     Arguments(w = wt)))
+\begin{tabular}{lc}
+\toprule
+ & \multicolumn{1}{c}{weighted.mean} \\ 
+gp  & \multicolumn{1}{c}{x} \\ 
+\midrule
+1  & $3.500$ \\
+2  & $3.360$ \\
+All  & $3.453$ \\
+\bottomrule 
+\end{tabular}
+
 > latex(tabular(Species ~ Heading() * mean * All(iris), 
 +     data = iris))
 \begin{tabular}{lcccc}
@@ -787,4 +796,4 @@ B & 2  & $10$ & $14.9$ & $2.283$ & $51.7$ & $8.642$ \\
  *** Run successfully completed ***
 > proc.time()
    user  system elapsed 
-   1.68    0.53    2.23 
+   1.00    0.25    1.46 
