@@ -454,6 +454,36 @@ collectFormats <- function(table) {
     structure(result, fmtlist=formats)
 }
 
+checkDenomExprs <- function(e, subsetLabels) {
+    if (is.call(e)) 
+	if ((op <- as.character(e[[1]])) %in% c("*", "+", "~", "(", "=") ) {
+	    checkDenomExprs(e[[2]], subsetLabels)
+	    if (length(e) > 2)
+		checkDenomExprs(e[[3]], subsetLabels)
+	} else if (op == "Percent") {
+	    e <- match.call(Percent, e)[["denom"]]
+	    if (is.call(e) && as.character(e[[1]]) %in% c("Equal", "Unequal"))
+		for (i in seq_along(e)[-1])
+		    if (!(deparse(e[[i]]) %in% subsetLabels))
+			stop("In ", deparse(e), ",\n", 
+			    dQuote(deparse(e[[i]])), " is not a subset label.  Legal labels are\n", 
+			    paste(subsetLabels, collapse=", "), call. = FALSE)
+	}
+}
+
+collectSubsets <- function(e) {
+    result <- c()
+    if (is.call(e)) {
+	if ((op <- as.character(e[[1]])) %in%  c("*", "+", "~", "(", "=") ) {
+	    result <- c(result, collectSubsets(e[[2]]))
+	    if (length(e) > 2)
+		result <- c(result, collectSubsets(e[[3]]))
+	} else if (op == "labelSubset") 
+	    result <- c(result, match.call(labelSubset, e)[["label"]])
+    }
+    result
+}
+
 # This both expands factors and rewrites "bindings"
 
 expandFactors <- function(e, env) {
@@ -558,8 +588,15 @@ tabular.formula <- function(table, data=NULL, n, suppressLabels=0, ...) {
     dims[[2]] <- expandFactors(dims[[2]], data)
     clabels <- getLabels(dims[[2]], rows=FALSE, justify=justify,
 			 suppress=suppressLabels)
+    
+    # Check if the Percent calls name nonexistent terms
+    subsetLabels <- unique(c(collectSubsets(dims[[1]]), collectSubsets(dims[[2]])))
+    checkDenomExprs(dims[[1]], subsetLabels)
+    checkDenomExprs(dims[[2]], subsetLabels)    
+    
     rows <- sumofprods(dims[[1]])
     cols <- sumofprods(dims[[2]])
+
     result <- NULL
     formats <- NULL
     justifications <- NULL

@@ -75,7 +75,7 @@
 0.7.68:
       Bug fix in setting up column headings (reported by Lars Bishop).
       
-0.7.78:
+0.7.79:
       Added Equal() and Unequal() pseudo-functions for more flexible
       Percent() calculations.
       Fixed bug in handling factors which had not excluded NA values.
@@ -83,4 +83,5 @@
       Added as.tabular() function.
       Added Arguments() function to allow multi-argument analysis
       functions.
+      
       
