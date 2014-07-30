@@ -1,14 +1,16 @@
 \name{Percent}
 \alias{Percent}
 \title{
-\code{Percent} pseudo-function
+Pseudo-function to compute a statistic relative to a reference
+set.
 }
 \usage{
 Percent(denom = "all", fn = percent)
 }
 \arguments{
   \item{denom}{
-How the denominator should be calculated.  See below.
+How the reference set (the denominator in case
+of a percentage calculation) should be calculated.  See below.
 }
   \item{fn}{
 The two argument function to calculate the statistic.
@@ -21,11 +23,20 @@ a statistic that depends on other values in the table.
 }
 \details{
 The function \code{fn} will be called with two
-arguments.  The first is the usual vector of values
-to which this statistic applies, and the second 
+arguments.  The first argument is the usual \dQuote{value vector} 
+of values
+corresponding to this cell in the table,
+and the second 
 is another vector of reference values, determined
-by \code{denom}.  The default function is \code{percent},
-defined as \code{function(x, y) 100*length(x)/length(y)}.
+by \code{denom}.  
+
+The default value of \code{fn} is the \code{percent} function,
+defined as \code{function(x, y) 100*length(x)/length(y)}.  This
+gives the ratio of the number of values in the current cell
+relative to the reference values, expressed as a percentage.
+Using \code{fn = function(x, y) 100*sum(x)/sum(y)} would give
+the percentage of the sum of the values in the current cell to
+the sum in the reference set.
 
 With the default \code{denom = "all"}, all values of the
 analysis variable in the dataset are used as the reference.  Other possibilities
@@ -44,7 +55,7 @@ vignette for details.)
 
 Finally, other possible \code{denom} values 
 are a logical vector, in which
-case those values are used, or anything else, which will
+case the values marked \code{TRUE} are used, or anything else, which will
 be passed to \code{fn} as \code{y}.
 }
 \section{Pseudo-functions}{
