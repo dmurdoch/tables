@@ -8,3 +8,5 @@ vignettes/tables.synctex
 vignettes/tables.tex
 vignettes/tables.toc
 vignettes/tables-concordance.tex
+^.*\.Rproj$
+^\.Rproj\.user$

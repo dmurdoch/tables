@@ -23,7 +23,7 @@ each cell in the table.
 
 If no analysis variable has been specified, but \code{Arguments()} has been, then 
 the analysis function will be called with arguments matching those
-give in \code{...}.  If an analysis variable was specified, it will
+given in \code{...}.  If an analysis variable was specified, it will
 be inserted as an unnamed first argument to the analysis function.
 
 The \code{Arguments()} entry will not create a heading.
@@ -36,7 +36,8 @@ This is a \dQuote{pseudo-function}:  it takes the form of a function call, but i
 never actually called:  it is 
 handled specially by \code{\link{tabular}}.
 }
-
+\seealso{\code{\link{Percent}} for a different way to specify
+a multiple argument analysis function.}
 \examples{
 # This is the example from the weighted.mean help page
 wt <- c(5,  5,  4,  1)/15

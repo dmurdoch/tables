@@ -1,5 +1,7 @@
 \name{Percent}
 \alias{Percent}
+\alias{Equal}
+\alias{Unequal}
 \title{
 Pseudo-function to compute a statistic relative to a reference
 set.
@@ -45,8 +47,9 @@ the values of the variable corresponding to the current row
 or column subset are used.  
 
 The special syntax \code{denom = Equal(...)} will record 
-each expression in \code{...} and ignore any factors
-that are not listed when forming the reference set.
+each expression in \code{...}.  The
+reference set will be the cases with equal values of all
+expressions in \code{...} to those of the current cell.
 The similar form \code{denom = Unequal(...)}
 sets the reference values to be those that differ in any
 of the \code{...} expressions from the current cell.  (In
@@ -65,7 +68,8 @@ handled specially by \code{\link{tabular}}.  \code{Equal} and \code{Unequal}
 are also pseudo-functions, but are only special when used
 in the \code{denom} argument to \code{Percent}.
 }
-
+\seealso{\code{\link{Arguments}} for a different way to specify
+a multiple argument analysis function.}
 \examples{
 x <- factor(sample(LETTERS[1:2], 1000, rep=TRUE))
 y <- factor(sample(letters[3:4], 1000, rep=TRUE))
