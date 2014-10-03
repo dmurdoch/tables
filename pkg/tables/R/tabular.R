@@ -430,7 +430,7 @@ expandExpressions <- function(e, env) {
     e
 }
 
-collectFormats <- function(table) {
+collectFormats <- function(table, env) {
     formats <- list()
     recurse <- function(e) {
     	if (is.call(e)) {
@@ -439,10 +439,12 @@ collectFormats <- function(table) {
     	    	if (length(e) > 2)
 	    	    e[[3]] <- recurse(e[[3]])
     	    } else if (op == c("Format")) {
-    	    	if (length(e) == 2 && is.null(names(e)))
+    	    	if (length(e) == 2 && is.null(names(e))) {
+    	    	    if (is.name(e[[c(2,1)]]))
+    	    	    	e[[c(2,1)]] <- eval(e[[c(2,1)]], env)
     	    	    formats <<- c(formats, list(e[[2]]))
-    	    	else {
-    	    	    e[[1]] <- as.name("format")
+    	    	} else {
+    	    	    e[[1]] <- format
     	    	    formats <<- c(formats, list(e))
     	    	}    
     	    	e <- call(".Format", length(formats))
@@ -578,7 +580,7 @@ tabular.formula <- function(table, data=NULL, n, suppressLabels=0, ...) {
     	stop("data must be a dataframe, list or environment")
     	
     table <- expandExpressions(table, data)
-    table <- collectFormats(table)
+    table <- collectFormats(table, parent.frame())
     dims <- tabledims(table)
     if (length(dims) == 1) dims <- c(list(quote((` `=1))), dims)
     dims[[1]] <- expandFactors(dims[[1]], data)
