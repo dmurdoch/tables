@@ -42,7 +42,7 @@ as.matrix.tabular <- function(x, format=TRUE,
     } else {
     	result <- x
     	dim <- dim(x)
-    	if (is.character(format)) format <- get(format, parent.frame)
+    	if (is.character(format)) format <- get(format, parent.frame())
     	if (is.function(format))
     	    result <- format(result)
         dim(result) <- dim

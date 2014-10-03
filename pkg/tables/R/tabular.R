@@ -430,7 +430,7 @@ expandExpressions <- function(e, env) {
     e
 }
 
-collectFormats <- function(table, env) {
+collectFormats <- function(table) {
     formats <- list()
     recurse <- function(e) {
     	if (is.call(e)) {
@@ -440,8 +440,8 @@ collectFormats <- function(table, env) {
 	    	    e[[3]] <- recurse(e[[3]])
     	    } else if (op == c("Format")) {
     	    	if (length(e) == 2 && is.null(names(e))) {
-    	    	    if (is.name(e[[c(2,1)]]))
-    	    	    	e[[c(2,1)]] <- eval(e[[c(2,1)]], env)
+    	    	    if (is.language(e[[c(2,1)]]))
+    	    	    	e[[c(2,1)]] <- eval(e[[c(2,1)]], environment(table))
     	    	    formats <<- c(formats, list(e[[2]]))
     	    	} else {
     	    	    e[[1]] <- format
@@ -580,7 +580,7 @@ tabular.formula <- function(table, data=NULL, n, suppressLabels=0, ...) {
     	stop("data must be a dataframe, list or environment")
     	
     table <- expandExpressions(table, data)
-    table <- collectFormats(table, parent.frame())
+    table <- collectFormats(table)
     dims <- tabledims(table)
     if (length(dims) == 1) dims <- c(list(quote((` `=1))), dims)
     dims[[1]] <- expandFactors(dims[[1]], data)
@@ -690,7 +690,8 @@ format.tabular <- function(x, digits=4, justification="n",
     if (latex && html) stop("Only one of 'latex' and 'html' may be requested")
     result <- unclass(x) 
     formats <- attr(x, "formats")
-    fmtlist <- attr(attr(x, "table"), "fmtlist")
+    table <- attr(x, "table")
+    fmtlist <- attr(table, "fmtlist")
     justify <- attr(x, "justification")
     justify[is.na(justify)] <- justification
     ischar <- sapply(result, is.character)
@@ -722,7 +723,7 @@ format.tabular <- function(x, digits=4, justification="n",
        	    x <- do.call(c, result[ind & !skip])
        	    call[[last+1]] <- x
        	    names(call)[last+1] <- "x"
-       	    chars[ind & !skip] <- eval(call, parent.frame())
+       	    chars[ind & !skip] <- eval(call, environment(table))
        	    if (isformat) {
        	    	if (latex) {
        	    	    if (is.numeric(x))
