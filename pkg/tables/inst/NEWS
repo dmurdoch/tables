@@ -84,6 +84,6 @@
       Added Arguments() function to allow multi-argument analysis
       functions.
       
-0.7.83:
+0.7.86:
       Fixed scoping bug:  locally defined format functions were not
       always found.  (Reported by Doug Ezra Morrison.)
