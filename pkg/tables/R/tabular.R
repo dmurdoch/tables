@@ -715,7 +715,7 @@ format.tabular <- function(x, digits=4, justification="n",
     	ind <- !is.na(formats) & formats == i
     	if (any(ind)) {        
             call <- fmtlist[[i]]
-            isformat <- identical(call[[1]], as.name("format"))
+            isformat <- identical(call[[1]], format)
             if (isformat) skip <- ischar | (lengths != 1)
             else skip <- ischar & FALSE
 	    last <- length(call)
