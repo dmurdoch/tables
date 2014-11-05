@@ -87,3 +87,8 @@
 0.7.86:
       Fixed scoping bug:  locally defined format functions were not
       always found.  (Reported by Doug Ezra Morrison.)
+
+0.7.87:
+      Added "append" argument to latex.tabular() and html.tabular(),
+      and made explicit that connections are allowed for the "file"
+      argument. (Suggestion of Marc Halperin.)

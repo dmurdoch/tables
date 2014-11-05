@@ -49,13 +49,14 @@ CSSclassname <- function(just)
     ifelse(just == "c", "center",
     ifelse(just == "r", "right", just)))
 
-html.tabular <- function(object, file="", 
-                         options=NULL, id=NULL, ...) {
+html.tabular <- function(object, file = "", 
+                         options = NULL, id = NULL, 
+			 append = FALSE, ...) {
     if (is.character(file)) {
 	if (file == "")
     	    out <- ""
     	else {
-    	    out <- file(file, open="wt")
+    	    out <- file(file, open=if (append) "at" else "wt")
     	    on.exit(close(out))
     	}
     } else
