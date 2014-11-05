@@ -8,14 +8,16 @@ This is similar to \code{\link{print.tabular}}, but it inserts the code to
 display the table in an HTML table.
 }
 \usage{
-\method{html}{tabular}(object, file="", options=NULL, id=NULL, ...)
+\method{html}{tabular}(object, file = "", options = NULL, 
+                       id = NULL, append = FALSE, ...)
 }
 \arguments{
   \item{object}{
 The tabular object.
 }
   \item{file}{
-A filename to which to write the HTML code.
+A filename or connection to which to write the HTML code, or
+\code{""} to write to the standard output.
 }
   \item{options}{
 A list of options to set for the duration of the call.
@@ -23,6 +25,10 @@ A list of options to set for the duration of the call.
   \item{id}{
 A unique identifier to set for this table and the associated
 CSS style, or \code{NULL}, for no id.
+}
+  \item{append}{
+If \code{TRUE}, opens \code{file} for appending (if it is
+a filename rather than a connection).
 }
   \item{...}{
 Settings for default formatting.  See Details below.

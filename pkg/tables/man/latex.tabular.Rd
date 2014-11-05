@@ -8,17 +8,22 @@ This is similar to \code{\link{print.tabular}}, but it inserts the code to
 display the table in a LaTeX tabular environment.
 }
 \usage{
-\method{latex}{tabular}(object, file="", options=NULL, ...)
+\method{latex}{tabular}(object, file = "", options = NULL, append = FALSE, ...)
 }
 \arguments{
   \item{object}{
 The tabular object.
 }
   \item{file}{
-A filename to which to write the LaTeX code.
+A filename or connection to which to write the LaTeX code, or
+\code{""} to write to the standard output.
 }
   \item{options}{
 A list of options to set for the duration of the call.
+}
+  \item{append}{
+If \code{TRUE}, opens \code{file} for appending (if it is
+a filename rather than a connection).
 }
   \item{...}{
 Settings for default formatting.  See Details below.

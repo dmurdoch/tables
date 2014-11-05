@@ -3,13 +3,17 @@ texify <- function(x) {
     Hmisc::latexTranslate(x)
 }
 
-latex.tabular <- function(object, file="", options=NULL, ...) {
-    if (file == "")
-    	out <- ""
-    else {
-    	out <- file(file, open="wt")
-    	on.exit(close(out))
-    }
+latex.tabular <- function(object, file = "", options = NULL, 
+			  append = FALSE, ...) {
+    if (is.character(file)) {
+	if (file == "")
+	    out <- ""
+	else {
+	    out <- file(file, open=if (append) "at" else "wt")
+	    on.exit(close(out))
+	}
+    } else
+	out <- file
     if (!is.null(options)) {
     	saveopts <- do.call(table_options, options)
     	on.exit(table_options(saveopts), add=TRUE)
