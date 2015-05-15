@@ -69,7 +69,7 @@ RowFactor <- function(x, name = deparse(expr), levelnames=levels(x),
         }
         return(call("*", call("Heading", name, override), f))
      } else
-        stop("No levels in x!")
+        stop("No levels in 'x'!")
 }
 
 labelSubset <- function(subset, label) 
