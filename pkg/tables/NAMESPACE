@@ -19,3 +19,6 @@ S3method(cbind, tabular)
 S3method(rbind, tabular)
 S3method(as.tabular, default)
 S3method(as.tabular, data.frame)
+
+importFrom("stats", "as.formula") 
+importFrom("utils", "localeToCharset", "write.csv", "write.table")
