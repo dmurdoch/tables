@@ -96,3 +96,8 @@
 0.7.88:
       Edited messages to allow internationalization.  No translations 
       added so far.
+      
+0.7.90:
+      Updated options for html.tabular to use better CSS and HTML5 in
+      the tables.
+      Added an HTML vignette.

@@ -6,12 +6,12 @@ Loading required package: Hmisc
 Loading required package: grid
 Loading required package: lattice
 Loading required package: survival
-Loading required package: splines
 Loading required package: Formula
+Loading required package: ggplot2
 
-Attaching package: 'Hmisc'
+Attaching package: ‘Hmisc’
 
-The following objects are masked from 'package:base':
+The following objects are masked from ‘package:base’:
 
     format.pval, round.POSIXt, trunc.POSIXt, units
 
@@ -146,7 +146,7 @@ $doHTMLbody
 [1] FALSE
 
 $CSS
-[1] "<style>\n#ID .left   { text-align:left; }\n#ID .center { text-align:center; }\n#ID .right  { text-align:right; }\n#ID table   { margin: 12pt 12pt; }\n</style>\n"
+[1] "<style>\n#ID .Rtable thead, .Rtable .even {\n  background-color: inherit;\n}\n#ID .left   { text-align:left; }\n#ID .center { text-align:center; }\n#ID .right  { text-align:right; }\n#ID .Rtable, #ID .Rtable thead { \n  border-collapse: collapse;\n  border-style: solid;\n  border-width: medium 0;\n  border-color: inherit;\n}\n#ID .Rtable th, #ID .Rtable td {\n  padding-left: 0.5em;\n  padding-right: 0.5em;\n  border-width: 0;\n}\n</style>\n"
 
 $HTMLhead
 [1] "<!DOCTYPE html>\n<html>\n<head>\n<meta charset=\"CHARSET\">\n"
@@ -155,7 +155,7 @@ $HTMLbody
 [1] "<body>\n"
 
 $HTMLattributes
-[1] "frame=\"hsides\" rules=\"groups\""
+[1] "class=\"Rtable\""
 
 $HTMLcaption
 NULL
@@ -796,4 +796,4 @@ B & 2  & $10$ & $14.9$ & $2.283$ & $51.7$ & $8.642$ \\
  *** Run successfully completed ***
 > proc.time()
    user  system elapsed 
-   1.00    0.25    1.46 
+  1.339   0.050   1.384 

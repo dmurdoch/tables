@@ -5,10 +5,23 @@ HTMLheaderdefault <- '<!DOCTYPE html>
 '
 
 CSSdefault <- '<style>
+#ID .Rtable thead, .Rtable .even {
+  background-color: inherit;
+}
 #ID .left   { text-align:left; }
 #ID .center { text-align:center; }
 #ID .right  { text-align:right; }
-#ID table   { margin: 12pt 12pt; }
+#ID .Rtable, #ID .Rtable thead { 
+  border-collapse: collapse;
+  border-style: solid;
+  border-width: medium 0;
+  border-color: inherit;
+}
+#ID .Rtable th, #ID .Rtable td {
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  border-width: 0;
+}
 </style>
 '
 
@@ -36,7 +49,7 @@ table_options <- local({
     		 CSS=CSSdefault,
     		 HTMLhead=HTMLheaderdefault,
     		 HTMLbody="<body>\n",
-    		 HTMLattributes='frame="hsides" rules="groups"',
+    		 HTMLattributes='class="Rtable"',
 		 HTMLcaption=NULL,
     		 HTMLfooter=NULL,
     		 HTMLleftpad=FALSE,

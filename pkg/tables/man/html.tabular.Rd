@@ -1,5 +1,6 @@
 \name{html.tabular}
 \alias{html.tabular}
+\alias{writeCSS}
 \title{
 Display a tabular object using HTML.
 }
@@ -10,6 +11,7 @@ display the table in an HTML table.
 \usage{
 \method{html}{tabular}(object, file = "", options = NULL, 
                        id = NULL, append = FALSE, ...)
+writeCSS(CSS = htmloptions()$CSS, id = NULL)
 }
 \arguments{
   \item{object}{
@@ -33,6 +35,9 @@ a filename rather than a connection).
   \item{...}{
 Settings for default formatting.  See Details below.
 }  
+  \item{CSS}{
+A character vector to use as CSS.
+}
 }
 \details{
 The \code{html()} method produces HTML output suitable for inclusion in an HTML page.
