@@ -173,3 +173,12 @@ html.tabular <- function(object, file = "",
     	mycat("</table>\n")
     invisible(structure(list(file=file), class="html"))
 }
+
+writeCSS <- function(CSS = htmloptions()$CSS, id = NULL) {
+  if (is.null(id)) 
+    css <- gsub("#ID ", "", CSS, fixed=TRUE)
+  else
+    css <- gsub("#ID", paste0("#", id), CSS, fixed=TRUE)
+  cat(css)
+}
+  

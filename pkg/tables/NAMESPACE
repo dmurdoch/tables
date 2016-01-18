@@ -1,7 +1,7 @@
 export(tabular, htmlNumeric, labelSubset, latexNumeric, PlusMinus, 
        Paste, Hline, Factor, RowFactor, All, Literal,
        Multicolumn, table_options, booktabs, htmloptions, write.csv.tabular, write.table.tabular,
-       as.tabular)
+       as.tabular, writeCSS)
 
 # pseudo-function exports; not meant to be called, but meant to make the checks happy
 export(Format, Heading, Justify, Percent, Arguments)

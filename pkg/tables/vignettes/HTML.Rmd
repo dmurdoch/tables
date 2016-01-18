@@ -1,0 +1,87 @@
+---
+title: "HTML Tables"
+author: "Duncan Murdoch"
+date: "January 17, 2016"
+output: 
+  rmarkdown::html_vignette
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{HTML Tables}
+  \usepackage[utf8]{inputenc}
+---
+
+This short R Markdown document illustrates how
+to use `tables` in HTML. 
+
+## Initializing
+
+First, you need to load `tables`.  Packages
+that it uses print banner messages, so you'll 
+usually want to set a chunk option of `message=FALSE`.
+```{r results='hide', message=FALSE}
+library(tables)
+```
+
+The table is now constructed in the usual way.  
+```{r}
+X <- rnorm(125, sd=100)
+Group <- factor(sample(letters[1:5], 125, rep=TRUE))
+tab <- tabular( Group ~ (N=1)+Format(digits=2)*X*((Mean=mean) + Heading("Std Dev")*sd) )
+```
+In an R Markdown document, you don't want each table
+to output the HTML document header, so turn 
+off those options:
+```{r}
+table_options(htmloptions(head=FALSE))
+```
+
+## Inserting a Table
+
+To format a table in HTML, use the `results = 'asis'` knitr option.  Before the first table in a document, also add a call to `writeCSS()` with `results = 'asis'`:
+```{r results='asis'}
+writeCSS()
+html(tab)
+```
+
+The default justification makes the columns of 
+numbers look messy.  You can set the justification
+to the right, but the headers look wrong:
+```{r results='asis'}
+table_options(htmloptions(head = FALSE, justification = "r"))
+html(tab)
+```
+
+The best look comes with the `pad = TRUE` option. 
+This adds nonbreaking spaces around the numbers so that 
+centering looks good.  It also changes the hyphens
+to proper minus signs:
+```{r results='asis'}
+table_options(htmloptions(head = FALSE, justification = "c", pad = TRUE))
+html(tab)
+```
+Unfortunately, if you cut this table and paste it
+into a spreadsheet, the spaces and minus signs
+probably won't be understood.  I don't know 
+how to get everything we want :-(.
+
+## Fine tuning
+
+This document uses the default CSS from `table_options()$CSS`.  If you are
+producing an `html_document`, it should be okay.
+It does not look quite right in a
+`slidy_presentation`, and is no good at all in
+an `ioslides_presentation`.  Furthermore, you 
+might not agree with my design choices.
+
+In any of these cases, you should substitute your
+own CSS.  You will need to modify the default 
+one, and can use it as the `CSS` argument to 
+`writeCSS()`, or set it as a new default in
+`table_options()`.
+
+Here is the default setting:
+```{r comment=NA, echo=FALSE}
+cat(table_options()$CSS)
+```
+Note that the `#ID` values will be replaced with
+the `id` string given in `writeCSS()`.
