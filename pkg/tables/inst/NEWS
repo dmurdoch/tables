@@ -97,7 +97,9 @@
       Edited messages to allow internationalization.  No translations 
       added so far.
       
-0.7.90:
+0.7.91:
       Updated options for html.tabular to use better CSS and HTML5 in
       the tables.
       Added an HTML vignette.
+      Fixed bug:  functions prefixed by "pkg::" in formulas led to warning
+      messages. (Reported by Lars Bishop.)
