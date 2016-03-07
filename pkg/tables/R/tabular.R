@@ -1,6 +1,6 @@
 factors <- function(e) {
     if (is.name(e)) list(e)
-    else switch(as.character(e[[1]]),
+    else switch(deparse(e[[1]]),
     	"*" = c(factors(e[[2]]),factors(e[[3]])),
     	"(" = factors(e[[2]]),
     	list(e))
@@ -22,7 +22,7 @@ term2table <- function(rowterm, colterm, env, n) {
     for (i in seq_along(allargs)) {
         e <- allargs[[i]]
         fn <- ""
-        if (is.call(e) && (fn <- as.character(e[[1]])) == ".Format")
+        if (is.call(e) && (fn <- deparse(e[[1]])) == ".Format")
             format <- e[[2]]
         else if (fn == "Justify") 
             justification <- as.character(e[[if (length(e) > 2) 3 else 2]])
@@ -92,7 +92,7 @@ term2table <- function(rowterm, colterm, env, n) {
 	    e <- allargs[[i]]
 	    fn <- ""
 	    if (is.call(e)) 
-	    	fn <- as.character(e[[1]])
+	    	fn <- deparse(e[[1]])
 	    if (!(fn %in% c(".Format", "Justify", "Percent", "Heading"))
 	        && !identical(e, 1)) {
 	        arg <- eval(e, env)
@@ -207,7 +207,7 @@ getLabels <- function(e, rows=TRUE, justify=NA, head=NULL, suppress=0) {
 	rightjustification <- attr(rightLabels, "justification")
 	rightcolnamejust <- attr(rightLabels, "colnamejust")
     }
-    if (is.call(e) && (op <- as.character(e[[1]])) == "*")  {
+    if (is.call(e) && (op <- deparse(e[[1]])) == "*")  {
         leftLabels <- getLabels(e[[2]], rows, justify, head, suppress)
         getLeft()
 	# Heading and justify are the settings to carry on to later terms
@@ -413,7 +413,7 @@ getLabels <- function(e, rows=TRUE, justify=NA, head=NULL, suppress=0) {
 
 expandExpressions <- function(e, env) {
     if (is.call(e)) {
-	if ((op <- as.character(e[[1]])) %in% c("*", "+", "~", "(", "=") ) {
+	if ((op <- deparse(e[[1]])) %in% c("*", "+", "~", "(", "=") ) {
 	    e[[2]] <- expandExpressions(e[[2]], env)
 	    if (length(e) > 2)
 		e[[3]] <- expandExpressions(e[[3]], env)
@@ -434,7 +434,7 @@ collectFormats <- function(table) {
     formats <- list()
     recurse <- function(e) {
     	if (is.call(e)) {
-    	    if ((op <- as.character(e[[1]])) %in% c("*", "+", "~", "(") ) {
+    	    if ((op <- deparse(e[[1]])) %in% c("*", "+", "~", "(") ) {
     	    	e[[2]] <- recurse(e[[2]])
     	    	if (length(e) > 2)
 	    	    e[[3]] <- recurse(e[[3]])
@@ -458,13 +458,13 @@ collectFormats <- function(table) {
 
 checkDenomExprs <- function(e, subsetLabels) {
     if (is.call(e)) 
-	if ((op <- as.character(e[[1]])) %in% c("*", "+", "~", "(", "=") ) {
+	if ((op <- deparse(e[[1]])) %in% c("*", "+", "~", "(", "=") ) {
 	    checkDenomExprs(e[[2]], subsetLabels)
 	    if (length(e) > 2)
 		checkDenomExprs(e[[3]], subsetLabels)
 	} else if (op == "Percent") {
 	    e <- match.call(Percent, e)[["denom"]]
-	    if (is.call(e) && as.character(e[[1]]) %in% c("Equal", "Unequal"))
+	    if (is.call(e) && deparse(e[[1]]) %in% c("Equal", "Unequal"))
 		for (i in seq_along(e)[-1])
 		    if (!(deparse(e[[i]]) %in% subsetLabels))
 			stop(gettextf("In %s\n'%s' is not a subset label.  Legal labels are\n%s",
@@ -476,7 +476,7 @@ checkDenomExprs <- function(e, subsetLabels) {
 collectSubsets <- function(e) {
     result <- c()
     if (is.call(e)) {
-	if ((op <- as.character(e[[1]])) %in%  c("*", "+", "~", "(", "=") ) {
+	if ((op <- deparse(e[[1]])) %in%  c("*", "+", "~", "(", "=") ) {
 	    result <- c(result, collectSubsets(e[[2]]))
 	    if (length(e) > 2)
 		result <- c(result, collectSubsets(e[[3]]))
@@ -490,14 +490,14 @@ collectSubsets <- function(e) {
 
 expandFactors <- function(e, env) {
     op <- ""
-    if (is.call(e) && (op <- as.character(e[[1]])) %in% c("*", "+") ) 
+    if (is.call(e) && (op <- deparse(e[[1]])) %in% c("*", "+") ) 
     	call(op, expandFactors(e[[2]],env),expandFactors(e[[3]],env))
     else if (op == "(")
     	expandFactors(e[[2]],env)
     else if (op == "=") {
     	rhs <- expandFactors(e[[3]], env)
-    	if (is.call(rhs) && as.character(rhs[[1]]) == "*"
-    	 && is.call(rhs[[2]]) && as.character(rhs[[c(2,1)]]) == "Heading") {
+    	if (is.call(rhs) && deparse(rhs[[1]]) == "*"
+    	 && is.call(rhs[[2]]) && deparse(rhs[[c(2,1)]]) == "Heading") {
     	    rhs[[c(2,2)]] <- as.name(deparse(e[[2]]))
     	    rhs
     	} else
@@ -521,7 +521,7 @@ sumofprods <- function(e) {
     if (is.expression(e)) e <- e[[1]]
     if (is.name(e)) result <- list(e)
     else {
-	chr <- as.character(e[[1]])
+	chr <- deparse(e[[1]])
 	if (chr == "+") result <- c(sumofprods(e[[2]]),sumofprods(e[[3]]))
     	else if (chr == "*") {
 	    left <- sumofprods(e[[2]])
@@ -545,7 +545,7 @@ tabledims <- function(e) {
     if (is.name(e)) result <- list(e)
     else {
         result <- list()
-	chr <- as.character(e[[1]])
+	chr <- deparse(e[[1]])
 	if (chr == "~") {
 	    if (length(e) == 2)
 		result <- c(result, tabledims(e[[2]]))
