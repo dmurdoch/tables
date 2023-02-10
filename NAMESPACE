@@ -1,0 +1,37 @@
+export(tabular, htmlNumeric, labelSubset, latexNumeric, PlusMinus, 
+       Paste, Hline, Factor, RowFactor, All, Literal, AllObs, RowNum,
+       Multicolumn, table_options, booktabs, htmloptions, write.csv.tabular, write.table.tabular,
+       as.tabular, writeCSS,
+       rowLabels, colLabels, "rowLabels<-", "colLabels<-",
+       toKable, knit_print.tabular,
+       toLatex, toHTML, html.tabular, latex.tabular,
+       latexTable)
+
+# pseudo-function exports; not meant to be called, but meant to make the checks happy
+export(Format, Heading, Justify, Percent, Arguments, DropEmpty)
+
+importFrom(utils, toLatex)
+importFrom(htmltools, browsable, HTML)
+
+S3method(print, tabular)
+S3method(print, tabularLabels)
+S3method(print, tabularLatex)
+S3method(format, tabular)
+S3method(toLatex, tabular)
+#S3method(latex, tabular)
+S3method(as.matrix, tabular)
+S3method(tabular, default)
+S3method(tabular, formula)
+S3method("[", tabular)
+S3method("[", tabularRowLabels)
+S3method("[", tabularColLabels)
+S3method(cbind, tabular)
+S3method(rbind, tabular)
+S3method(as.tabular, default)
+S3method(as.tabular, data.frame)
+S3method(knit_print, tabular)
+
+importFrom("stats", "as.formula") 
+importFrom("utils", "localeToCharset", "write.csv", "write.table",
+	   "capture.output")
+importFrom("knitr", "kable", "knit_print", "opts_knit")

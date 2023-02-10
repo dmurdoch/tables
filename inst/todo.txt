@@ -1,0 +1,24 @@
+To-do list
+
+Change storage to allow matrices of things to be displayed, all
+using the same conventions:  main table in the middle, row and column
+labels to the left and top respectively, plus new matrix in 
+top left --- or even larger matrices to allow labels on all sides.
+
+Add table() (or some other name) function to handle captions, labels, 
+etc. DONE (Used latexTable(), since table() is a base function.)
+
+as.tabular.data.frame doesn't handle columns which are factors.  FIXED
+
+Add conversion of result to kable() format, so kableExtra()
+formatting tweaks can be applied.  DONE
+
+Fix placement of Hline label. DONE
+
+Add character.only to Heading().  DONE.
+
+Add support for nice formatting of tables of raw data. DONE
+
+Check that arguments of Pseudo-functions use match.call. DONE
+
+Add support for editing the labels on a table. DONE

@@ -1,0 +1,1353 @@
+\documentclass[12pt]{article}
+
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage[table]{xcolor}
+\usepackage{colortbl}
+\usepackage{tabu}
+\usepackage{Sweave}
+
+\usepackage[authoryear,round,comma]{natbib}
+\bibliographystyle{plainnat}
+
+%\VignetteIndexEntry{About the tables package}
+
+\makeatletter
+\newcommand\code{\bgroup\@makeother\_\@makeother\~\@makeother\$\@codex}
+\def\@codex#1{{\normalfont\ttfamily\hyphenchar\font=-1 #1}\egroup}
+\makeatother
+
+\newcommand{\pkg}[1]{{\fontseries{b}\selectfont #1}}
+
+% The next line is needed for inverse search...
+\SweaveOpts{concordance=TRUE, keep.source=TRUE}
+<<echo=false>>=
+options(width=60)
+@
+
+\title{The \pkg{tables} Package\footnote{This 
+vignette  was built using \pkg{tables} version 
+\Sexpr{packageDescription("tables")$Version}.  It is written in %$ 
+Sweave, and intended to show the same content as the 
+\url{knitrTables.pdf} vignette that is written in R Markdown.}}
+
+\author{Duncan Murdoch}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\section{Introduction}
+
+This is a short introduction to the \pkg{tables} package.  Inspired by my 20 year old memories
+of SAS PROC TABULATE, I decided to write a simple utility to create nice looking tables in Sweave 
+documents.  For example, we might display summaries of some of Fisher's iris data using the
+code
+<<echo=FALSE>>=
+library(tables)
+suppressWarnings(RNGversion("3.5.3"))
+@
+<<iris>>=
+tabular( (Species + 1) ~ (n=1) + Format(digits=2)*
+         (Sepal.Length + Sepal.Width)*(mean + sd), data=iris )
+@
+You can also pass the output through the \code{toLatex()} function
+to produce \LaTeX\ output,
+which when processed by \code{pdflatex} will produce the following table:
+\begin{center}
+<<echo=FALSE, results=tex>>=
+toLatex(
+<<iris>>
+  )
+@
+\end{center}
+	
+If you prefer the style of table that the \LaTeX\ \pkg{booktabs} package \citep{booktabs}
+produces, you can choose
+that style instead.  I mostly like it, so I have used
+<<eval=FALSE>>=
+booktabs()
+@
+for the rest of this document.  This gives
+\begin{center}
+<<echo=FALSE, results=hide>>=
+saved.options <- table_options()
+booktabs()
+@
+<<irisbook, echo=FALSE, results=tex>>=
+toLatex(
+<<iris>>
+)
+@
+
+\end{center}
+Details on \code{booktabs()} are given in section \ref{sec:booktabs} below.
+
+There is also the \code{toHTML} function and \code{html.tabular}
+method for the \code{Hmisc::html()} generic;
+they produce output in HTML format.  Finally, see section \ref{sec:csv} for other 
+output formats.
+
+The idea of a table in the \pkg{tables} package is a rectangular array of values, with
+each row and column labelled, and possibly with groups of rows and groups of columns
+also labelled.  These arrays are specified by ``table formulas''.
+
+Table formulas are R formula objects, with the  rows of the table
+described before the tilde (\code{"~"}), and the columns after.   Each of
+those is an expression containing \code{"*"}, \code{"+"}, \code{"="}, as
+well as functions, function calls and variables, and parentheses for
+grouping.  There are also various directives included in the formula,
+entered as ``pseudo-functions'', i.e. expressions that look like function
+calls but which are interpreted by the \code{tabular()} function.
+
+For example, in the formula 
+\begin{Schunk}
+\begin{Sinput}
+(Species + 1) ~ (n=1) + Format(digits=2)*
+         (Sepal.Length + Sepal.Width)*(mean + sd)
+\end{Sinput}
+\end{Schunk}
+the rows are given by \verb!(Species + 1)!.  The summation here is interpreted as concatenation, i.e.
+this says rows for \code{Species} should be followed by rows for \code{1}.
+
+In the \code{iris} dataframe, \code{Species} is a factor, so the rows for it correspond to its levels.
+
+The \code{1} is a place-holder, which in this context will mean ``all groups''.
+
+The columns in the table are defined by
+\begin{Schunk}
+\begin{Sinput}
+(n=1) + Format(digits=2)*(Sepal.Length + Sepal.Width)*(mean + sd)
+\end{Sinput}
+\end{Schunk}
+Again, summation corresponds to concatenation, so the first column corresponds to \code{(n=1)}.
+This is another use of the placeholder, but this time it is labelled as \code{n}.  
+Since we haven't specified any other statistic to use, the first
+column contains the counts of values in the dataframe in each category.
+
+The second term in the column formula is a product of three factors.
+The first, \code{Format(digits=2)}, is a pseudo-function to set the format for all of the entries to
+come.  (For more on formats, see section \ref{sec:formats} below.)  The second factor, \code{(Sepal.Length
++ Sepal.Width)}, is a concatenation of two variables.  Both of these
+variables are numeric vectors in \code{iris}, and they each become the
+variable to be analyzed, in turn.  The last factor, \code{(mean + sd)}
+names two R functions.  These are assumed to be functions that
+operate on a vector and produce a single value, as \code{mean} and
+\code{sd} do.  The values in the table will be the results of applying
+those functions to the two different variables and the subsets of the
+dataset.
+
+\section{Reference}
+
+For the examples below we use the following definitions:
+<<>>=
+set.seed(100)
+X <- rnorm(10)
+X
+A <- sample(letters[1:2], 10, rep=TRUE)
+A
+F <- factor(A)
+F
+@
+
+\subsection{Function syntax}
+
+\subsubsection{\code{tabular()}}
+
+\begin{Schunk}
+\begin{Sinput}
+tabular(table, ...)
+tabular.default(table, ...)
+tabular.formula(table, data=parent.frame(), n, suppressLabels=0, ...) 
+\end{Sinput}
+\end{Schunk}
+
+The \code{tabular} function is a generic function.  The default method
+uses \code{as.formula()} to try to convert the \code{table} argument
+to a formula, then passes it and all the other arguments to 
+\code{tabular.formula()} method, which does most of the work.  That
+method has 4 arguments plus \code{...}, but usually only the first two
+are used, and a warning is issued if anything is passed in the
+\code{...} arguments.
+
+\begin{description}
+\item[table] The \code{table} argument is the table formula, described in detail below.
+
+\item[data] The \code{data} argument is a dataframe or environment in which to look for 
+the data referenced by the table.  
+
+\item[n]  The \code{tabular} function needs to know the length of vectors on which it operates, because 
+some formulas (e.g. \code{1 ~ 1}) contain no data.  Normally \code{n} is taken as the
+number of rows in \code{data}, or the length of the first referenced object in the formula,
+but sometimes the user will need to specify it.  Once specified, it can't be modified:
+all data in the table should be the same length.
+
+\item[suppressLabels] By default, \code{tabular} adds a row or column label for each term, but
+this does sometimes make the table messy.  Setting \code{suppressLabels} to a positive
+integer will cause that many labels to be suppressed at the start of each term.  The
+pseudo-function \code{Heading()} can achieve the same effect, one term at a time.
+\end{description}
+
+The value returned is a list-mode matrix corresponding to the entries in the table, 
+with a number of attributes to help with formatting.  See the \code{?tabular} help page
+for more details.
+
+\subsubsection{\code{format(), print(), toLatex()}}
+\label{sec:formatsyntax}
+
+\begin{Schunk}
+\begin{Sinput}
+format(x, digits=4, justification="n", ...) 
+print(x, ...)
+toLatex(x, file="", options=NULL,  ...)
+\end{Sinput}
+\end{Schunk}
+
+
+The \code{tables} package provides methods for the \code{format()}, \code{print()} 
+and \code{utils::toLatex()} generics.
+The arguments are:
+\begin{description}
+\item[x] The tabular object returned from \code{tabular()}.
+\item[digits] The default number of digits to use when formatting.
+\item[justification] The default text justification to use when printing.  For text display, the
+recognized values are \code{"n", "l", "c", "r"}, standing for none, left, center and right
+justification respectively.  For \LaTeX\ the justification is 
+specified via the \code{table_options()} function (section \ref{sec:booktabs}).
+\item[file] The default method for the \code{Hmisc::latex()} generic writes the \LaTeX\ code
+to a file; \code{latex.tabular()} can optionally do the same, but it defaults to writing to screen,
+for use in Sweave documents like this one.
+\item[options] A list of options to pass to \code{table_options()}.  These
+will be set only for the duration of the call to \code{toLatex()}.
+\end{description}
+
+\subsubsection{\code{as.matrix(), write.csv.tabular(), write.table.tabular()}}
+\label{sec:csv}
+
+\begin{Schunk}
+\begin{Sinput}
+as.matrix(x, format = TRUE, 
+    rowLabels = TRUE, colLabels = TRUE, justification = "n", ...)
+write.csv.tabular(x, file = "", justification = "n", row.names=FALSE, 
+    write.options=list(), ...)
+write.table.tabular(x, file="", 
+    justification = "n", row.names=FALSE, col.names=FALSE,
+    write.options=list(), ...)   
+\end{Sinput}
+\end{Schunk}
+
+These functions export tables for further computations.  The arguments are:
+\begin{description}
+\item[x] The tabular object.
+\item[format] Whether to format the entries.  See the help page for alternatives.
+\item[rowLabels, colLabels] If formatting, whether to include the labels or not.
+\item[justification] The default text justification to use when formatting.
+\item[file] Where to write the output.
+\item[row.names,col.names, write.options] Additional parameters to pass
+to \code{write.csv()} or \code{write.table()}.
+\end{description}
+
+\subsubsection{\code{as.tabular()}}
+
+\begin{Schunk}
+\begin{Sinput}
+as.tabular(x, ...)
+as.tabular.default(x, like=NULL, ...)
+as.tabular.data.frame(x, ...)
+\end{Sinput}
+\end{Schunk}
+
+These functions create tables from existing matrices or dataframes of values.
+The dimnames of the input are used to construct default row and column names.  If 
+more elaborate labelling is wanted, use a \code{tabular} object as the
+\code{like} argument.  The labelling for \code{like} will be used on the
+newly constructed result.
+
+\subsubsection{\code{table\textunderscore options(), booktabs()}}
+\label{sec:booktabs}
+
+The \code{table\textunderscore options()} function sets a number of formatting defaults for the \code{toLatex()}
+method:
+\begin{description}
+\item[justification] This is the default justification for data columns and their headers.
+Any justification string will be accepted; it should be
+one that the \LaTeX\ \verb+\tabular+ environment (or substitute) accepts.  If a vector
+of strings is specified they will be recycled across the columns of the table.
+\item[rowlabeljustification] This is the default justification for row labels.  A vector of
+strings will be recycled across the row label columns.
+\item[tabular] The environment to use in \LaTeX.  Alternatives to \code{"tabular"} such as
+\code{"longtable"} can be used here.  Those often also need 
+modifications within the table; the \code{Literal()} (section \ref{sec:Literal}) function may be
+helpful.
+\item[toprule, midrule, bottomrule] The \LaTeX\ macros to draw the top, middle and bottom lines
+in the table.  By default these are all \verb!"\\hline"!.
+\item[titlerule] An optional \LaTeX\ macro to draw a line under multicolumn titles.
+\item[doBegin, doHeader, doBody, doFooter, doEnd]
+These logical values control the inclusion of specific parts of
+the output table.
+\end{description}
+The defaults are
+<<echo=FALSE>>=
+saved.options
+@
+Some options only apply to HTML output; see the help page 
+\code{?table\textunderscore options} for details.
+
+If you are using the \LaTeX\ \pkg{booktabs} package, the \code{booktabs()} function will
+set different options.  Currently those are:
+<<echo=FALSE>>=
+table_options()[c("toprule", "midrule", "bottomrule", "titlerule")]
+@
+
+The earlier table of iris data was produced using
+<<eval=FALSE>>=
+<<irisbook>>
+@
+\begin{center}
+<<results=tex,echo=FALSE>>=
+<<irisbook>>
+@
+\end{center}
+
+
+We can use the \code{doXXXX} options to insert raw \LaTeX\ into a table:
+<<split, eval=FALSE>>=
+toLatex(tabular(Species ~ (n=1) + Format(digits=2)*
+         (Sepal.Length + Sepal.Width)*(mean + sd), data=iris),
+      options=list(doFooter=FALSE, doEnd=FALSE))
+cat("\\ \\\\ \\multicolumn{6}{l}{
+\\textit{Overall, we see the following: }} \\\\
+\\ \\\\")
+toLatex(tabular(1 ~ (n=1) + Format(digits=2)*
+         (Sepal.Length + Sepal.Width)*(mean + sd), data=iris),
+      options=list(doBegin=FALSE, doHeader=FALSE))
+@
+\begin{center}
+<<results=tex, echo=FALSE>>=
+<<split>>
+@
+\end{center}
+
+
+\subsubsection{\code{latexNumeric()}}
+\label{sec:latexNumeric}
+
+\begin{Schunk}
+\begin{Sinput}
+latexNumeric(chars, minus = TRUE, leftpad = TRUE, rightpad=TRUE, 
+                        mathmode = TRUE)
+\end{Sinput}
+\end{Schunk}
+
+The \code{latexNumeric()} function converts character representations of numbers
+into a format suitable for display in \LaTeX\ documents.  There are two goals:
+\begin{itemize}
+\item If \code{chars} is a vector with constant width, then the output will also be constant width.
+This means the default centering used in \code{tabular()} will not misalign decimal points (if
+they were aligned in \code{chars}).
+\item Minus signs will be displayed with the proper symbol rather than a hyphen.
+\end{itemize}
+
+The arguments are:
+\begin{description}
+\item[chars]
+A character vector of formatted numeric values.
+\item[minus]
+Whether to pad positive cases with spacing of the same width as a minus sign.  If \code{TRUE}
+and some entries are negative, then all positive entries will be padded.
+\item[leftpad, rightpad]
+Whether to pad cases that have leading or trailing blanks with spacing matching a digit width per space.
+If \code{leftpad=TRUE}, leading blanks will be converted to spaces the same width as a digit 0.  (If
+\code{minus=TRUE}, one leading blank may have been consumed in the sign padding.)
+The \code{rightpad} argument handles trailing blanks similarly.
+
+\item[mathmode]
+Whether to wrap the result in dollar signs, so \LaTeX\ will render minus signs properly.
+\end{description}
+
+\subsection{Operators}
+
+
+\subsubsection{$e_1 + e_2$}
+
+Summing two expressions indicates that they
+should be displayed in sequence.  For rows, this means $e_1$ will be
+displayed just above $e_2$; for columns, $e_1$ will be just to the left of
+$e_2$.
+
+Example:
+\begin{center}
+<<results=tex>>=
+toLatex( tabular(F + 1 ~ 1) )
+@
+\end{center}
+
+\subsubsection{$e_1 * e_2$}
+
+Multiplying two expressions means that each
+element of $e_1$ will be applied to each element of $e_2$.  If $e_1$ is 
+a factor, then $e_2$ will be displayed for each element of it.   NB:  $*$ has
+higher precedence than $+$ and evaluation proceeds from left to right.
+The expression $(e_1 + e_2)*(e_3 + e_4)$
+is equivalent to $e_1*e_3 + e_1*e_4 + e_2*e_3 + e_2*e_4$.
+
+Example:
+\begin{center}
+<<results=tex>>=
+toLatex( tabular( X*F*(mean + sd) ~ 1 ) )
+@
+\end{center}
+
+\subsubsection{$e_1 \sim e_2$}
+
+The tilde separates row specifications from
+column specifications, but otherwise acts the same as $*$, i.e.
+each row value applies to each column.
+
+Example:
+\begin{center}
+<<results=tex>>=
+toLatex( tabular( X*F ~ mean + sd ) )
+@
+\end{center}
+
+\subsubsection{$e_1 = e_2$}
+
+The operator $=$ is used to set the name of
+$e_2$ to a displayed version of $e_1$.  It is an abbreviation for
+\code{Heading(}$e_1$\code{)*}$e_2$.  NB:  because $=$ has lower 
+operator precedence than any other operator, we usually put
+parentheses around these expressions, i.e. $(e_1 = e_2)$.
+
+Example: \code{F} is renamed to ``Newname''.
+\begin{center}
+<<results=tex>>=
+toLatex( tabular( X*(Newname=F) ~ mean + sd ) )
+@
+\end{center}
+
+\subsection{Terms in Formulas}
+
+R parses table formulas into sums, products, and bindings separated by the tilde formula operator.  What comes between the
+operators are other expressions.  Other than the pseudo-functions described in section \ref{sec:pseudo}, these are evaluated
+and the actions depend on the type of the resulting value.  
+
+\subsubsection{Closures or other functions}
+\label{sec:closures}
+
+If the expression evaluates to a function (e.g. it is the name of a function), then that function
+becomes the summary statistic to be displayed.  The summary statistic should take a vector of values as input, and return a single 
+value (either numeric, character, or some other simple printable value).  If no summary function is specified, the default is
+\code{length}, to count the length of the vector being passed.  
+
+Note that only one summary function can be specified for any cell in the table or an error will be
+reported.
+
+Example: \code{mean} and \code{sd} are specified functions; \code{n} is the renamed default statistic.
+\begin{center}
+<<results=tex>>=
+toLatex( tabular( (F+1) ~ (n=1) + X*(mean + sd) ) )
+@
+\end{center}
+
+\subsubsection{Factors}
+
+If the expression evaluates to a factor, the dataset is broken up into subgroups according to the levels of the factor.
+Most of the examples above have shown this for the factor \code{F}, but this can also be used to display complete datasets:
+
+Example:  creating a factor to show all data.  Use the \code{identity} function to
+display the values in each cell.
+\begin{center}
+<<results=tex>>=
+toLatex( tabular( (i = factor(seq_along(X)))  ~ 
+       Heading()*identity*(X+A + 
+              (F = as.character(F) ) ) ) ) 
+@
+\end{center} 
+
+\subsubsection{Logical vectors}
+
+If the expression evaluates to a logical vector, it is used to subset the data.
+
+Example:  creating subsets on the fly. 
+\begin{center}
+<<results=tex>>=
+toLatex( tabular( (X > 0) + (X < 0)  + 1
+    ~ ((n = 1) + X*(mean + sd)) ) )
+@
+\end{center} 
+
+\subsubsection{Language Expressions}
+
+If the expression evaluates to a language object, e.g. the result of \code{quote()} or \code{substitute()}, 
+then it will be replaced in the table formula by its result.  This allows complicated table formulas
+to be saved and re-used.  For examples, see section \ref{sec:tableformulas}.
+
+
+\subsubsection{Other vectors}
+\label{sec:othervectors}
+
+If the expression evaluates to something other than the above, then it
+is assumed to be a vector of values to be summarized in the table.  If
+you would like to summarize a factor or logical vector, wrap it in
+\code{I()} to prevent special handling.
+
+Note that the following must all be true, or an error will be reported:
+\begin{itemize}
+\item only one value vector can be specified for any cell in the
+table, 
+\item all value vectors must be the same length, 
+\item \code{is.atomic()}
+must evaluate to \code{TRUE} for the vector.
+\end{itemize}
+
+Example:  treating a logical vector as values.
+\begin{center}
+<<results=tex>>=
+toLatex( tabular( I(X > 0) + I(X < 0)  
+    ~ ((n=1) + mean + sd) ) )
+@
+\end{center} 
+
+\subsection{``Pseudo-functions''}
+\label{sec:pseudo}
+
+Several directives to \pkg{tables} may be embedded in the table formula.  
+This is done using ``pseudo-functions''.  Syntactically
+they look like function calls, but reserved names are used.  In most cases, 
+their action applies to later factors in the term in which they appear.
+For example,
+\begin{center}
+ \code{X*Justify(r)*(Y + Format(digits=2)*Z) + A}
+\end{center} 
+will apply the \code{Justify(r)} directive to both \code{Y} and \code{Z}, but
+the \code{Format(digits=2)} directive will only apply to \code{Z}, and neither will apply to \code{A}.
+
+\subsubsection{\code{Format()}}
+\label{sec:formats}
+
+By default \pkg{tables} formats each column
+using the standard \code{format()} function, with arguments taken from the
+\code{format.tabular()} call (see section \ref{sec:formatsyntax}).  
+
+The \code{Format()} pseudo-function does two
+things:  it changes the formatting, and it specifies that all values it applies to will be formatted together.  
+The ``call'' to \code{Format} looks like a call to \code{format}, but without 
+specifying the argument \code{x}.  When \code{tabular()} formats the output it will construct
+\code{x} from the entries in the table governed by the \code{Format()} specification.
+
+Example:  The mean and standard deviation are both governed by the same format, so
+they are displayed with the same number of decimal places, chosen so that the smallest
+values (the means) show two significant digits.
+\begin{center}
+<<results=tex>>=
+toLatex( tabular( (F+1) ~ (n=1) 
+           + Format(digits=2)*X*(mean + sd) ) )
+@
+\end{center}
+
+For customized formatting, an alternate syntax is to pass a function call to \code{Format()}, rather
+than a list of arguments.  The function should accept an argument named \code{x} (but as with the
+regular formatting, \code{x} should not be included in the formula), to contain the data.  It should return a character vector
+of the same length as x.
+
+Example:  Use a custom function and \code{sprintf()} to display a standard error in parentheses.
+\begin{center}
+<<results=tex>>=
+stderr <- function(x) sd(x)/sqrt(length(x))
+fmt <- function(x, digits, ...) {
+  s <- format(x, digits=digits, ...)
+  is_stderr <- (1:length(s)) > length(s) %/% 2
+  s[is_stderr] <- sprintf("$(%s)$", s[is_stderr])
+  s[!is_stderr] <- latexNumeric(s[!is_stderr])
+  s
+}
+toLatex( tabular( Format(fmt(digits=1))*(F+1) ~ X*(mean + stderr) ) )
+@
+\end{center}
+
+ Character values in cells in the table are handled specially; see section \ref{sec:formatdetails}
+ below.
+
+\subsubsection{\code{.Format()}}
+
+The pseudo-function \code{.Format()} is mainly intended for internal use. It takes a single integer argument, saying that data governed by this call uses the same formatting as the format specification
+indicated by the integer. In this way entries can be commonly formatted even when they are not contiguous. The integers are assigned sequentially as the format specification is parsed; users will likely need trial and error to find the right value in a complicated table with multiple formats.
+
+Example:  Format two separated columns with the same format.
+\begin{center}
+<<results=tex>>=
+toLatex( tabular( (F+1) ~ X*(Format(digits=2)*mean 
+                    + (n=1) + .Format(1)*sd) ) )
+@
+\end{center}
+
+\subsubsection{\code{Heading() }}
+
+Normally \code{tabular()} generates row and column labels by deparsing the expression
+being tabulated.  These can be changed by using the \code{Heading()} pseudo-function, which
+replaces the heading on the next object found.  The heading can either be a name or a string in quotes.  If the \code{character.only} argument
+is \code{TRUE}, the expression will be evaluated to a string which
+will be used as a heading.  \LaTeX\ codes which are not syntactically
+valid R can be used either in
+quoted strings or with \code{character.only = TRUE}.
+
+If no argument is passed, the next label is suppressed.
+
+There's an optional argument \code{override}, which must be either \code{TRUE}
+or \code{FALSE} if present.  If it is \code{TRUE} (or not present),
+then the heading will override a previously specified heading.  If
+\code{FALSE}, it will not.  The latter seems likely only to be of use
+in automatically generated code, and is used in the automatically
+generated labels for factors.
+
+Another optional argument is \code{nearData}.  This is used only when
+two terms in a table are concatenated using \code{+}, and they don't have the same number of rows or columns.  Under the default \code{TRUE} value, the
+smaller one is moved closer to the data in the table
+(i.e. to the right for row labels, down for column
+labels); if \code{FALSE}, it is moved in the opposite direction.
+
+
+Example:  Replace \code{F} with a Greek $\Phi$, and suppress the label for \code{X}.
+\begin{center}
+<<results=tex>>=
+toLatex( tabular( (Heading("$\\Phi$")*F+1) ~ (n=1) 
+           + Format(digits=2)*Heading()*X*(mean + sd) ) )
+@
+\end{center}
+
+Example:  Use \code{nearData = FALSE} to push a 
+label away from the data:
+\begin{center}
+<<results=tex>>=
+toLatex( tabular( X*F + Heading("near")*X 
+		+ Heading("far", nearData = FALSE)*X ~ mean + sd ) )
+@
+\end{center}
+
+\subsubsection{\code{Justify()}}  
+
+The \code{Justify()} pseudo-function is used to specify the text justification of the headers and data values in the table.
+If called with one argument, that value is used for both labels and data; if called with two arguments, the first is used for the 
+labels, the second for the data.  If no \code{Justify()} specification is given, the default passed to \code{format()}, \code{print()} or \code{toLatex()} will
+be used.  Values may be specified without quotes if they are legal R names; quoted strings may also be used.  (The latter is useful
+for \LaTeX\ output, for example \verb!Justify("r@{}")!, to suppress column spacing on the right.)
+
+Example: 
+\begin{center}
+<<results=tex>>=
+toLatex( tabular( Justify(r)*(F+1) ~ Justify(c)*(n=1) 
+   + Justify(c,r)*Format(digits=2)*X*(mean + sd) ) )
+@
+\end{center}
+
+\subsubsection{\code{Percent()}}
+
+The \code{Percent()} pseudo-function is used to specify a statistic that
+depends on other values in the table.  It has two optional arguments:
+\begin{description}
+\item[\code{denom="all"}]  This specifies how the denominator
+(argument \code{y} to \code{fn} below) is set.  The most commonly
+used values are
+\code{"all"}, meaning all values are used, \code{"row"}, meaning only
+the values in the current row are used, \code{"col"}, meaning only the
+values in the current column are used.  
+
+The special syntax \code{Equal(...)}
+will record the expressions in \code{...}, and ignore any factor 
+based subsetting if the factor does not appear among the expressions.
+Similarly \code{Unequal(...)} will use values which differ in any
+of the expressions in \code{...} from the values in the current cell.\footnote{
+In fact, the mechanism is more general.  The expressions in \code{Equal(...)}
+or \code{Unequal(...)} are deparsed and treated as strings.  Any
+logical vector elsewhere in the table may be labelled with a string
+using the \code{labelSubset} function and those labels will be
+respected.  Unlabelled logical vectors in the table formula will always 
+be used for subsetting.}
+
+If a logical vector is given, it is
+used to select which values form the denominator.  Anything else is just
+passed to \code{fn} as given.
+\item[\code{fn=percent}]  This is the function which actually does the
+computation.  The default definition is \code{function(x, y) 100*length(x)
+/length(y)}, giving the percentage count, but any other two argument
+function could be used.
+\end{description}
+
+These two examples are different ways of producing the same 
+table:
+\begin{center}
+<<eval=FALSE>>=
+toLatex( tabular( (Factor(gear, "Gears") + 1)
+          *((n=1) + Percent() 
+            + (RowPct=Percent("row")) 
+            + (ColPct=Percent("col"))) 
+         ~ (Factor(carb, "Carburetors") + 1)
+          *Format(digits=1), data=mtcars ) )
+<<results=tex>>=
+toLatex( tabular( (Factor(gear, "Gears") + 1)
+          *((n=1) + Percent() 
+            + (RowPct=Percent(Equal(gear)))  # Equal, not "row"
+            + (ColPct=Percent(Equal(carb)))) # Equal, not "col"
+         ~ (Factor(carb, "Carburetors") + 1)
+          *Format(digits=1), data=mtcars ) )
+@
+\end{center}
+
+\subsubsection{\code{Arguments()}}
+
+The \code{Arguments()} pseudo-function is an exception to the rule that pseudo-functions
+apply to later factors in the table.  What it does is to specify (additional) arguments to the
+summary function (see section \ref{sec:closures}).  For example, the \code{weighted.mean()} function
+takes two arguments:  \code{x} and \code{w}.  To use it in a table, you would specify the
+values to use as \code{x} via the usual mechanism for the analysis variable (section \ref{sec:othervectors}),
+and include a term \code{Arguments(w=weights)} either before or after it.  The
+function will be called as \code{weighted.mean(x[subset], w=weights[subset])}, where
+\code{subset} is a logical vector indicating which rows of data belong in the current 
+cell.
+
+It is actually a little more complicated than as described above.  The arguments to \code{Arguments}
+are evaluated in full, then only those which are length \code{n} are subsetted.  And
+if no analysis variable has been specified, but \code{Arguments()} has been, then 
+the function will be called without the \code{x[subset]} argument.  Finally, the
+\code{Arguments()} entry will not create a heading.
+
+For example:
+\begin{center}
+<<results=tex>>=
+# This is the example from the weighted.mean help page
+wt <- c(5,  5,  4,  1)/15
+x <- c(3.7,3.3,3.5,2.8)
+gp <- c(1,1,2,2)
+toLatex( tabular( (Factor(gp) + 1) 
+                ~ weighted.mean*x*Arguments(w = wt) ) )
+@
+\end{center}
+The same table (without the \code{x} heading) can be produced using
+<<eval=false>>=
+toLatex( tabular( (Factor(gp) + 1) 
+                ~ Arguments(x, w = wt)*weighted.mean ) )
+@
+The order of the \code{weighted.mean} and \code{Arguments()} factors makes no difference.
+
+\subsubsection{\code{DropEmpty()}}
+
+\code{DropEmpty()} indicates that cells (or whole
+rows or columns of the table) should be dropped if they 
+contain no observations.  This will prevent 
+ugly results like \code{NA} or \code{NaN} from showing
+up in the table.
+
+This pseudo-function takes two optional arguments,
+\code{which} (with default value \code{c("row", "col", "cell")}) and \code{empty} (with default value \code{""}).
+
+If the \code{which} argument contains \code{"row"}, then
+any row in the table in which all cells are empty will be dropped.
+Similarly, if it contains \code{"col"}, empty columns
+will be dropped.  If it contains \code{"cell"}, then cells
+in rows and columns that are not dropped will be set to
+the \code{empty} string.
+
+For example, without using \code{DropEmpty()}, this 
+table is ugly:
+\begin{center}
+<<results=tex>>=
+set.seed(730)
+df <- data.frame(Label = LETTERS[1:9], 
+		 Group = rep(letters[1:3], each=3), 
+		 Value = rnorm(9), 
+		 stringsAsFactors = TRUE)
+toLatex( tabular( Label ~ Group*Value*mean, 
+		data = df[1:6,]))
+@
+\end{center}
+This looks much better:
+\begin{center}
+<<results=tex>>=
+toLatex( tabular( Label ~ Group*Value*mean*
+			DropEmpty(empty="."), 
+		data = df[1:6,]))
+@
+\end{center}
+
+\subsection{Formula Functions}
+\label{sec:tableformulas}
+
+Currently several examples of formula functions are provided.   Not all are
+particularly robust; e.g. \code{Hline()} only works for \LaTeX\ output and must be in a
+particular position in the formula.  Users can provide their own as well.  
+Such functions
+should return a language object, which will be substituted into the formula in place of the formula
+function call.
+
+\subsubsection{\code{All()}}
+
+This function expands all the columns from a dataframe into separate variables in the table.
+It has syntax
+
+\begin{Schunk}
+\begin{Sinput}
+All(df, numeric=TRUE, character=FALSE, logical=FALSE, 
+        factor=FALSE, complex=FALSE, raw=FALSE, other=FALSE,
+        texify=getOption("tables.texify", FALSE))
+\end{Sinput}
+\end{Schunk}
+
+The arguments are
+\begin{description}
+\item[\code{df}] A dataframe or matrix whose columns are to be displayed
+\item[\code{numeric}, \code{character}, \code{logical}, \code{factor}, \code{complex}
+and \code{raw}] Whether to include columns of the corresponding types in the table.
+\item[\code{other}] Whether to include columns that match none of the previous types.
+\item[\code{texify}] Whether to escape \LaTeX\ special characters.  See section \ref{sec:formatdetails}.
+\end{description}
+
+If functions are given for any of the selection arguments, the columns will be
+transformed according to the specified function before inclusion.  For example,
+using \code{factor=as.character} will convert factors into character vectors in the table.
+
+Example:  Show the means of the numeric columns in the iris data.
+
+\begin{center}
+<<results=tex>>=
+toLatex( tabular( Species ~ Heading()*mean*All(iris), data=iris) )
+@
+\end{center}
+
+\subsubsection{\code{AllObs(), RowNum()}}
+
+The \code{AllObs()} function displays all of the observations 
+in a dataset.  It does this by creating a factor with a different
+level for each observation, and a summary statistic function
+which just displays the observation.  It works with \code{DropEmpty()}
+to drop rows (or columns) from the table if they
+correspond to non-existent observations.  For example,
+\begin{center}
+<<results=tex>>=
+df <- mtcars[1:10,]
+toLatex( tabular(Factor(cyl)*Factor(gear)*AllObs(df) ~ 
+               rownames(df) + mpg, data=df) )
+@
+\end{center}
+
+Often (as with the \code{mtcars} dataset) the full dataset
+takes a lot of space to display.  In that case, it 
+can be displayed in multiple columns using a combination of
+the \code{AllObs()} and \code{RowNum()} functions.  Because
+this affects both rows and columns in the resulting table,
+the code is a little unusual.   You would normally compute
+the \code{RowNum()} formula function outside the call to
+\code{tabular()}, and include it in the row specification
+wrapped in \code{I()} and in the column specification
+in the \code{within} argument to \code{AllObs()}. For example,
+\begin{center}
+<<results=tex>>=
+rownum <- with(mtcars, RowNum(list(cyl, gear)))
+toLatex( tabular(Factor(cyl)*Factor(gear)*I(rownum) ~
+        mpg * AllObs(mtcars, within = list(cyl, gear, rownum)), 
+        data=mtcars) )
+@
+\end{center}
+
+Despite its name, \code{RowNum} can be used to specify columns
+instead of rows, for a column-major display.  In this
+case, its \code{perrow} argument should be interpreted
+as ``per column''.  For example,
+\begin{center}
+<<results=tex>>=
+rownum <- with(mtcars, RowNum(list(cyl, gear), perrow = 2))
+toLatex( tabular(Factor(cyl)*Factor(gear)*
+	       AllObs(mtcars, within = list(cyl, gear, rownum)) ~
+               mpg * I(rownum), 
+        data=mtcars) )
+@
+\end{center}
+
+\subsubsection{\code{Hline()}}
+
+This function produces horizontal lines in the table.  It only works for LaTeX output, and
+must be the first factor in a term in the table formula.
+It has syntax
+
+\begin{Schunk}
+\begin{Sinput}
+Hline(columns)
+\end{Sinput}
+\end{Schunk}
+
+The argument is
+\begin{description}
+\item[\code{columns}] An optional vector listing which columns should 
+get the line.  
+\end{description}
+
+Example:  
+
+\begin{center}
+<<results = tex>>=
+toLatex( tabular( Species + Hline(2:5) + 1 
+                         ~ Heading()*mean*All(iris), data=iris) )
+@
+\end{center}
+
+\subsubsection{\code{Literal()}}
+\label{sec:Literal}
+
+This function inserts literal text as a label.  It has syntax
+
+\begin{Schunk}
+\begin{Sinput}
+Literal(x)
+\end{Sinput}
+\end{Schunk}
+
+The single argument is the text to insert.  It is used by the \code{Hline()} function to insert the text.
+
+\subsubsection{\code{PlusMinus()}}
+
+This function produces table entries like $x \pm y$ with an optional header.
+It has syntax
+
+\begin{Schunk}
+\begin{Sinput}
+PlusMinus(x, y, head, xhead, yhead, digits=2, ...)
+\end{Sinput}
+\end{Schunk}
+
+The arguments are
+\begin{description}
+\item[\code{x, y}] These are expressions which should each generate a single column in the table.  The \code{x}
+value will be flush right, the \code{y} value will be flush left, with the $\pm$ symbol between. 
+\item[\code{head}] If not missing, this header will be put over the pair of columns.
+\item[\code{xhead, yhead}] If not missing, these will be put over the individual columns.
+\item[\code{digits, ...}] These arguments will be passed to the standard \code{format()} function.
+\end{description}
+
+Example:  Display mean $\pm$ standard error.
+\begin{center}
+<<results=tex>>=
+stderr <- function(x) sd(x)/sqrt(length(x))
+toLatex( tabular( (Species+1) ~ All(iris)*
+          PlusMinus(mean, stderr, digits=1), data=iris ) )
+@
+\end{center}
+
+\subsubsection{\code{Paste()}}
+
+This function produces table entries made up of multiple values.  It has syntax
+\begin{Schunk}
+\begin{Sinput}
+Paste(..., head, digits=2, justify="c", prefix="", sep="",
+      postfix="")
+\end{Sinput}
+\end{Schunk}
+
+The arguments are
+\begin{description}
+\item[\code{...}] 
+Expressions to be displayed in the columns of the table. 
+\item[\code{head}]
+If not missing, this will be used as a column heading for the combined columns.
+\item[\code{digits}]
+Digits used in formatting.  If a single value
+is given, all columns will be formatted in common.
+If multiple values are given, each is formatted separately.
+\item[\code{justify}]
+One or more justifications to use on the individual columns.
+\item[\code{prefix, sep, postfix}]
+Text to use before, between, and after the columns. 
+\end{description}
+
+Example:  Display a confidence interval.
+\begin{center}
+<<results=tex>>=
+lcl <- function(x) mean(x) - qt(0.975, df=length(x)-1)*stderr(x)
+ucl <- function(x) mean(x) + qt(0.975, df=length(x)-1)*stderr(x)
+toLatex( tabular( (Species+1) ~ All(iris)*
+          Paste(lcl, ucl, digits=2, 
+                head="95\\% CI", sep=",", prefix="[",
+                postfix="]"), 
+          data=iris ) )
+@
+\end{center}
+
+
+\subsubsection{\code{Factor()}, \code{RowFactor()} and \code{Multicolumn()}}
+\label{sec:RowFactor}
+
+The \code{Factor()} function converts its argument into a factor, but keeps the
+original name for a column heading.  \code{RowFactor()} is designed to be used only
+for \LaTeX\ output:  it produces multiple rows the way a factor does, but 
+with more flexibility in the formatting.  The \code{Multicolumn()} function is also designed
+for \LaTeX\ output:  it displays factor levels in the style where the level is displayed across 
+multiple columns on its own line.
+
+They have syntax
+
+\begin{Schunk}
+\begin{Sinput}
+Factor(x, name, levelnames, texify=getOption("tables.texify", FALSE))
+RowFactor(x, name, levelnames, spacing=3, space=1, 
+                    nopagebreak="\\nopagebreak", texify=getOption("tables.texify", FALSE))
+Multicolumn(x, name, levelnames, width=2, first=1, justify="l",
+                    texify=getOption("tables.texify", FALSE))
+\end{Sinput}
+\end{Schunk}
+
+The arguments are
+\begin{description}
+\item[x] A variable to be treated as a factor.
+\item[name] The name to be used for the factor; by default, the name passed as \code{x}.
+\item[levelnames] An optional argument to allow customization of the displayed level names.
+\item[texify] Whether to escape \LaTeX\ special characters.  See section \ref{sec:formatdetails}.
+\item[spacing] Extra spacing is added before every group of \code{spacing} lines.
+\item[space] How much extra space to add (in ``ex'' units).
+\item[nopagebreak] Macro to insert to suppress page breaks except between groups.
+\item[width] How many columns for the label?
+\item[first] What is the first column?
+\item[justify] What justification to use.
+\end{description}
+
+Example:  Show the first 15 lines of the iris dataset, in groups of 5 lines.
+
+\begin{center}
+<<results=tex>>=
+subset <- 1:15
+toLatex( tabular( RowFactor(subset, "$i$", spacing=5)  ~ 
+       All(iris[subset,], factor=as.character)*Heading()*identity ) )
+@
+\end{center}
+ 
+To add extra space after each high level group in a multi-way
+classification, use \code{spacing = 1}.  For example:
+\begin{center}
+<<results=tex>>=
+set.seed(1000)
+dat <- expand.grid(Block=1:3, Treatment=LETTERS[1:2], 
+                                Subset=letters[1:2])
+dat$Response <- rnorm(12)
+toLatex( tabular( RowFactor(Block, spacing=1)
+                * RowFactor(Treatment, spacing=1, space=0.5)
+                * Factor(Subset)
+                ~ Response*Heading()*identity, data=dat),
+                options=list(rowlabeljustification="c"))
+@
+\end{center}
+
+For longer tables, 
+the \code{"longtable"} environment allows the table to cross page boundaries.  Using
+this is more complicated, as in the example below.
+The \code{toprule}
+setting inserts the caption as well as the top rule, because the \pkg{longtable} package 
+requires it to be \textit{within}
+the table.  The
+\code{midrule} setting gets the headings to repeat on subsequent 
+pages.\footnote{I've done all of this
+in a way that is compatible with the \pkg{booktabs} style; if you want the
+default style, use \texttt{\textbackslash hline} in place of the \pkg{booktabs}
+\texttt{\textbackslash toprule} 
+and \texttt{\textbackslash midrule} macros in the
+\code{options} settings instead.}
+To avoid extra spacing at the top of those pages, we need
+to undo the automatic addition of a \verb!\normalbaselineskip! there, and use
+\code{suppressfirst=FALSE} so that the first page doesn't get messed up.  Whew!
+
+<<results=tex>>=
+subset <- 1:50
+toLatex( tabular( RowFactor(subset, "$i$", spacing=5, 
+                                             suppressfirst=FALSE)  ~ 
+       All(iris[subset,], factor=as.character)*Heading()*identity ),
+       options = list(tabular="longtable",
+          toprule="\\caption{This table crosses page boundaries.}\\\\
+              \\toprule",
+midrule="\\midrule\\\\[-2\\normalbaselineskip]\\endhead\\hline\\endfoot") )
+@
+
+To suppress the row numbering, use  \code{suppress=3} in the call to
+tabular.  (It is 3 because we need to suppress the column heading, the
+rewritten labels for the rows, and the original labels.  Trial and error is
+the best way to determine this!)  Unfortunately, the spacing features
+of \code{RowFactor()} won't work without the row labels.
+\begin{center}
+<<results=tex>>=
+subset <- 1:10
+toLatex( tabular( Factor(subset)  ~ 
+       All(iris[subset,], factor=as.character)*Heading()*identity, 
+       suppress=3 ) )
+@
+\end{center}
+(It is actually possible to get this to work with \code{RowFactor()}, but it
+is ugly: set the name and level names to \code{""}, and set the
+justification to \verb!"l@{}"! to suppress the intercolumn spacing.  Then
+the column of row labels will be there, but it will be zero width and
+invisible.)
+
+\code{RowFactor} with \code{spacing > 1} will add the \code{nopagebreak} macro
+at the beginning of each label except the first in the group.  This can produce \LaTeX\ errors
+in any column except the first one.  One workaround for this is to post-process the table
+to move the macro.  For example, if \code{tab} contains the result of \code{tabular()} and
+\LaTeX\ complains about misplaced \verb!\nopagebreak! macros, 
+this will allow it to be displayed properly:
+<<eval=FALSE>>=
+code <- capture.output( toLatex( tab ) )
+code <- sub("^(.*)(\\\\nopagebreak )", "\\2\\1", code)
+cat(code, sep = "\n")
+@
+
+To get group labels to span multiple columns, the \code{levelnames} argument
+can be used with embedded \LaTeX\ code.  For example,
+\begin{center}
+<<results=tex>>=
+toLatex( tabular( Multicolumn(Species, width=3, 
+            levelnames=paste("\\textit{Iris", levels(Species),"}")) 
+            * (mean + sd)  ~ All(iris), data=iris, suppress=1))
+@
+\end{center}
+
+\section{Further Details}
+
+\subsection{Formatting}
+\label{sec:formatdetails}
+
+As mentioned in \ref{sec:formats}, formatting in \pkg{tables} depends on the standard \code{format()}
+function or other user-selected functions.  Here are the details of how it is done.
+
+The \code{format.tabular()} method does the first part of the work.  First, it constructs the calls
+to the appropriate formatting functions, and uses them to format all of the non-character entries in the table.
+The character entries are left as-is, except as described below.
+This converts the \code{tabular} object to a character array.
+
+
+The procedure goes as follows:
+\begin{enumerate}
+\item Entries in the table without specified formatting are formatted first, separately
+by column using the \code{format()} function.  This is so that entries in a given column will end up
+with the same character width and (with the default settings) with the same number of decimal places.
+
+\item Entries in the table with specified formatting are grouped according to the format specification.
+For example, if two columns both share the same \code{Format()}, they will be formatted in
+a single call.  This results in such entries ending up
+with the same character width and (with the default settings) with the same number of decimal places.
+
+\item If the \code{toLatex} argument is \code{TRUE},
+any numeric entries are passed to the \code{latexNumeric()} function (see \ref{sec:latexNumeric}), which replaces blanks and
+minus signs with fixed width spaces and \LaTeX\ minus signs 
+so that all entries will display in the same width.  This means that numeric values will
+normally have decimal points aligned, unless the formatting function explicitly removes
+leading spaces.    Non-numeric entries are passed through the \code{Hmisc::latexTranslate} function
+so that special characters are displayed properly.
+
+\item If the \code{toLatex} argument is \code{FALSE}, 
+an attempt is made to justify the results using simple ASCII spacing, according to the \code{Justify()}
+specification with the \code{justification} argument used as a default.
+\end{enumerate}
+
+Note that \LaTeX\ special characters will not be escaped in data when \code{toLatex()} is called, but
+row and column headings generated by \code{All()}, \code{Factor()}, etc. will by default not have the escapes
+done.  Those functions have a \code{texify} argument that can be set to \code{TRUE}
+to enable this behaviour (e.g. if the label is not meant to be processed by \LaTeX).  For example,
+with the definition
+<<>>=
+df <- data.frame(A = factor(c( "$", "\\" ) ), B_label=1:2)
+@
+the code
+<<eval=FALSE>>=
+toLatex( tabular( mean ~ A*B_label, data=df ) ) 
+@
+would fail, as the labels would include the special characters.  But this will work, provided the \pkg{Hmisc} package is
+available:
+\begin{center}
+<<results=tex>>=
+options(tables.texify = TRUE)
+toLatex( tabular( mean ~ Factor(A)*All(df), data=df ) ) 
+@
+\end{center}
+Use of the \code{texify} option requires that the suggested package \code{"Hmisc"} be
+available.
+
+As mentioned above, character values in cells in the table are handled
+specially. If the default \code{format} function (or a custom function
+named \code{format}) is used, then those character values are not
+formatted, they are just copied into the result.  (This is  so that a column
+can have mixed numeric and character values, and the numerics are
+not converted to character before formatting.)  If you want to use
+\code{format} on character values, you will need to use a custom formatting
+function with a different name.
+
+\subsection{Missing Values}
+
+By default, most summary statistics in R return \code{NA} if any of the input values are 
+\code{NA}, but have ways to treat \code{NA} differently.  For example, the \code{mean()}
+function has the \code{na.rm} argument:
+<<>>=
+dat <- data.frame( a = c(1, 2, 3, NA), b = 1:4 )
+mean(dat$a)
+mean(dat$a, na.rm=TRUE)
+@
+
+The \code{tabular()} function itself has no way to specify special \code{NA} handling, but
+there are several ways to do this yourself, depending on how you want them handled.
+To ignore \code{NA} values within the column, define a new function which sets the
+different behaviour.  For example, 
+\begin{center}
+<<results=tex>>=
+Mean <- function(x) base::mean(x, na.rm=TRUE)
+toLatex( tabular( Mean ~ a + b, data=dat ) )
+@
+\end{center}
+An alternative approach is to use \code{na.omit()} to work on a subset of your data which has 
+rows with any missing values removed, e.g. 
+\begin{center}
+<<results=tex>>=
+toLatex( tabular( mean ~ a + b, data = na.omit(dat) ) )
+@
+\end{center}
+A third possibility is to use the \code{complete.cases()} function to remove missings
+only from some columns, e.g.
+\begin{center}
+<<results=tex>>=
+toLatex( tabular( 
+  Mean ~ (1 + Heading(Complete)*complete.cases(dat)) * (a + b), 
+               data=dat ) )
+@
+\end{center}
+
+Missing values in factors are normally ignored, i.e. observations whose 
+value is missing won't match any category.  If you would like \code{NA}
+to be used as an additional category, use \code{exclude = NULL}
+in a call to \code{factor()} when you create the variable, e.g.
+compare the following two tables:
+\begin{center}
+<<results=tex>>=
+A <- factor(dat$a)
+toLatex( tabular( A + 1 ~ (n=1)) )
+A <- factor(dat$a, exclude = NULL)
+toLatex( tabular( A + 1 ~ (n=1) ) )
+@
+\end{center}
+
+\subsection{Subsetting and Joining Tables}
+
+It is possible to select a subset of a table using the usual R matrix indexing on the table
+object.  For example, this table contains rows with no data in them, and those
+yield ugly NA and NaN statistics:
+\begin{center}
+<<results=tex>>=
+set.seed(1206)
+q <- data.frame(p = rep(c("A","B"),each=10,len=30),
+                           a = rep(c(1,2,3),each=10),id=seq(30),
+                           b = round(runif(30,10,20)),
+                           c = round(runif(30,40,70)),
+		stringsAsFactors = FALSE)
+tab <- tabular((Factor(p)*Factor(a)+1) 
+                        ~ (N = 1) + (b + c)*(mean+sd),data=q)
+toLatex(tab)
+@
+\end{center}
+To omit those rows,  use matrix-like subsetting to select the rows where the
+first column of data (i.e. $N$) is greater than zero:
+\begin{center}
+<<results=tex>>=
+toLatex(tab[ tab[,1] > 0, ])
+@
+\end{center}
+Similarly, \code{cbind()} can be used to join tables that have identical row labels,
+and \code{rbind()} can be used to join tables with identical column labels.  Thus the
+top part of the table above could be produced in another way:
+\begin{center}
+<<results=tex>>=
+formula <- Factor(p)*Factor(a) ~ 
+	   (N = 1) + (b + c)*(mean+sd)
+tab <- NULL
+for (sub in c("A", "B")) 
+    tab <- rbind(tab, tabular( formula, 
+                               data = subset(q, p == sub) ) )
+toLatex(tab)
+@
+\end{center}
+
+It is also possible to edit the row or column labels after constructing 
+the table.  For example, 
+<<>>=
+colLabels(tab)
+labs <- colLabels(tab)
+labs[1, 2] <- "New label"
+colLabels(tab) <- labs
+@
+\begin{center}
+<<results=tex>>=
+toLatex(tab)
+@
+\end{center}
+Note that \verb!<NA>! in the column labels means ``same as 
+the label to the left'', and in the row labels it means
+``same as the label above''.  This is used in constructing
+multi-column or multi-row labels.
+
+\subsection{\pkg{knitr},  \pkg{rmarkdown} and \pkg{kableExtra} support}
+
+This vignette was originally written many years ago using \code{Sweave}, and is still in that format.
+Nowadays I would recommend most users to use \pkg{knitr} instead:
+it is easier and more flexible.  The input may be in Noweb syntax
+very similar to this file, or Markdown syntax using the \pkg{rmarkdown}
+package.  
+
+One specific advantage of using \pkg{knitr} or \pkg{rmarkdown} is that 
+explicit calls to \code{toLatex()} are not needed:  by default, 
+tabular objects will print in the appropriate formatting for
+\LaTeX\ or HTML output.
+
+The \pkg{kableExtra} package
+may be used to customize displays.  
+For example, the code below causes the table to be full width,
+and the colour of
+the 4th column is changed.
+These features require additional \LaTeX\ packages; see the
+\pkg{kableExtra} documentation for details.
+
+<<results=tex>>=
+library(magrittr)
+library(kableExtra)
+toKable(tab) %>% 
+  kable_styling(full_width = TRUE) %>%
+  column_spec(4, color = "red")
+@
+
+See the HTML vignette (which is written in rmarkdown) for more discussion and examples.
+
+\subsection{Captions, labels, etc.}
+
+\LaTeX\ breaks the description of tables into two parts:  the 
+\verb!tabular! environment holding the data, and the optional 
+\verb!table! environment surrounding it, where captions, labels, where to place 
+the table in the document, etc. are all specified.  The \pkg{tables} package concentrates
+on the details of the \verb!tabular! part, because I didn't want to duplicate
+the myriad options in \LaTeX\ to set up the \verb!table! wrapper.  However,
+others are not so lazy, and Yihui Xie's \pkg{knitr} package includes
+the \verb!kable()! function which does these things.  (It is much
+less flexible about the actual contents, however.)  Rather than copying
+all his code, I have added the \verb!latexTable! function.  It uses
+\verb!kable()! to produce a dummy table, then replaces the \verb!tabular!
+part with the result of the \verb!tabular()! function from this package.  For example, this code produces Table \ref{tab:sepals}:
+<<results=tex>>=
+latexTable(tabular((Species + 1) ~ (n=1) + Format(digits=2)*
+                   (Sepal.Length + Sepal.Width)*(mean + sd), 
+                   data=iris),
+           caption = "Iris sepal data", label = "sepals")
+@
+which should have floated to the top or bottom of page 
+\pageref{tab:sepals}.
+
+\section*{Acknowledgments}
+
+I gratefully acknowledge helpful suggestions and hints from Rich
+Heiberger, Frank Harrell, Dieter Menne, Marius Hofert, Jeff Newmiller and Jeffrey
+Miller.  Hao Zhu was extremely helpful in adding the \pkg{kableExtra} support.
+
+\bibliography{tables}
+
+\end{document}
