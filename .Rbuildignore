@@ -11,3 +11,4 @@ vignettes/tables-concordance.tex
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^cran-comments\.md$
+^README\.Rmd$

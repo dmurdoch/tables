@@ -1,6 +1,6 @@
 Package: tables
 Title: Formula-Driven Table Generation
-Version: 0.9.10
+Version: 0.9.11
 Author: Duncan Murdoch
 Description: Computes and displays complex tables of summary statistics.
   Output may be in LaTeX, HTML, plain text, or an R
@@ -11,6 +11,6 @@ Depends: R (>= 2.12.0)
 Imports: stats, utils, knitr, htmltools
 Suggests: magrittr, kableExtra (>= 0.9.0), Hmisc, bookdown, rmarkdown
 VignetteBuilder: knitr
-URL: https://r-forge.r-project.org/projects/tables/
-BugReports: https://r-forge.r-project.org/tracker/?atid=5053&group_id=1277
+URL: https://github.com/dmurdoch/tables/
+BugReports: https://github.com/dmurdoch/tables/issues
 SystemRequirements:  pandoc (>= 1.12.3) for vignettes
