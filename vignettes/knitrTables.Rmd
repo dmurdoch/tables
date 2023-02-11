@@ -7,6 +7,9 @@ output:
     toc: true
     toc_depth: 3
     link-citations: yes
+pkgdown:
+  as_is: true
+  extension: pdf
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteIndexEntry{Tables in R Markdown}
@@ -537,7 +540,7 @@ of the same length as x.
 Example:  Use a custom function and `sprintf()` to display a standard error in parentheses.
 
 ```{r}
-stderr <- function(x) sd(x)/sqrt(length(x))
+StdErr <- function(x) sd(x)/sqrt(length(x))
 fmt <- function(x, digits, ...) {
   s <- format(x, digits=digits, ...)
   is_stderr <- (1:length(s)) > length(s) %/% 2
@@ -545,7 +548,7 @@ fmt <- function(x, digits, ...) {
   s[!is_stderr] <- latexNumeric(s[!is_stderr])
   s
 }
-tabular( Format(fmt(digits=1))*(F+1) ~ X*(mean + stderr) )
+tabular( Format(fmt(digits=1))*(F+1) ~ X*(mean + StdErr) )
 ```
 
 
@@ -899,9 +902,9 @@ value will be flush right, the `y` value will be flush left, with the $\pm$ symb
 Example:  Display mean $\pm$ standard error.
 
 ```{r}
-stderr <- function(x) sd(x)/sqrt(length(x))
+StdErr <- function(x) sd(x)/sqrt(length(x))
 tabular( (Species+1) ~ All(iris)*
-          PlusMinus(mean, stderr, digits=1), data=iris )
+          PlusMinus(mean, StdErr, digits=1), data=iris )
 ```
 
 
@@ -933,8 +936,8 @@ Text to use before, between, and after the columns.
 Example:  Display a confidence interval.
 
 ```{r}
-lcl <- function(x) mean(x) - qt(0.975, df=length(x)-1)*stderr(x)
-ucl <- function(x) mean(x) + qt(0.975, df=length(x)-1)*stderr(x)
+lcl <- function(x) mean(x) - qt(0.975, df=length(x)-1)*StdErr(x)
+ucl <- function(x) mean(x) + qt(0.975, df=length(x)-1)*StdErr(x)
 tabular( (Species+1) ~ All(iris)*
           Paste(lcl, ucl, digits=2, 
                 head="95\\% CI", sep=",", prefix="[",
