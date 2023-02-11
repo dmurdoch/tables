@@ -43,7 +43,8 @@ to functions in the \pkg{kableExtra} package.
 \code{\link[kableExtra]{kableExtra-package}} 
 }
 \examples{
-if (requireNamespace("kableExtra")) {
+if (requireNamespace("kableExtra") && 
+    (!requireNamespace("pkgdown") || !pkgdown::in_pkgdown())) {
   tab <-  tabular( (Species + 1) ~ (n=1) + Format(digits=2)*
           (Sepal.Length + Sepal.Width)*(mean + sd), data=iris )
   print(kableExtra::kable_styling(toKable(tab), latex_options = "striped"))
