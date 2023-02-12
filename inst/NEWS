@@ -159,3 +159,7 @@
       or names of the column labels differed.
       Error messages for rbind() and cbind() have been made more
       helpful.
+      
+0.9.11:
+      Change host to Github.
+      Add useGroupLabels() function.
