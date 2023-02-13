@@ -10,7 +10,10 @@ show the levels.  This function merges that column
 into another column in the labels.
 }
 \usage{
-useGroupLabels(tab, col = 1, indent = "  ", newcolumn = 1)
+useGroupLabels(tab, col = 1, 
+               indent = "  ", 
+               newcolumn = 1,
+               singleRow = TRUE)
 }
 \arguments{
   \item{tab}{
@@ -24,6 +27,10 @@ A prefix to add to existing entries in the new column.
 }
   \item{newcolumn}{Which column gets the 
 group headings?}
+  \item{singleRow}{If a group has a single row
+and there is no entry in \code{newcolumn} in that row,
+put the group label in the same row rather than in
+a separate row.}
 }
 \value{
 A tabular object, modified to include header rows
