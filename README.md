@@ -1,5 +1,9 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+<!-- badges: start -->
+
+[![R-CMD-check](https://github.com/dmurdoch/tables/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/dmurdoch/tables/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
 
 # tables
 
@@ -49,14 +53,14 @@ tab <- tabular( Group ~
 
 # To print in plain text:
 tab
-#>                         
-#>           X             
-#>  Group N  Mean   Std Dev
-#>  a     27 -19.30  96.83 
-#>  b     32  -2.01 103.11 
-#>  c     20 -12.50  71.84 
-#>  d     24  -0.25 116.49 
-#>  e     22  -5.48  75.51
+#>                        
+#>           X            
+#>  Group N  Mean  Std Dev
+#>  a     27  14.2  95.1  
+#>  b     22   0.2  78.5  
+#>  c     31  34.1 100.4  
+#>  d     22  12.1 114.5  
+#>  e     23  19.8  92.8
 
 # To format in HTML:
 toHTML(tab)
@@ -80,37 +84,36 @@ toHTML(tab)
  <tr class="center">
   <th class="left">a</th>
   <td>27</td>
-  <td>-19.30</td>
-  <td> 96.83</td>
+  <td> 14.2</td>
+  <td> 95.1</td>
 </tr>
  <tr class="center">
   <th class="left">b</th>
-  <td>32</td>
-  <td> -2.01</td>
-  <td>103.11</td>
+  <td>22</td>
+  <td>  0.2</td>
+  <td> 78.5</td>
 </tr>
  <tr class="center">
   <th class="left">c</th>
-  <td>20</td>
-  <td>-12.50</td>
-  <td> 71.84</td>
+  <td>31</td>
+  <td> 34.1</td>
+  <td>100.4</td>
 </tr>
  <tr class="center">
   <th class="left">d</th>
-  <td>24</td>
-  <td> -0.25</td>
-  <td>116.49</td>
+  <td>22</td>
+  <td> 12.1</td>
+  <td>114.5</td>
 </tr>
  <tr class="center">
   <th class="left">e</th>
-  <td>22</td>
-  <td> -5.48</td>
-  <td> 75.51</td>
+  <td>23</td>
+  <td> 19.8</td>
+  <td> 92.8</td>
 </tr>
  </tbody>
  </table>
 
-``` r
 
 # To generate LaTeX code:
 cat(toLatex(tab)$text)
@@ -119,11 +122,10 @@ cat(toLatex(tab)$text)
 #>  &  & \multicolumn{2}{c}{X} \\ 
 #> Group  & N & Mean & \multicolumn{1}{c}{Std Dev} \\ 
 #> \hline
-#> a  & $27$ & $\phantom{0}-19.30$ & $\phantom{0}\phantom{-}96.83$ \\
-#> b  & $32$ & $\phantom{00}-2.01$ & $\phantom{-}103.11$ \\
-#> c  & $20$ & $\phantom{0}-12.50$ & $\phantom{0}\phantom{-}71.84$ \\
-#> d  & $24$ & $\phantom{00}-0.25$ & $\phantom{-}116.49$ \\
-#> e  & $22$ & $\phantom{00}-5.48$ & $\phantom{0}\phantom{-}75.51$ \\
+#> a  & $27$ & $\phantom{0}14.2$ & $\phantom{0}95.1$ \\
+#> b  & $22$ & $\phantom{00}0.2$ & $\phantom{0}78.5$ \\
+#> c  & $31$ & $\phantom{0}34.1$ & $100.4$ \\
+#> d  & $22$ & $\phantom{0}12.1$ & $114.5$ \\
+#> e  & $23$ & $\phantom{0}19.8$ & $\phantom{0}92.8$ \\
 #> \hline 
 #> \end{tabular}
-```
