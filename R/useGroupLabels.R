@@ -1,5 +1,5 @@
 
-useGroupLabels <- function(tab, col = 1, indent = "  ", newcolumn = 1) {
+useGroupLabels <- function(tab, col = 1, indent = "  ", newcolumn = 1, singleRow = TRUE) {
   rowlabels <- rowLabels(tab)
   colvals <- rowlabels[, col]
   rowlabels <- rowlabels[, -col]
@@ -21,13 +21,22 @@ useGroupLabels <- function(tab, col = 1, indent = "  ", newcolumn = 1) {
   labelcols <- ncol(rowlabels)
   tablecols <- ncol(tab)
   for (i in rev(seq_along(first))) {
-    rows <- c(seq_len(first[i] - 1), first[i], first[i]:nrow(rowlabels))
+    single <- singleRow && 
+              first[i] == last[i] && 
+              rowlabels[first[i], newcolumn] == indent
+    if (single)
+      rows <- seq_len(nrow(rowlabels))
+    else
+      rows <- c(seq_len(first[i] - 1), first[i], first[i]:nrow(rowlabels))
     rowlabels <- rowlabels[rows,,drop = FALSE]
-    rowlabels[first[i] + 1,] <- rowlabels[first[i],]
-    rowlabels[first[i],] <- ""
+    if (!single) {
+      rowlabels[first[i] + 1,] <- rowlabels[first[i],]
+      rowlabels[first[i],] <- ""
+    }
     rowlabels[first[i], newcolumn] <- colvals[first[i]]
     tab <- tab[rows,,drop = FALSE]
-    tab[first[i], ] <- ""
+    if (!single)
+      tab[first[i], ] <- ""
   }
   rowLabels(tab) <- rowlabels
   tab

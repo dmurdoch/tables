@@ -160,6 +160,7 @@
       Error messages for rbind() and cbind() have been made more
       helpful.
       
-0.9.11:
+0.9.12:
       Change host to Github.
-      Add useGroupLabels() function.
+      Add `useGroupLabels()` function.
+      Add `HTMLfootnotes()` function
