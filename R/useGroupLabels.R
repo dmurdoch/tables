@@ -1,13 +1,15 @@
 
 useGroupLabels <- function(tab, col = 1, indent = "  ", newcolumn = 1, singleRow = TRUE) {
   rowlabels <- rowLabels(tab)
+  if (ncol(rowlabels) < col)
+    stop("Column ", col, " not found in row labels.")
   colvals <- rowlabels[, col]
-  rowlabels <- rowlabels[, -col]
-  while (ncol(rowlabels) < newcolumn) {
+  while (ncol(rowlabels) < newcolumn + 1) {
     rowlabels <- rowlabels[, c(seq_len(ncol(rowlabels)), 1)]
     rowlabels[, ncol(rowlabels)] <- ""
     colnames(rowlabels)[ncol(rowlabels)] <- ""
   }
+  rowlabels <- rowlabels[, -col]
   while (newcolumn < 1) {
     rowlabels <- rowlabels[, c(1, seq_len(ncol(rowlabels)))]
     rowlabels[, 1] <- ""
