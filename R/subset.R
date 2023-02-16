@@ -23,7 +23,7 @@
 }
 
 argError <- function(i, msg) {
-  thecall <- sys.call(1)
+  thecall <- sys.call(-2)
   stop(sprintf(msg, deparse(thecall[[2]]), deparse(thecall[[i+1]])),
        call. = FALSE)
 }
@@ -47,7 +47,7 @@ cbind.tabular <- function(..., deparse.level = 1) {
       xattrs <- attributes(x)	
       xrowLabels <- unclass(xattrs$rowLabels)
       if (nrow(result) != nrow(x))
-        argError(i, sprintf("'%%s' has %d rows, '%%s' has %d rows"))
+        argError(i, sprintf("'%%s' has %d rows, '%%s' has %d rows", nrow(result), nrow(x)))
       if (any(dim(rowLabels) != dim(xrowLabels), na.rm = TRUE))
         argError(i, sprintf("row label dim is (%d, %d) in '%%s', (%d, %d) in '%%s'", 
                        dim(rowLabels)[1], dim(rowLabels)[2], 
@@ -110,16 +110,21 @@ rbind.tabular <- function(..., deparse.level = 1) {
     } else {
       xattrs <- attributes(x)
       xcolLabels <- unclass(xattrs$colLabels)
+      
       if (ncol(result) != ncol(x))
-        argError(i, sprintf("'%%s' has %d cols, '%%s' has %d"))
+        argError(i, sprintf("'%%s' has %d cols, '%%s' has %d", ncol(result), ncol(x)))
+
       if (any(dim(colLabels) != dim(xcolLabels), na.rm = TRUE))
         argError(i, sprintf("col label dim is (%d, %d) in '%%s', (%d, %d) in '%%s'", 
                        dim(colLabels)[1], dim(colLabels)[2], 
                        dim(xcolLabels)[1], dim(xcolLabels)[2]))
+      
       if (any(colLabels != xcolLabels, na.rm = TRUE))
         argError(i, "col label entries differ in '%s' vs '%s'")
+      
       if (!identical(colLabels, xcolLabels))
         argError(i, "colLabels differ in '%s' vs '%s'. Cannot cbind if tables have different columns")
+      
       result <- rbind(result, unclass(x))
       
       attrs$justification <- rbind(attrs$justification, xattrs$justification)
@@ -135,9 +140,11 @@ rbind.tabular <- function(..., deparse.level = 1) {
       rattrs <- attributes(rowLabels)
       xrowLabels <- xattrs$rowLabels
       xrattrs <- attributes(xrowLabels)
+      
       if (ncol(rowLabels) != ncol(xrowLabels))
         argError(i, sprintf("%d columns of rowLabels in '%%s', %d in '%%s'",
                        ncol(rowLabels), ncol(xrowLabels)))
+      
       rowLabels <- rbind(rowLabels, xrowLabels)
       rattrs$dim <- dim(rowLabels)
       rattrs$dimnames <- dimnames(rowLabels)

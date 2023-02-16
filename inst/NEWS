@@ -163,4 +163,5 @@
 0.9.12:
       Change host to Github.
       Add `useGroupLabels()` function.
-      Add `HTMLfootnotes()` function
+      Add `HTMLfootnotes()` function.
+      Fixed a bug in `rbind.tabular` error messaging.
