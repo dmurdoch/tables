@@ -67,7 +67,8 @@ into another column in the labels.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">useGroupLabels</span><span class="op">(</span><span class="va">tab</span>, col <span class="op">=</span> <span class="fl">1</span>, </span>
 <span>               indent <span class="op">=</span> <span class="st">"  "</span>, </span>
 <span>               newcolumn <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>               singleRow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span>               singleRow <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>               extraLines <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -90,6 +91,11 @@ group headings?</p></dd>
 and there is no entry in <code>newcolumn</code> in that row,
 put the group label in the same row rather than in
 a separate row.</p></dd>
+
+  <dt>extraLines</dt>
+<dd><p>Add this many blank lines to separate
+the groups in addition to the line containing the group
+label.</p></dd>
 
 </dl></div>
     <div class="section level2">
