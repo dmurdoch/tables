@@ -13,7 +13,8 @@ into another column in the labels.
 useGroupLabels(tab, col = 1, 
                indent = "  ", 
                newcolumn = 1,
-               singleRow = TRUE)
+               singleRow = TRUE,
+               extraLines = 0)
 }
 \arguments{
   \item{tab}{
@@ -31,6 +32,9 @@ group headings?}
 and there is no entry in \code{newcolumn} in that row,
 put the group label in the same row rather than in
 a separate row.}
+  \item{extraLines}{Add this many blank lines to separate
+the groups in addition to the line containing the group
+label.}
 }
 \value{
 A tabular object, modified to include header rows

@@ -1,5 +1,5 @@
 
-useGroupLabels <- function(tab, col = 1, indent = "  ", newcolumn = 1, singleRow = TRUE) {
+useGroupLabels <- function(tab, col = 1, indent = "  ", newcolumn = 1, singleRow = TRUE, extraLines = 0) {
   rowlabels <- rowLabels(tab)
   if (ncol(rowlabels) < col)
     stop("Column ", col, " not found in row labels.")
@@ -16,29 +16,34 @@ useGroupLabels <- function(tab, col = 1, indent = "  ", newcolumn = 1, singleRow
     colnames(rowlabels)[1] <- ""
     newcolumn <- newcolumn + 1
   }
-  rowlabels[, newcolumn] <- paste0(indent, rowlabels[, newcolumn])
+  tmp <- rowlabels[, newcolumn]
+  tmp[is.na(tmp)] <- ""
+  tmp <- paste0(indent, tmp)
+  rowlabels[, newcolumn] <- tmp
   newgroup <- !is.na(colvals) & colvals != ""
   first <- which(newgroup)
   last <- c(first[-1] - 1, nrow(tab))
-  labelcols <- ncol(rowlabels)
-  tablecols <- ncol(tab)
   for (i in rev(seq_along(first))) {
     single <- singleRow && 
               first[i] == last[i] && 
               rowlabels[first[i], newcolumn] == indent
-    if (single)
-      rows <- seq_len(nrow(rowlabels))
+    if (i == 1)
+      extraLines <- 0
+    if (single) 
+      extras <- extraLines
     else
-      rows <- c(seq_len(first[i] - 1), first[i], first[i]:nrow(rowlabels))
+      extras <- 1 + extraLines
+    
+    rows <- c(seq_len(first[i] - 1), rep(first[i], extras), first[i]:nrow(rowlabels))
     rowlabels <- rowlabels[rows,,drop = FALSE]
-    if (!single) {
-      rowlabels[first[i] + 1,] <- rowlabels[first[i],]
-      rowlabels[first[i],] <- ""
+    if (extras > 0) {
+      rowlabels[first[i] + extras,] <- rowlabels[first[i],]
+      rowlabels[first[i] + seq_len(extras) - 1,] <- ""
     }
-    rowlabels[first[i], newcolumn] <- colvals[first[i]]
+    rowlabels[first[i] + max(0, extras - 1), newcolumn] <- colvals[first[i]]
     tab <- tab[rows,,drop = FALSE]
-    if (!single)
-      tab[first[i], ] <- ""
+    if (extras > 0)
+      tab[first[i] + seq_len(extras) - 1, ] <- ""
   }
   rowLabels(tab) <- rowlabels
   tab
