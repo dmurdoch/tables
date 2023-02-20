@@ -1,20 +1,20 @@
-Changes in version 0.0
+# tables 0.0
 
 - Various abortive attempts
 
-Changes in version 0.1
+# tables 0.1
 
 - First alpha version with Hmisc support
 
-Changes in version 0.2  
+# tables 0.2  
 
 - First reasonably complete release
 
-Changes in version 0.3
+# tables 0.3
 
 - Renamed from "tabular" to "tables", put on R-forge
 
-Changes in version 0.4
+# tables 0.4
 
 - Added All(), Literal() and RowFactor()
 - Added table_options() and booktabs() for booktabs support
@@ -23,11 +23,11 @@ Changes in version 0.4
 - Allow options to be set temporarily in latex() call.
 - Added options to suppress parts of the output.
 
-Changes in version 0.5
+# tables 0.5
 
 - Planned CRAN release of all of the above
 
-Changes in version 0.6
+# tables 0.6
 
 - Fixed bug in column headings in print.tabular (reported by Tal Galili)
 - Added Factor().
@@ -44,7 +44,7 @@ Changes in version 0.6
 - Fixed handling of data with an Hmisc "labelled" class
 attached.  (Reported by Thomas MacFarland.)
 	
-Changes in version 0.7
+# tables 0.7
 
 - RowFactor now allows spacing=1.
 - Specifications for justification in table_options() are now recycled.
@@ -53,12 +53,12 @@ Changes in version 0.7
 - Cleaned up handling of row and column labels, especially in cases where rows with different column headings are summed.
 - Added optional parameter to Heading() to use it only if another hasn't already been set.
       
-Changes in version 0.7.48
+# tables 0.7.48
 
 - Default formatting now skips character cells.
 - Justification of labels in text mode wasn't being done properly.
       
-Changes in version 0.7.64
+# tables 0.7.64
       
 - Added support for HTML output.
 - Added support for extraction of subsets of the matrix.
@@ -69,7 +69,7 @@ cell will be displayed as <NA> or similar.
 - Added cbind() and rbind() methods for tabular objects.
 - The internal texify() function did not work properly.
       
-Changes in version 0.7.67
+# tables 0.7.67
 
 - The cbind() and rbind() methods now allow NULL in the list
 of arguments.  (Suggestion of Jeff Newmiller.)
@@ -77,11 +77,11 @@ of arguments.  (Suggestion of Jeff Newmiller.)
 nopagebreak in a longtable environment. (Based on some sleuthing by Jeffrey Miller.)
 - Added HTMLcaption to the table options to insert an HTML caption. (Suggestion of Joseph Larmarange.)
       
-Changes in version 0.7.68
+# tables 0.7.68
       
 - Bug fix in setting up column headings (reported by Lars Bishop).
       
-Changes in version 0.7.79
+# tables 0.7.79
 
 - Added Equal() and Unequal() pseudo-functions for more flexible Percent() calculations.
 - Fixed bug in handling factors which had not excluded NA values.
@@ -90,23 +90,23 @@ Changes in version 0.7.79
 - Added Arguments() function to allow multi-argument analysis
 functions.
       
-Changes in version 0.7.86
+# tables 0.7.86
 
 - Fixed scoping bug:  locally defined format functions were not
 always found.  (Reported by Doug Ezra Morrison.)
 
-Changes in version 0.7.87
+# tables 0.7.87
       
 - Added "append" argument to latex.tabular() and html.tabular(),
 and made explicit that connections are allowed for the "file"
 argument. (Suggestion of Marc Halperin.)
 
-Changes in version 0.7.88
+# tables 0.7.88
 
 - Edited messages to allow internationalization.  No translations 
 added so far.
       
-Changes in version 0.7.91
+# tables 0.7.91
 
 - Updated options for html.tabular to use better CSS and HTML5 in
 the tables.
@@ -114,14 +114,14 @@ the tables.
 - Fixed bug:  functions prefixed by "pkg::" in formulas led to warning
 messages. (Reported by Lars Bishop.)
       
-Changes in version 0.8
+# tables 0.8
 
 - Allow editing of the row and column labels.
 - Added DropEmpty() pseudo-function.
 - Added AllObs() and RowNum() formula functions.
 - Added character.only argument to Heading() and Paste().
 
-Changes in version 0.8.4
+# tables 0.8.4
 
 - Added check for bad args to DropEmpty(), and fixed
 example which had them.
@@ -136,7 +136,7 @@ package.
 objects will print with correct formatting in knitr 
 documents.
       
-Changes in version 0.8.7
+# tables 0.8.7
 
 - Added ... argument to toKable() so that options can be
 passed to control the conversion.  (Thanks to Mary Putt
@@ -148,39 +148,39 @@ columns were factors.  (Reported by Daniel Farewell.)
 solution.)
 - Fixed incompatibility with rmarkdown/knitr new version.
 
-Changes in version 0.8.8
+# tables 0.8.8
 
 - Updates to fix CRAN errors.
 
-Changes in version 0.9
+# tables 0.9
       
 - Reduced dependence on Hmisc.
       
-Changes in version 0.9.3
+# tables 0.9.3
 
 - Added latexTable() function, to provide captions, labels, etc.
 - Added knitrTable vignette.
       
-Changes in version 0.9.4
+# tables 0.9.4
 
 - Minor update to fix test note.
 
-Changes in version 0.9.7
+# tables 0.9.7
 
 - toHTML() was ignoring the file argument.
 
-Changes in version 0.9.8
+# tables 0.9.8
 
 - All() didn't work with tibbles.  (Reported by Vincent Arel-Bundock.)
       
-Changes in version 0.9.10
+# tables 0.9.10
 
 - rbind() failed in a complicated example, because the classes
 or names of the column labels differed.
 - Error messages for rbind() and cbind() have been made more
 helpful.
       
-Changes in version 0.9.13
+# tables 0.9.13
 
 - Change host to Github.
 - Add `useGroupLabels()` function.
