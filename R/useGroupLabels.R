@@ -40,7 +40,10 @@ useGroupLabels <- function(tab, col = 1, indent = "  ", newcolumn = 1, singleRow
       rowlabels[first[i] + extras,] <- rowlabels[first[i],]
       rowlabels[first[i] + seq_len(extras) - 1,] <- ""
     }
-    rowlabels[first[i] + max(0, extras - 1), newcolumn] <- colvals[first[i]]
+    # This is tricky.  If single is TRUE, want it on the last
+    # line, which is first[i] + extras.  If not, want it
+    # on the line before that, which is first[i] + extras - 1
+    rowlabels[first[i] + extras - !single, newcolumn] <- colvals[first[i]]
     tab <- tab[rows,,drop = FALSE]
     if (extras > 0)
       tab[first[i] + seq_len(extras) - 1, ] <- ""
