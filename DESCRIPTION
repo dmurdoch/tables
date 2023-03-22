@@ -12,7 +12,6 @@ Imports: stats, utils, knitr, htmltools
 Suggests: magrittr, kableExtra (>= 0.9.0), Hmisc, bookdown, rmarkdown,
           pkgdown
 VignetteBuilder: knitr
-URL: https://github.com/dmurdoch/tables/,
-    https://dmurdoch.github.io/tables/
+URL: https://dmurdoch.github.io/tables/
 BugReports: https://github.com/dmurdoch/tables/issues
 SystemRequirements: pandoc (>= 1.12.3) for vignettes
