@@ -1,8 +1,9 @@
-# tables 0.9.13
+# tables 0.9.14
 
 - Change host to Github.
 - Add `useGroupLabels()` function.
-- Add `HTMLfootnotes()` function
+- Add `HTMLfootnotes()` function.
+- Add method for `formatters::matrix_form`.
 
 # tables 0.9.10
 
