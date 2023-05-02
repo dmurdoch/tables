@@ -12,7 +12,7 @@ no observations should be dropped."><!-- mathjax --><script src="https://cdnjs.c
     
     <a class="navbar-brand me-2" href="../index.html">tables</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.15</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.16</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -100,43 +100,43 @@ handled specially by <code><a href="tabular.html">tabular</a></code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      value  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  row mean   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1       NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  2       NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  3   -1.0975</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  4    1.5264</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  5    0.8286</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1   -1.1618</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  2    1.1459</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  3       NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  4       NaN</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  5    1.3020</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  6       NaN</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  7       NaN</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  8       NaN</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  9   -1.4959</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  10   0.6645</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  9    0.5061</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  10  -0.2445</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># This only shows rows with data in them</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tabular.html">tabular</a></span><span class="op">(</span><span class="va">row</span><span class="op">*</span><span class="fu">DropEmpty</span><span class="op">(</span><span class="op">)</span> <span class="op">~</span> <span class="va">value</span><span class="op">*</span><span class="va">mean</span>, data <span class="op">=</span> <span class="va">subset</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      value  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  row mean   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  3   -1.0975</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  4    1.5264</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  5    0.8286</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  9   -1.4959</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  10   0.6645</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1   -1.1618</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  2    1.1459</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  5    1.3020</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  9    0.5061</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  10  -0.2445</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># This shows empty cells as "(empty)"</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tabular.html">tabular</a></span><span class="op">(</span><span class="va">row</span><span class="op">*</span><span class="fu">DropEmpty</span><span class="op">(</span><span class="st">"(empty)"</span>, <span class="st">"cell"</span><span class="op">)</span> <span class="op">~</span> <span class="va">value</span><span class="op">*</span><span class="va">mean</span>, data <span class="op">=</span> <span class="va">subset</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      value  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  row mean   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1   (empty)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  2   (empty)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  3   -1.0975</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  4    1.5264</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  5    0.8286</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1   -1.1618</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  2    1.1459</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  3   (empty)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  4   (empty)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  5    1.3020</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  6   (empty)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  7   (empty)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  8   (empty)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  9   -1.4959</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  10   0.6645</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  9    0.5061</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  10  -0.2445</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

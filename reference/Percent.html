@@ -14,7 +14,7 @@ a statistic that depends on other values in the table."><!-- mathjax --><script 
     
     <a class="navbar-brand me-2" href="../index.html">tables</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.15</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.16</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -139,29 +139,29 @@ a multiple argument analysis function.</p></div>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          z                                </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          E          F          All        </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  x   y   All RowPct All RowPct All  RowPct</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  A   c   132 53.23  116 46.77   248 100   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      d   132 52.38  120 47.62   252 100   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      All 264 52.80  236 47.20   500 100   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  B   c   129 51.81  120 48.19   249 100   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      d   140 55.78  111 44.22   251 100   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      All 269 53.80  231 46.20   500 100   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  All c   261 52.52  236 47.48   497 100   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      d   272 54.08  231 45.92   503 100   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      All 533 53.30  467 46.70  1000 100   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  A   c   123 49.60  125 50.40   248 100   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      d   150 53.57  130 46.43   280 100   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      All 273 51.70  255 48.30   528 100   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  B   c   126 53.16  111 46.84   237 100   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      d   129 54.89  106 45.11   235 100   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      All 255 54.03  217 45.97   472 100   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  All c   249 51.34  236 48.66   485 100   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      d   279 54.17  236 45.83   515 100   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      All 528 52.80  472 47.20  1000 100   </span>
 <span class="r-in"><span><span class="fu"><a href="tabular.html">tabular</a></span><span class="op">(</span> <span class="op">(</span><span class="va">x</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span><span class="op">*</span><span class="op">(</span><span class="va">y</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span> <span class="op">~</span> <span class="op">(</span><span class="va">z</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span><span class="op">+</span><span class="op">(</span><span class="va">xyPct</span><span class="op">=</span><span class="fu">Percent</span><span class="op">(</span><span class="fu">Equal</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                        </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          z                             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          E         F         All       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  x   y   All xyPct All xyPct All  xyPct</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  A   c   132 53.23 116 46.77  248 100  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      d   132 52.38 120 47.62  252 100  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      All 264 52.80 236 47.20  500 100  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  B   c   129 51.81 120 48.19  249 100  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      d   140 55.78 111 44.22  251 100  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      All 269 53.80 231 46.20  500 100  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  All c   261 52.52 236 47.48  497 100  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      d   272 54.08 231 45.92  503 100  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      All 533 53.30 467 46.70 1000 100  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  A   c   123 49.60 125 50.40  248 100  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      d   150 53.57 130 46.43  280 100  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      All 273 51.70 255 48.30  528 100  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  B   c   126 53.16 111 46.84  237 100  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      d   129 54.89 106 45.11  235 100  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      All 255 54.03 217 45.97  472 100  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  All c   249 51.34 236 48.66  485 100  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      d   279 54.17 236 45.83  515 100  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      All 528 52.80 472 47.20 1000 100  </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
