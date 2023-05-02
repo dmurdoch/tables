@@ -31,6 +31,7 @@ tab <- tabular( (Species + 1) ~ (n=1) + Format(digits=2)*
 footnote <- HTMLfootnotes(tab, 
                           "This is a footnote with no marker.", 
                           "*" = "This is a footnote with an asterisk.")
-toHTML(tab, options = list(doFooter = TRUE,
+if (interactive())
+  toHTML(tab, options = list(doFooter = TRUE,
                            HTMLfooter = footnote))
 }

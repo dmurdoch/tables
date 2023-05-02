@@ -86,24 +86,28 @@ table_options(rowlabeljustification="c")
 f <- tempfile(fileext=".html")
 con <- file(f, "wt")
 
-toHTML(tab, con, options=htmloptions(head=TRUE, table=FALSE))
+if (interactive())
+  toHTML(tab, con, options=htmloptions(head=TRUE, table=FALSE))
 
 writeLines("<p>This table has pad = FALSE.  The centered numbers look
 sloppy.<br>", con)
 
-toHTML(tab, con, options=htmloptions(head=FALSE, table=TRUE, pad=FALSE))
+if (interactive())
+  toHTML(tab, con, options=htmloptions(head=FALSE, table=TRUE, pad=FALSE))
 
 writeLines("<p>This table has pad = FALSE and justification=\"r\".
 The justification makes the columns of numbers look all right (except
 for the hyphens used as minus signs), but they are placed poorly
 relative to the labels.<br>", con)
 
-toHTML(tab, con, options=htmloptions(head=FALSE, table=TRUE, pad=FALSE, justification="r"))
+if (interactive())
+  toHTML(tab, con, options=htmloptions(head=FALSE, table=TRUE, pad=FALSE, justification="r"))
 
 writeLines("<p>This one has pad = TRUE. It looks best, but if you cut
 and paste, the spacing characters may cause problems.<br>", con)
 
-toHTML(tab, con, options=htmloptions(head=FALSE, table=TRUE, pad=TRUE))
+if (interactive())
+  toHTML(tab, con, options=htmloptions(head=FALSE, table=TRUE, pad=TRUE))
 
 table_options(save)
 close(con)

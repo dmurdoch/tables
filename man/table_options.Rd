@@ -129,8 +129,9 @@ table_options(save)
 
 \donttest{
 f <- tempfile(fileext = ".html")
-toHTML(tab, f, 
-  options=htmloptions(HTMLcaption="Table of Iris Data",
+if (interactive())
+  toHTML(tab, f, 
+    options=htmloptions(HTMLcaption="Table of Iris Data",
                       pad = TRUE))
 }
 }

@@ -1,3 +1,8 @@
+# tables 0.9.17
+
+It didn't fix the issue; some of the example results in \donttest sections
+were autoprinting as browsable HTML.
+
 # tables 0.9.16
 
 This version doesn't call browseURL() non-interactively
