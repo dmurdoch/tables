@@ -147,13 +147,13 @@ Std Dev
 a
 </th>
 <td>
-21
+23
 </td>
 <td>
-38.3
+-9.7
 </td>
 <td>
-95.6
+112.8
 </td>
 </tr>
 <tr class="center">
@@ -161,13 +161,13 @@ a
 b
 </th>
 <td>
-39
+21
 </td>
 <td>
-13.7
+-56.6
 </td>
 <td>
-106.4
+125.0
 </td>
 </tr>
 <tr class="center">
@@ -175,13 +175,13 @@ b
 c
 </th>
 <td>
-27
+26
 </td>
 <td>
-13.1
+-16.0
 </td>
 <td>
-110.4
+129.4
 </td>
 </tr>
 <tr class="center">
@@ -189,13 +189,13 @@ c
 d
 </th>
 <td>
-20
+29
 </td>
 <td>
-1.9
+14.2
 </td>
 <td>
-108.8
+106.7
 </td>
 </tr>
 <tr class="center">
@@ -203,13 +203,13 @@ d
 e
 </th>
 <td>
-18
+26
 </td>
 <td>
-49.7
+-16.6
 </td>
 <td>
-95.5
+86.7
 </td>
 </tr>
 </tbody>
@@ -224,11 +224,11 @@ older method, use <code>table_options(knit_print = FALSE)</code>:</p>
 <pre><code><span><span class="co">##                        </span></span>
 <span><span class="co">##           X            </span></span>
 <span><span class="co">##  Group N  Mean  Std Dev</span></span>
-<span><span class="co">##  a     21  38.3  95.6  </span></span>
-<span><span class="co">##  b     39  13.7 106.4  </span></span>
-<span><span class="co">##  c     27  13.1 110.4  </span></span>
-<span><span class="co">##  d     20   1.9 108.8  </span></span>
-<span><span class="co">##  e     18  49.7  95.5</span></span></code></pre>
+<span><span class="co">##  a     23  -9.7 112.8  </span></span>
+<span><span class="co">##  b     21 -56.6 125.0  </span></span>
+<span><span class="co">##  c     26 -16.0 129.4  </span></span>
+<span><span class="co">##  d     29  14.2 106.7  </span></span>
+<span><span class="co">##  e     26 -16.6  86.7</span></span></code></pre>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/html.tabular.html">toHTML</a></span><span class="op">(</span><span class="va">tab</span><span class="op">)</span>  <span class="co"># This chunk uses results = 'asis'</span></span></code></pre></div>
 <table class="table Rtable">
@@ -248,33 +248,33 @@ older method, use <code>table_options(knit_print = FALSE)</code>:</p>
 <tbody>
 <tr class="center">
 <th class="left">a</th>
-  <td>21</td>
-  <td> 38.3</td>
-  <td> 95.6</td>
+  <td>23</td>
+  <td> -9.7</td>
+  <td>112.8</td>
 </tr>
 <tr class="center">
 <th class="left">b</th>
-  <td>39</td>
-  <td> 13.7</td>
-  <td>106.4</td>
+  <td>21</td>
+  <td>-56.6</td>
+  <td>125.0</td>
 </tr>
 <tr class="center">
 <th class="left">c</th>
-  <td>27</td>
-  <td> 13.1</td>
-  <td>110.4</td>
+  <td>26</td>
+  <td>-16.0</td>
+  <td>129.4</td>
 </tr>
 <tr class="center">
 <th class="left">d</th>
-  <td>20</td>
-  <td>  1.9</td>
-  <td>108.8</td>
+  <td>29</td>
+  <td> 14.2</td>
+  <td>106.7</td>
 </tr>
 <tr class="center">
 <th class="left">e</th>
-  <td>18</td>
-  <td> 49.7</td>
-  <td> 95.5</td>
+  <td>26</td>
+  <td>-16.6</td>
+  <td> 86.7</td>
 </tr>
 </tbody>
 </table>
@@ -347,13 +347,13 @@ Std Dev
 a
 </th>
 <td>
-21
+23
 </td>
 <td>
-38.3
+-9.7
 </td>
 <td>
-95.6
+112.8
 </td>
 </tr>
 <tr class="right">
@@ -361,13 +361,13 @@ a
 b
 </th>
 <td>
-39
+21
 </td>
 <td>
-13.7
+-56.6
 </td>
 <td>
-106.4
+125.0
 </td>
 </tr>
 <tr class="right">
@@ -375,13 +375,13 @@ b
 c
 </th>
 <td>
-27
+26
 </td>
 <td>
-13.1
+-16.0
 </td>
 <td>
-110.4
+129.4
 </td>
 </tr>
 <tr class="right">
@@ -389,13 +389,13 @@ c
 d
 </th>
 <td>
-20
+29
 </td>
 <td>
-1.9
+14.2
 </td>
 <td>
-108.8
+106.7
 </td>
 </tr>
 <tr class="right">
@@ -403,13 +403,13 @@ d
 e
 </th>
 <td>
-18
+26
 </td>
 <td>
-49.7
+-16.6
 </td>
 <td>
-95.5
+86.7
 </td>
 </tr>
 </tbody>
@@ -454,13 +454,13 @@ Std Dev
 a
 </th>
 <td>
-21
+23
 </td>
 <td>
- 38.3
+  −9.7
 </td>
 <td>
- 95.6
+ 112.8
 </td>
 </tr>
 <tr class="center">
@@ -468,13 +468,13 @@ a
 b
 </th>
 <td>
-39
+21
 </td>
 <td>
- 13.7
+ −56.6
 </td>
 <td>
-106.4
+ 125.0
 </td>
 </tr>
 <tr class="center">
@@ -482,13 +482,13 @@ b
 c
 </th>
 <td>
-27
+26
 </td>
 <td>
- 13.1
+ −16.0
 </td>
 <td>
-110.4
+ 129.4
 </td>
 </tr>
 <tr class="center">
@@ -496,13 +496,13 @@ c
 d
 </th>
 <td>
-20
+29
 </td>
 <td>
-  1.9
+  14.2
 </td>
 <td>
-108.8
+ 106.7
 </td>
 </tr>
 <tr class="center">
@@ -510,13 +510,13 @@ d
 e
 </th>
 <td>
-18
+26
 </td>
 <td>
- 49.7
+ −16.6
 </td>
 <td>
- 95.5
+  86.7
 </td>
 </tr>
 </tbody>
@@ -575,12 +575,12 @@ customized display for one table by also using
 <span><span class="st">&lt;/style&gt;"</span>, doCSS <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">tab</span></span></code></pre></div>
 <style>
-#table1f363cd5149e .center { 
+#table1a4785dd143 .center { 
   text-align:center;
   background-color: aliceblue;
 }
 </style>
-<table id="table1f363cd5149e" class="table Rtable">
+<table id="table1a4785dd143" class="table Rtable">
 <thead>
 <tr class="center">
 <th>
@@ -614,13 +614,13 @@ Std Dev
 a
 </th>
 <td>
-21
+23
 </td>
 <td>
- 38.3
+  −9.7
 </td>
 <td>
- 95.6
+ 112.8
 </td>
 </tr>
 <tr class="center">
@@ -628,13 +628,13 @@ a
 b
 </th>
 <td>
-39
+21
 </td>
 <td>
- 13.7
+ −56.6
 </td>
 <td>
-106.4
+ 125.0
 </td>
 </tr>
 <tr class="center">
@@ -642,13 +642,13 @@ b
 c
 </th>
 <td>
-27
+26
 </td>
 <td>
- 13.1
+ −16.0
 </td>
 <td>
-110.4
+ 129.4
 </td>
 </tr>
 <tr class="center">
@@ -656,13 +656,13 @@ c
 d
 </th>
 <td>
-20
+29
 </td>
 <td>
-  1.9
+  14.2
 </td>
 <td>
-108.8
+ 106.7
 </td>
 </tr>
 <tr class="center">
@@ -670,13 +670,13 @@ d
 e
 </th>
 <td>
-18
+26
 </td>
 <td>
- 49.7
+ −16.6
 </td>
 <td>
- 95.5
+  86.7
 </td>
 </tr>
 </tbody>
@@ -718,13 +718,13 @@ Std Dev
 a
 </th>
 <td>
-21
+23
 </td>
 <td>
- 38.3
+  −9.7
 </td>
 <td>
- 95.6
+ 112.8
 </td>
 </tr>
 <tr class="center">
@@ -732,13 +732,13 @@ a
 b
 </th>
 <td>
-39
+21
 </td>
 <td>
- 13.7
+ −56.6
 </td>
 <td>
-106.4
+ 125.0
 </td>
 </tr>
 <tr class="center">
@@ -746,13 +746,13 @@ b
 c
 </th>
 <td>
-27
+26
 </td>
 <td>
- 13.1
+ −16.0
 </td>
 <td>
-110.4
+ 129.4
 </td>
 </tr>
 <tr class="center">
@@ -760,13 +760,13 @@ c
 d
 </th>
 <td>
-20
+29
 </td>
 <td>
-  1.9
+  14.2
 </td>
 <td>
-108.8
+ 106.7
 </td>
 </tr>
 <tr class="center">
@@ -774,13 +774,13 @@ d
 e
 </th>
 <td>
-18
+26
 </td>
 <td>
- 49.7
+ −16.6
 </td>
 <td>
- 95.5
+  86.7
 </td>
 </tr>
 </tbody>
@@ -849,13 +849,13 @@ Std Dev
 a
 </th>
 <td style="color: blue !important;">
-21
+23
 </td>
 <td style="color: blue !important;">
- 38.3
+  −9.7
 </td>
 <td style="color: red !important;color: blue !important;">
- 95.6
+ 112.8
 </td>
 </tr>
 <tr class="center">
@@ -863,13 +863,13 @@ a
 b
 </th>
 <td>
-39
+21
 </td>
 <td>
- 13.7
+ −56.6
 </td>
 <td style="color: red !important;">
-106.4
+ 125.0
 </td>
 </tr>
 <tr grouplength="3">
@@ -882,13 +882,13 @@ b
 c
 </th>
 <td>
-27
+26
 </td>
 <td>
- 13.1
+ −16.0
 </td>
 <td style="color: red !important;">
-110.4
+ 129.4
 </td>
 </tr>
 <tr class="center">
@@ -896,13 +896,13 @@ c
 d
 </th>
 <td>
-20
+29
 </td>
 <td>
-  1.9
+  14.2
 </td>
 <td style="color: red !important;">
-108.8
+ 106.7
 </td>
 </tr>
 <tr class="center">
@@ -910,13 +910,13 @@ d
 e
 </th>
 <td>
-18
+26
 </td>
 <td>
- 49.7
+ −16.6
 </td>
 <td style="color: red !important;">
- 95.5
+  86.7
 </td>
 </tr>
 </tbody>
