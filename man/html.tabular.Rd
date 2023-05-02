@@ -107,6 +107,7 @@ toHTML(tab, con, options=htmloptions(head=FALSE, table=TRUE, pad=TRUE))
 
 table_options(save)
 close(con)
-browseURL(f)
+if (interactive())
+  browseURL(f)
 }
 }

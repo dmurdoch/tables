@@ -1,4 +1,4 @@
-# tables 0.9.15
+# tables 0.9.16
 
 - Change host to Github.
 - Add `useGroupLabels()` function.
