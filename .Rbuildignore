@@ -16,3 +16,4 @@ vignettes/tables-concordance.tex
 ^_pkgdown\.yml$
 ^pkgdown$
 ^\.github$
+^CRAN-SUBMISSION$
