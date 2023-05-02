@@ -1,6 +1,5 @@
-* This is a minor bug fix.  
+# tables 0.9.14
 
-* It should give clean check results, as the version on CRAN does,
-possibly other than a NOTE about a blank line in the vignette that may 
-or may not appear depending on the version of `kableExtra` that is 
-used or perhaps depending on the platform.
+This is a relatively minor update, adding a few functions.  The
+reason to send it is that it is used in the R Tables Working Group
+project.
