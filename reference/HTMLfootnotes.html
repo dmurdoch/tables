@@ -4,7 +4,7 @@ to insert at the bottom of the table."><title>Construct footnotes — HTMLfootno
 to insert at the bottom of the table."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]--><!-- dependencies from examples --></head><body>
+<![endif]--></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
@@ -12,7 +12,7 @@ to insert at the bottom of the table."><!-- mathjax --><script src="https://cdnj
     
     <a class="navbar-brand me-2" href="../index.html">tables</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.16</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.17</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -92,43 +92,10 @@ footnotes.  Use this in <code><a href="table_options.html">table_options</a>(HTM
 <span class="r-in"><span><span class="va">footnote</span> <span class="op">&lt;-</span> <span class="fu">HTMLfootnotes</span><span class="op">(</span><span class="va">tab</span>, </span></span>
 <span class="r-in"><span>                          <span class="st">"This is a footnote with no marker."</span>, </span></span>
 <span class="r-in"><span>                          <span class="st">"*"</span> <span class="op">=</span> <span class="st">"This is a footnote with an asterisk."</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="html.tabular.html">toHTML</a></span><span class="op">(</span><span class="va">tab</span>, options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>doFooter <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="html.tabular.html">toHTML</a></span><span class="op">(</span><span class="va">tab</span>, options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>doFooter <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>                           HTMLfooter <span class="op">=</span> <span class="va">footnote</span><span class="op">)</span><span class="op">)</span></span></span>
-<table class="table Rtable"><thead><tr class="center"><th> </th>
-  <th> </th>
-  <th colspan="2">Sepal.Length</th>
-  <th colspan="2">Sepal.Width</th>
-</tr><tr class="center"><th>Species</th>
-  <th>n</th>
-  <th>mean</th>
-  <th>sd</th>
-  <th>mean</th>
-  <th>sd</th>
-</tr></thead><tfoot><tr><td colspan="6"><sup></sup>This is a footnote with no marker.<br><sup>*</sup>This is a footnote with an asterisk.</td></tr></tfoot><tbody><tr class="center"><th class="left">setosa</th>
-  <td> 50</td>
-  <td>5.01</td>
-  <td>0.35</td>
-  <td>3.43</td>
-  <td>0.38</td>
-</tr><tr class="center"><th class="left">versicolor</th>
-  <td> 50</td>
-  <td>5.94</td>
-  <td>0.52</td>
-  <td>2.77</td>
-  <td>0.31</td>
-</tr><tr class="center"><th class="left">virginica</th>
-  <td> 50</td>
-  <td>6.59</td>
-  <td>0.64</td>
-  <td>2.97</td>
-  <td>0.32</td>
-</tr><tr class="center"><th class="left">All</th>
-  <td>150</td>
-  <td>5.84</td>
-  <td>0.83</td>
-  <td>3.06</td>
-  <td>0.44</td>
-</tr></tbody></table></code></pre></div>
+</code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
