@@ -95,6 +95,8 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dmurdoch.github.io/tables/">tables</a></span><span class="op">)</span></span>
 <span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<span></span>
 <span><span class="co"># In an R Markdown document, you don't want each table</span></span>
 <span><span class="co"># to output the HTML document header, so turn </span></span>
 <span><span class="co"># off that option:</span></span>
@@ -112,14 +114,14 @@
 <span></span>
 <span><span class="co"># To print in plain text:</span></span>
 <span><span class="va">tab</span></span>
-<span><span class="co">#&gt;                        </span></span>
-<span><span class="co">#&gt;           X            </span></span>
-<span><span class="co">#&gt;  Group N  Mean  Std Dev</span></span>
-<span><span class="co">#&gt;  a     27  14.2  95.1  </span></span>
-<span><span class="co">#&gt;  b     22   0.2  78.5  </span></span>
-<span><span class="co">#&gt;  c     31  34.1 100.4  </span></span>
-<span><span class="co">#&gt;  d     22  12.1 114.5  </span></span>
-<span><span class="co">#&gt;  e     23  19.8  92.8</span></span>
+<span><span class="co">#&gt;                         </span></span>
+<span><span class="co">#&gt;           X             </span></span>
+<span><span class="co">#&gt;  Group N  Mean   Std Dev</span></span>
+<span><span class="co">#&gt;  a     31  -6.84  82.50 </span></span>
+<span><span class="co">#&gt;  b     28  13.06  97.04 </span></span>
+<span><span class="co">#&gt;  c     17  -2.24  99.71 </span></span>
+<span><span class="co">#&gt;  d     15   4.45  98.60 </span></span>
+<span><span class="co">#&gt;  e     34   0.87  84.96</span></span>
 <span></span>
 <span><span class="co"># To format in HTML:</span></span>
 <span><span class="fu"><a href="reference/html.tabular.html">toHTML</a></span><span class="op">(</span><span class="va">tab</span><span class="op">)</span></span></code></pre></div>
@@ -157,13 +159,13 @@ Std Dev
 a
 </th>
 <td>
-27
+31
 </td>
 <td>
-14.2
+-6.84
 </td>
 <td>
-95.1
+82.50
 </td>
 </tr>
 <tr class="center">
@@ -171,13 +173,13 @@ a
 b
 </th>
 <td>
-22
+28
 </td>
 <td>
-0.2
+13.06
 </td>
 <td>
-78.5
+97.04
 </td>
 </tr>
 <tr class="center">
@@ -185,13 +187,13 @@ b
 c
 </th>
 <td>
-31
+17
 </td>
 <td>
-34.1
+-2.24
 </td>
 <td>
-100.4
+99.71
 </td>
 </tr>
 <tr class="center">
@@ -199,13 +201,13 @@ c
 d
 </th>
 <td>
-22
+15
 </td>
 <td>
-12.1
+4.45
 </td>
 <td>
-114.5
+98.60
 </td>
 </tr>
 <tr class="center">
@@ -213,23 +215,34 @@ d
 e
 </th>
 <td>
-23
+34
 </td>
 <td>
-19.8
+0.87
 </td>
 <td>
-92.8
+84.96
 </td>
 </tr>
 </tbody>
 </table>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># To generate LaTeX code:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/strsplit.html" class="external-link">strsplit</a></span><span class="op">(</span><span class="fu"><a href="reference/latex.tabular.html">toLatex</a></span><span class="op">(</span><span class="va">tab</span><span class="op">)</span><span class="op">$</span><span class="va">text</span>, <span class="st">"\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [[1]]</span></span>
+<span><span class="co">#&gt;  [1] "\\begin{tabular}{lccc}"                                               </span></span>
+<span><span class="co">#&gt;  [2] "\\hline"                                                              </span></span>
+<span><span class="co">#&gt;  [3] " &amp;  &amp; \\multicolumn{2}{c}{X} \\\\ "                                   </span></span>
+<span><span class="co">#&gt;  [4] "Group  &amp; N &amp; Mean &amp; \\multicolumn{1}{c}{Std Dev} \\\\ "               </span></span>
+<span><span class="co">#&gt;  [5] "\\hline"                                                              </span></span>
+<span><span class="co">#&gt;  [6] "a  &amp; $31$ &amp; $\\phantom{0}-6.84$ &amp; $\\phantom{-}82.50$ \\\\"           </span></span>
+<span><span class="co">#&gt;  [7] "b  &amp; $28$ &amp; $\\phantom{-}13.06$ &amp; $\\phantom{-}97.04$ \\\\"           </span></span>
+<span><span class="co">#&gt;  [8] "c  &amp; $17$ &amp; $\\phantom{0}-2.24$ &amp; $\\phantom{-}99.71$ \\\\"           </span></span>
+<span><span class="co">#&gt;  [9] "d  &amp; $15$ &amp; $\\phantom{0}\\phantom{-}4.45$ &amp; $\\phantom{-}98.60$ \\\\"</span></span>
+<span><span class="co">#&gt; [10] "e  &amp; $34$ &amp; $\\phantom{0}\\phantom{-}0.87$ &amp; $\\phantom{-}84.96$ \\\\"</span></span>
+<span><span class="co">#&gt; [11] "\\hline "                                                             </span></span>
+<span><span class="co">#&gt; [12] "\\end{tabular}"</span></span></code></pre></div>
 </div>
-</div>
-<div class="section level1">
-<h1 id="to-generate-latex-code">To generate LaTeX code:<a class="anchor" aria-label="anchor" href="#to-generate-latex-code"></a>
-</h1>
-cat(toLatex(tab)$text) #&gt;
 </div>
 
   </main><aside class="col-md-3"><div class="links">
