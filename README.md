@@ -36,6 +36,8 @@ This is a basic example which shows you how to solve a common problem:
 ``` r
 library(tables)
 
+set.seed(123)
+
 # In an R Markdown document, you don't want each table
 # to output the HTML document header, so turn 
 # off that option:
@@ -53,14 +55,14 @@ tab <- tabular( Group ~
 
 # To print in plain text:
 tab
-#>                        
-#>           X            
-#>  Group N  Mean  Std Dev
-#>  a     27  14.2  95.1  
-#>  b     22   0.2  78.5  
-#>  c     31  34.1 100.4  
-#>  d     22  12.1 114.5  
-#>  e     23  19.8  92.8
+#>                         
+#>           X             
+#>  Group N  Mean   Std Dev
+#>  a     31  -6.84  82.50 
+#>  b     28  13.06  97.04 
+#>  c     17  -2.24  99.71 
+#>  d     15   4.45  98.60 
+#>  e     34   0.87  84.96
 
 # To format in HTML:
 toHTML(tab)
@@ -83,49 +85,51 @@ toHTML(tab)
  <tbody>
  <tr class="center">
   <th class="left">a</th>
-  <td>27</td>
-  <td> 14.2</td>
-  <td> 95.1</td>
+  <td>31</td>
+  <td> -6.84</td>
+  <td> 82.50</td>
 </tr>
  <tr class="center">
   <th class="left">b</th>
-  <td>22</td>
-  <td>  0.2</td>
-  <td> 78.5</td>
+  <td>28</td>
+  <td> 13.06</td>
+  <td> 97.04</td>
 </tr>
  <tr class="center">
   <th class="left">c</th>
-  <td>31</td>
-  <td> 34.1</td>
-  <td>100.4</td>
+  <td>17</td>
+  <td> -2.24</td>
+  <td> 99.71</td>
 </tr>
  <tr class="center">
   <th class="left">d</th>
-  <td>22</td>
-  <td> 12.1</td>
-  <td>114.5</td>
+  <td>15</td>
+  <td>  4.45</td>
+  <td> 98.60</td>
 </tr>
  <tr class="center">
   <th class="left">e</th>
-  <td>23</td>
-  <td> 19.8</td>
-  <td> 92.8</td>
+  <td>34</td>
+  <td>  0.87</td>
+  <td> 84.96</td>
 </tr>
  </tbody>
  </table>
 
-
+``` r
 # To generate LaTeX code:
-cat(toLatex(tab)$text)
-#> \begin{tabular}{lccc}
-#> \hline
-#>  &  & \multicolumn{2}{c}{X} \\ 
-#> Group  & N & Mean & \multicolumn{1}{c}{Std Dev} \\ 
-#> \hline
-#> a  & $27$ & $\phantom{0}14.2$ & $\phantom{0}95.1$ \\
-#> b  & $22$ & $\phantom{00}0.2$ & $\phantom{0}78.5$ \\
-#> c  & $31$ & $\phantom{0}34.1$ & $100.4$ \\
-#> d  & $22$ & $\phantom{0}12.1$ & $114.5$ \\
-#> e  & $23$ & $\phantom{0}19.8$ & $\phantom{0}92.8$ \\
-#> \hline 
-#> \end{tabular}
+strsplit(toLatex(tab)$text, "\n")
+#> [[1]]
+#>  [1] "\\begin{tabular}{lccc}"                                               
+#>  [2] "\\hline"                                                              
+#>  [3] " &  & \\multicolumn{2}{c}{X} \\\\ "                                   
+#>  [4] "Group  & N & Mean & \\multicolumn{1}{c}{Std Dev} \\\\ "               
+#>  [5] "\\hline"                                                              
+#>  [6] "a  & $31$ & $\\phantom{0}-6.84$ & $\\phantom{-}82.50$ \\\\"           
+#>  [7] "b  & $28$ & $\\phantom{-}13.06$ & $\\phantom{-}97.04$ \\\\"           
+#>  [8] "c  & $17$ & $\\phantom{0}-2.24$ & $\\phantom{-}99.71$ \\\\"           
+#>  [9] "d  & $15$ & $\\phantom{0}\\phantom{-}4.45$ & $\\phantom{-}98.60$ \\\\"
+#> [10] "e  & $34$ & $\\phantom{0}\\phantom{-}0.87$ & $\\phantom{-}84.96$ \\\\"
+#> [11] "\\hline "                                                             
+#> [12] "\\end{tabular}"
+```
