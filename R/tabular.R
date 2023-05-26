@@ -802,7 +802,11 @@ format.tabular <- function(x, digits=4, justification="n",
             if (isformat) skip <- ischar | (lengths != 1)
             else skip <- ischar & FALSE
 	    last <- length(call)
+	    
        	    x <- do.call(c, result[ind & !skip])
+       	    # record the column number
+       	    attr(x, "col") <- col(ind)[ind & !skip]
+       	    
        	    call[[last+1]] <- x
        	    names(call)[last+1] <- "x"
        	    chars[ind & !skip] <- eval(call, environment(table))

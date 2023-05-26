@@ -35,16 +35,20 @@ Paste <- function(..., head, digits=2, justify="c", prefix="", sep="", postfix="
         just <- paste0(just, "@{", postfix, "\\hspace{\\tabcolsep}}")
       term <- substitute(xhead*Justify(just)*x,
                        list(xhead=xhead, just=just, x=args[[i]]))
-      if (length(digits) > 1)
-        term <- substitute(Format(digits=digits)*term, 
-                       list(digits = digits[i], term = term))
+      if (length(digits) > 1) {
+        fmt <- multicolumnFormat(digits[i])
+        term <- substitute(Format(fmt())*term, 
+                       list(fmt = fmt, term = term))
+      }
       result <- if (i == 1) term
                 else substitute(result + term, list(result=result, term=term))
     }
     result <- substitute( head*1*result,
                 list(head=head, result=result) )
-    if (length(digits) == 1)
-      result <- substitute(Format(digits=digits)*result, 
-                       list(digits=digits, result=result))
+    if (length(digits) == 1) {
+      fmt <- multicolumnFormat(digits)
+      result <- substitute(Format(fmt())*result, 
+                       list(digits=digits, result=result, fmt=fmt))
+    }
     result
 }

@@ -22,7 +22,7 @@ If not missing, this will be used as a column heading for the combined columns.
 }
   \item{digits}{
 Will be passed to the \code{\link{format}} function.  If \code{digits} is
-length one, all columns use a common format; otherwise they are
+length one, all expressions use a common format; otherwise they are
 formatted separately.
 }
   \item{justify}{
@@ -44,6 +44,11 @@ An expression which will produce the requested output in LaTeX.
 }
 \examples{
 stderr <- function(x) sd(x)/sqrt(length(x))
-toLatex( tabular( (Species+1) ~ Sepal.Length*
-          PlusMinus(mean, stderr, digits=1), data=iris ) )
+lcl <- function(x) mean(x) - qt(0.975, df=length(x)-1)*stderr(x)
+ucl <- function(x) mean(x) + qt(0.975, df=length(x)-1)*stderr(x)
+toLatex( tabular( (Species+1) ~ All(iris)*
+          Paste(lcl, ucl, digits = 2, 
+                head="95\\\% CI", 
+                prefix = "[", sep = ",", postfix = "]"), 
+          data=iris ) )
 }

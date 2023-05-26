@@ -1,3 +1,8 @@
+# tables 0.9.18
+
+- `PlusMinus()` and `Paste()` didn't handle formatting properly 
+when multiple columns were involved (issue #13).
+
 # tables 0.9.17
 
 - Change host to Github.

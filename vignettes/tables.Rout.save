@@ -606,7 +606,7 @@ All  & \multicolumn{1}{r@{}}{$5.84$} & \multicolumn{1}{@{ $\pm$ }l}{$0.07$} & \m
 +     1) * stderr(x)
 
 > toLatex(tabular((Species + 1) ~ All(iris) * Paste(lcl, 
-+     ucl, digits = 2, head = "95\\% CI", sep = ",", prefix = "[", 
++     ucl, digits = 2, head = "95\\% CI", prefix = "[", sep = ",", 
 +     postfix = "]"), da .... [TRUNCATED] 
 \begin{tabular}{lcccccccc}
 \toprule
@@ -984,4 +984,4 @@ All  & $150$ & $5.84$ & $0.83$ & $3.06$ & $0.44$ \\
  *** Run successfully completed ***
 > proc.time()
    user  system elapsed 
-  3.664   0.285   4.127 
+  2.709   0.175   3.015 

@@ -887,16 +887,19 @@ This function produces table entries like $x \pm y$ with an optional header.
 It has syntax
 
 ```r
-PlusMinus(x, y, head, xhead, yhead, digits=2, ...)
+PlusMinus(x, y, head, xhead, yhead, digits = 2, 
+          character.only = FALSE, ...)
 ```
 
 The arguments are
 
-- ``x, y`: These are expressions which should each generate a single column in the table.  The `x`
+- `x, y`: These are expressions which should each generate a single column in the table.  The `x`
 value will be flush right, the `y` value will be flush left, with the $\pm$ symbol between. 
-- ``head`: If not missing, this header will be put over the pair of columns.
-- ``xhead, yhead`: If not missing, these will be put over the individual columns.
-- ``digits, ...`: These arguments will be passed to the standard `format()` function.
+- `head`: If not missing, this header will be put over the pair of columns.
+- `xhead, yhead`: If not missing, these will be put over the individual columns.
+- `digits, ...`: These arguments will be passed to the standard `format()` function.
+- `character.only`:  If `TRUE`, the `head`, `xhead` and `yhead`
+arguments will be interpreted as expressions evaluating to character values.
 
 
 Example:  Display mean $\pm$ standard error.
