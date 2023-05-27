@@ -14,7 +14,7 @@ designed only for LaTeX output."><!-- mathjax --><script src="https://cdnjs.clou
     
     <a class="navbar-brand me-2" href="../index.html">tables</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.17</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.18</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -79,7 +79,7 @@ named, they will get those names as headings, otherwise they will not be labelle
 
   <dt>digits</dt>
 <dd><p>Will be passed to the <code><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></code> function.  If <code>digits</code> is
-length one, all columns use a common format; otherwise they are
+length one, all expressions use a common format; otherwise they are
 formatted separately.</p></dd>
 
   <dt>justify</dt>
@@ -105,20 +105,7 @@ as an expression evaluating to a character value.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">stderr</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="latex.tabular.html">toLatex</a></span><span class="op">(</span> <span class="fu"><a href="tabular.html">tabular</a></span><span class="op">(</span> <span class="op">(</span><span class="va">Species</span><span class="op">+</span><span class="fl">1</span><span class="op">)</span> <span class="op">~</span> <span class="va">Sepal.Length</span><span class="op">*</span></span></span>
-<span class="r-in"><span>          <span class="fu"><a href="PlusMinus.html">PlusMinus</a></span><span class="op">(</span><span class="va">mean</span>, <span class="va">stderr</span>, digits<span class="op">=</span><span class="fl">1</span><span class="op">)</span>, data<span class="op">=</span><span class="va">iris</span> <span class="op">)</span> <span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> \begin{tabular}{lcc}</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> \hline</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Species  &amp; \multicolumn{2}{c}{Sepal.Length} \\ </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> \hline</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> setosa  &amp; \multicolumn{1}{r@{}}{$5.01$} &amp; \multicolumn{1}{@{ $\pm$ }l}{$0.05$} \\</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> versicolor  &amp; \multicolumn{1}{r@{}}{$5.94$} &amp; \multicolumn{1}{@{ $\pm$ }l}{$0.07$} \\</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> virginica  &amp; \multicolumn{1}{r@{}}{$6.59$} &amp; \multicolumn{1}{@{ $\pm$ }l}{$0.09$} \\</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> All  &amp; \multicolumn{1}{r@{}}{$5.84$} &amp; \multicolumn{1}{@{ $\pm$ }l}{$0.07$} \\</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> \hline </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> \end{tabular}</span>
-</code></pre></div>
+    
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
