@@ -17,7 +17,7 @@ latexTable <- function(table, format = "latex", longtable = FALSE, ...) {
   klines <- strsplit(unclass(ktable), "\n")[[1]]
   format <- attr(ktable, "format")
   if (format == "latex") {
-    tlines <- toLatex(table)
+    tlines <- toLatex(table)$text
     tabularStart <- grep(if (longtable) "\\begin{longtable}" else "\\begin{tabular}", klines, fixed = TRUE)
     tabularEnd <- grep(if (longtable) "\\end{longtable}" else "\\end{tabular}", klines, fixed = TRUE)
     if (length(tabularStart) != 1L || length(tabularEnd) != 1 || tabularStart > tabularEnd)
