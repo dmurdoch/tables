@@ -14,7 +14,7 @@ from utils."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs
     
     <a class="navbar-brand me-2" href="../index.html">tables</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.18</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.19</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -97,6 +97,11 @@ a filename rather than a connection).</p></dd>
 to work as a method for the <code>latex</code> generic in <span class="pkg">Hmisc</span>,
 but is not registered as a method, so that <span class="pkg">tables</span> can
 work when <span class="pkg">Hmisc</span> is not installed.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
+    <p>For historical reasons, the <code>toLatex()</code> function with a non-empty <code>file</code> argument
+doesn't write to the file until the returned value is printed.</p>
     </div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
