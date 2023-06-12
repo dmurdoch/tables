@@ -3,7 +3,7 @@
 - `PlusMinus()` and `Paste()` didn't handle formatting properly 
 when multiple columns were involved (issue #13).
 - `toLatex()` with a non-empty `file` argument didn't write 
-to file properly.  (Reported by F. Hortner.)
+to file properly.  (Reported by Reinhard Kerschner and F. Hortner.)
 
 # tables 0.9.17
 
