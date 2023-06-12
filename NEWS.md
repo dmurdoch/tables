@@ -1,7 +1,9 @@
-# tables 0.9.18
+# tables 0.9.19
 
 - `PlusMinus()` and `Paste()` didn't handle formatting properly 
 when multiple columns were involved (issue #13).
+- `toLatex()` with a non-empty `file` argument didn't write 
+to file properly.  (Reported by F. Hortner.)
 
 # tables 0.9.17
 

@@ -120,10 +120,11 @@ toLatex.tabular <- function(object, file = "", options = NULL,
     mycat(opts$bottomrule, "\n")
   if (opts$doEnd)
     mycat("\\end{", opts$tabular, "}\n", sep="")
-  structure(list(text = output, file = file), class="tabularLatex")
+  structure(list(text = output, file = file, append = append),
+            class="tabularLatex")
 }
 
-print.tabularLatex <- function(x, file = x$file, ...) {
+print.tabularLatex <- function(x, file = x$file, append = x$append, ...) {
   if (is.character(file)) {
     if (file == "")
       out <- ""

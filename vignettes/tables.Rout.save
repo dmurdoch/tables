@@ -978,10 +978,9 @@ All  & $150$ & $5.84$ & $0.83$ & $3.06$ & $0.44$ \\
 \bottomrule 
 \end{tabular}
 
-
 \end{table}
 
  *** Run successfully completed ***
 > proc.time()
    user  system elapsed 
-  2.709   0.175   3.015 
+  2.642   0.138   2.798 

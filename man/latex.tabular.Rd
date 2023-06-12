@@ -42,6 +42,10 @@ to work as a method for the \code{latex} generic in \pkg{Hmisc},
 but is not registered as a method, so that \pkg{tables} can
 work when \pkg{Hmisc} is not installed.
 }
+\note{
+For historical reasons, the \code{toLatex()} function with a non-empty \code{file} argument
+doesn't write to the file until the returned value is printed.
+}
 \value{
 The \code{toLatex()} method returns \code{x} invisibly, and prints the LaTeX script to the console.
 
