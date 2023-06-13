@@ -1,0 +1,3 @@
+meta <- packageDescription("tables")
+meta$Repository <- NULL
+citation(auto = meta)
