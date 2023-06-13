@@ -1,9 +1,11 @@
-# tables 0.9.19
+# tables 0.9.20
 
 - `PlusMinus()` and `Paste()` didn't handle formatting properly 
 when multiple columns were involved (issue #13).
 - `toLatex()` with a non-empty `file` argument didn't write 
 to file properly.  (Reported by Reinhard Kerschner and F. Hortner.)
+- Added `CITATION` file so that `utils::citation()` won't highjack
+the URL (see https://bugs.r-project.org/show_bug.cgi?id=18547).
 
 # tables 0.9.17
 
