@@ -29,38 +29,45 @@ All <- function(df, numeric=TRUE, character=FALSE, logical=FALSE, factor=FALSE,
         if (is.numeric(value)) {
             if (is.function(numeric))
             	value <- numeric(value)
-            else if (!isTRUE(numeric))
-            	next
+            else if (isTRUE(numeric))
+              value <- call("[[", substitute(df), i)
+            else next
         } else if (is.character(value)) {
             if (is.function(character))
             	value <- character(value)
-            else if (!isTRUE(character))
-            	next
+            else if (isTRUE(character))
+              value <- call("[[", substitute(df), i)
+            else next
         }  else if (is.logical(value)) {
             if (is.function(logical)) 
             	value <- logical(value)
-            else if (!isTRUE(logical))
-            	next
+            else if (isTRUE(logical))
+              value <- call("[[", substitute(df), i)
+            else next
         } else if (is.factor(value)) {
             if (is.function(factor))
             	value <- factor(value)
-            else if (!isTRUE(factor))
-            	next
+            else if (isTRUE(factor))
+              value <- call("[[", substitute(df), i)
+            else next
         } else if (is.complex(value)) {
             if (is.function(complex)) 
             	value <- complex(value)
-            else if (!isTRUE(complex))
-            	next
+            else if (isTRUE(complex))
+              value <- call("[[", substitute(df), i)
+            else next
         } else if (is.raw(value)) {
-	    if (is.function(raw)) 
-	     	value <- raw(value)
-	    else if (!isTRUE(raw))
-	    	next
-        } else {
+            if (is.function(raw)) 
+              value <- raw(value)
+            else if (isTRUE(raw))
+              value <- call("[[", substitute(df), i)
+            else next
+	      } else {
             if (is.function(other))
             	value <- other(value)
-            else if (!isTRUE(other))
-            	next
+            else if (isTRUE(other))
+              value <- call("[[", substitute(df), i)
+            else next
         }
         
         f1 <- call("*", call("Heading", as.name(names[i])),
