@@ -57,8 +57,8 @@ toTinytable <- function(table, ...) {
 
   # entries in the first row of clabels are already colnames in out
   if (nrow(clabels) > 1) {
-    spans <- rev(apply(clabels, 1, get_span)[1:(nrow(clabels) - 1)])
-    for (s in spans) {
+    for (i in (nrow(clabels) - 1):1) {
+      s <- get_span(clabels[i,])
       out <- tinytable::group_tt(out, j = s)
     }
   }
