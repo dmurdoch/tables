@@ -4,7 +4,7 @@ export(tabular, htmlNumeric, labelSubset, latexNumeric, PlusMinus,
        as.tabular, writeCSS,
        rowLabels, colLabels, "rowLabels<-", "colLabels<-",
        toKable, knit_print.tabular,
-       toLatex, toHTML, html.tabular, latex.tabular,
+       toLatex, toHTML, toTinytable, html.tabular, latex.tabular,
        latexTable, useGroupLabels, HTMLfootnotes, matrix_form.tabular)
 
 # pseudo-function exports; not meant to be called, but meant to make the checks happy
