@@ -31,16 +31,14 @@ Markdown, Word, Typst, PDF, and PNG.
 \code{\link[tinytable]{tinytable-package}} 
 }
 \examples{
-if (requireNamespace("tinytable") && 
-    (!requireNamespace("pkgdown") || !pkgdown::in_pkgdown())) {
+if (requireNamespace("tinytable")) {
+
   tab <-  tabular( (Species + 1) ~ (n=1) + Format(digits=2)*
           (Sepal.Length + Sepal.Width)*(mean + sd), data=iris )
-  print(toTinytable(tab, theme = "striped"))
-  cat("\n")
-  
-  tab <- toTinytable(tab)
-  tab <- tinytable::style_tt(tab, i = 1:2, background = "teal", 
-    color = "white")
-  print(tab)
+  tab <- toTinytable(tab, theme = "striped")
+  tab <- tinytable::style_tt(tab, i = 1:2, background = "teal", color = "white")
+  tab
+
 }
+
 }
