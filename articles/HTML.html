@@ -8,8 +8,8 @@
 <meta name="description" content="tables">
 <title>HTML Tables • tables</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="HTML Tables">
 <meta property="og:description" content="tables">
@@ -147,13 +147,13 @@ Std Dev
 a
 </th>
 <td>
-28
+27
 </td>
 <td>
-38.1
+-29.6
 </td>
 <td>
-108.9
+90.8
 </td>
 </tr>
 <tr class="center">
@@ -161,13 +161,13 @@ a
 b
 </th>
 <td>
-29
+25
 </td>
 <td>
--7.0
+-6.5
 </td>
 <td>
-106.5
+82.5
 </td>
 </tr>
 <tr class="center">
@@ -175,13 +175,13 @@ b
 c
 </th>
 <td>
-17
+21
 </td>
 <td>
--4.6
+-7.2
 </td>
 <td>
-107.6
+76.8
 </td>
 </tr>
 <tr class="center">
@@ -189,13 +189,13 @@ c
 d
 </th>
 <td>
-29
+27
 </td>
 <td>
-9.5
+-3.7
 </td>
 <td>
-93.9
+109.8
 </td>
 </tr>
 <tr class="center">
@@ -203,13 +203,13 @@ d
 e
 </th>
 <td>
-22
+25
 </td>
 <td>
--27.8
+18.2
 </td>
 <td>
-107.3
+121.4
 </td>
 </tr>
 </tbody>
@@ -224,11 +224,11 @@ older method, use <code>table_options(knit_print = FALSE)</code>:</p>
 <pre><code><span><span class="co">##                        </span></span>
 <span><span class="co">##           X            </span></span>
 <span><span class="co">##  Group N  Mean  Std Dev</span></span>
-<span><span class="co">##  a     28  38.1 108.9  </span></span>
-<span><span class="co">##  b     29  -7.0 106.5  </span></span>
-<span><span class="co">##  c     17  -4.6 107.6  </span></span>
-<span><span class="co">##  d     29   9.5  93.9  </span></span>
-<span><span class="co">##  e     22 -27.8 107.3</span></span></code></pre>
+<span><span class="co">##  a     27 -29.6  90.8  </span></span>
+<span><span class="co">##  b     25  -6.5  82.5  </span></span>
+<span><span class="co">##  c     21  -7.2  76.8  </span></span>
+<span><span class="co">##  d     27  -3.7 109.8  </span></span>
+<span><span class="co">##  e     25  18.2 121.4</span></span></code></pre>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/html.tabular.html">toHTML</a></span><span class="op">(</span><span class="va">tab</span><span class="op">)</span>  <span class="co"># This chunk uses results = 'asis'</span></span></code></pre></div>
 <table class="table Rtable">
@@ -248,33 +248,33 @@ older method, use <code>table_options(knit_print = FALSE)</code>:</p>
 <tbody>
 <tr class="center">
 <th class="left">a</th>
-  <td>28</td>
-  <td> 38.1</td>
-  <td>108.9</td>
+  <td>27</td>
+  <td>-29.6</td>
+  <td> 90.8</td>
 </tr>
 <tr class="center">
 <th class="left">b</th>
-  <td>29</td>
-  <td> -7.0</td>
-  <td>106.5</td>
+  <td>25</td>
+  <td> -6.5</td>
+  <td> 82.5</td>
 </tr>
 <tr class="center">
 <th class="left">c</th>
-  <td>17</td>
-  <td> -4.6</td>
-  <td>107.6</td>
+  <td>21</td>
+  <td> -7.2</td>
+  <td> 76.8</td>
 </tr>
 <tr class="center">
 <th class="left">d</th>
-  <td>29</td>
-  <td>  9.5</td>
-  <td> 93.9</td>
+  <td>27</td>
+  <td> -3.7</td>
+  <td>109.8</td>
 </tr>
 <tr class="center">
 <th class="left">e</th>
-  <td>22</td>
-  <td>-27.8</td>
-  <td>107.3</td>
+  <td>25</td>
+  <td> 18.2</td>
+  <td>121.4</td>
 </tr>
 </tbody>
 </table>
@@ -347,13 +347,13 @@ Std Dev
 a
 </th>
 <td>
-28
+27
 </td>
 <td>
-38.1
+-29.6
 </td>
 <td>
-108.9
+90.8
 </td>
 </tr>
 <tr class="right">
@@ -361,13 +361,13 @@ a
 b
 </th>
 <td>
-29
+25
 </td>
 <td>
--7.0
+-6.5
 </td>
 <td>
-106.5
+82.5
 </td>
 </tr>
 <tr class="right">
@@ -375,13 +375,13 @@ b
 c
 </th>
 <td>
-17
+21
 </td>
 <td>
--4.6
+-7.2
 </td>
 <td>
-107.6
+76.8
 </td>
 </tr>
 <tr class="right">
@@ -389,13 +389,13 @@ c
 d
 </th>
 <td>
-29
+27
 </td>
 <td>
-9.5
+-3.7
 </td>
 <td>
-93.9
+109.8
 </td>
 </tr>
 <tr class="right">
@@ -403,13 +403,13 @@ d
 e
 </th>
 <td>
-22
+25
 </td>
 <td>
--27.8
+18.2
 </td>
 <td>
-107.3
+121.4
 </td>
 </tr>
 </tbody>
@@ -454,13 +454,13 @@ Std Dev
 a
 </th>
 <td>
-28
+27
 </td>
 <td>
-  38.1
+ −29.6
 </td>
 <td>
- 108.9
+  90.8
 </td>
 </tr>
 <tr class="center">
@@ -468,13 +468,13 @@ a
 b
 </th>
 <td>
-29
+25
 </td>
 <td>
-  −7.0
+  −6.5
 </td>
 <td>
- 106.5
+  82.5
 </td>
 </tr>
 <tr class="center">
@@ -482,13 +482,13 @@ b
 c
 </th>
 <td>
-17
+21
 </td>
 <td>
-  −4.6
+  −7.2
 </td>
 <td>
- 107.6
+  76.8
 </td>
 </tr>
 <tr class="center">
@@ -496,13 +496,13 @@ c
 d
 </th>
 <td>
-29
+27
 </td>
 <td>
-   9.5
+  −3.7
 </td>
 <td>
-  93.9
+ 109.8
 </td>
 </tr>
 <tr class="center">
@@ -510,13 +510,13 @@ d
 e
 </th>
 <td>
-22
+25
 </td>
 <td>
- −27.8
+  18.2
 </td>
 <td>
- 107.3
+ 121.4
 </td>
 </tr>
 </tbody>
@@ -575,12 +575,12 @@ customized display for one table by also using
 <span><span class="st">&lt;/style&gt;"</span>, doCSS <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">tab</span></span></code></pre></div>
 <style>
-#table1a1e3a92880c .center { 
+#table1b9864e0566f .center { 
   text-align:center;
   background-color: aliceblue;
 }
 </style>
-<table id="table1a1e3a92880c" class="table Rtable">
+<table id="table1b9864e0566f" class="table Rtable">
 <thead>
 <tr class="center">
 <th>
@@ -614,13 +614,13 @@ Std Dev
 a
 </th>
 <td>
-28
+27
 </td>
 <td>
-  38.1
+ −29.6
 </td>
 <td>
- 108.9
+  90.8
 </td>
 </tr>
 <tr class="center">
@@ -628,13 +628,13 @@ a
 b
 </th>
 <td>
-29
+25
 </td>
 <td>
-  −7.0
+  −6.5
 </td>
 <td>
- 106.5
+  82.5
 </td>
 </tr>
 <tr class="center">
@@ -642,13 +642,13 @@ b
 c
 </th>
 <td>
-17
+21
 </td>
 <td>
-  −4.6
+  −7.2
 </td>
 <td>
- 107.6
+  76.8
 </td>
 </tr>
 <tr class="center">
@@ -656,13 +656,13 @@ c
 d
 </th>
 <td>
-29
+27
 </td>
 <td>
-   9.5
+  −3.7
 </td>
 <td>
-  93.9
+ 109.8
 </td>
 </tr>
 <tr class="center">
@@ -670,13 +670,13 @@ d
 e
 </th>
 <td>
-22
+25
 </td>
 <td>
- −27.8
+  18.2
 </td>
 <td>
- 107.3
+ 121.4
 </td>
 </tr>
 </tbody>
@@ -718,13 +718,13 @@ Std Dev
 a
 </th>
 <td>
-28
+27
 </td>
 <td>
-  38.1
+ −29.6
 </td>
 <td>
- 108.9
+  90.8
 </td>
 </tr>
 <tr class="center">
@@ -732,13 +732,13 @@ a
 b
 </th>
 <td>
-29
+25
 </td>
 <td>
-  −7.0
+  −6.5
 </td>
 <td>
- 106.5
+  82.5
 </td>
 </tr>
 <tr class="center">
@@ -746,13 +746,13 @@ b
 c
 </th>
 <td>
-17
+21
 </td>
 <td>
-  −4.6
+  −7.2
 </td>
 <td>
- 107.6
+  76.8
 </td>
 </tr>
 <tr class="center">
@@ -760,13 +760,13 @@ c
 d
 </th>
 <td>
-29
+27
 </td>
 <td>
-   9.5
+  −3.7
 </td>
 <td>
-  93.9
+ 109.8
 </td>
 </tr>
 <tr class="center">
@@ -774,13 +774,13 @@ d
 e
 </th>
 <td>
-22
+25
 </td>
 <td>
- −27.8
+  18.2
 </td>
 <td>
- 107.3
+ 121.4
 </td>
 </tr>
 </tbody>
@@ -798,12 +798,12 @@ function. For example,</p>
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://haozhu233.github.io/kableExtra/" class="external-link">kableExtra</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/toKable.html">toKable</a></span><span class="op">(</span><span class="va">tab</span>, format<span class="op">=</span><span class="st">"html"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kable_styling.html" class="external-link">kable_styling</a></span><span class="op">(</span><span class="st">"striped"</span>, position <span class="op">=</span> <span class="st">"float_right"</span>, full_width <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kable_styling.html" class="external-link">kable_styling</a></span><span class="op">(</span><span class="st">"striped"</span>, full_width <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/add_header_above.html" class="external-link">add_header_above</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Row Label"</span> <span class="op">=</span> <span class="fl">1</span>, <span class="st">"Statistics"</span> <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/column_spec.html" class="external-link">column_spec</a></span><span class="op">(</span><span class="fl">4</span>, color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/row_spec.html" class="external-link">row_spec</a></span><span class="op">(</span><span class="fl">1</span>, color <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/group_rows.html" class="external-link">group_rows</a></span><span class="op">(</span><span class="st">"Subgroup"</span>, <span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span></span></code></pre></div>
-<table class="table Rtable table table-striped" style="width: auto !important; float: right; margin-left: 10px;">
+<table class="table Rtable table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="border-bottom:hidden;padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="1">
@@ -849,13 +849,13 @@ Std Dev
 a
 </th>
 <td style="color: blue !important;">
-28
+27
 </td>
 <td style="color: blue !important;">
-  38.1
+ −29.6
 </td>
 <td style="color: red !important;color: blue !important;">
- 108.9
+  90.8
 </td>
 </tr>
 <tr class="center">
@@ -863,13 +863,13 @@ a
 b
 </th>
 <td>
-29
+25
 </td>
 <td>
-  −7.0
+  −6.5
 </td>
 <td style="color: red !important;">
- 106.5
+  82.5
 </td>
 </tr>
 <tr grouplength="3">
@@ -882,13 +882,13 @@ b
 c
 </th>
 <td>
-17
+21
 </td>
 <td>
-  −4.6
+  −7.2
 </td>
 <td style="color: red !important;">
- 107.6
+  76.8
 </td>
 </tr>
 <tr class="center">
@@ -896,13 +896,13 @@ c
 d
 </th>
 <td>
-29
+27
 </td>
 <td>
-   9.5
+  −3.7
 </td>
 <td style="color: red !important;">
-  93.9
+ 109.8
 </td>
 </tr>
 <tr class="center">
@@ -910,13 +910,13 @@ d
 e
 </th>
 <td>
-22
+25
 </td>
 <td>
- −27.8
+  18.2
 </td>
 <td style="color: red !important;">
- 107.3
+ 121.4
 </td>
 </tr>
 </tbody>
@@ -926,6 +926,199 @@ e
 <code>table_options()$CSS</code>; some modifications might be needed to
 make everything work. For instance, the code above requests striping,
 but that did not show up. Experimentation may be needed!</p>
+</div>
+<div class="section level2">
+<h2 id="tinytable-support">tinytable support<a class="anchor" aria-label="anchor" href="#tinytable-support"></a>
+</h2>
+<p>The <code>tinytable</code> package is another package which can be
+used to customize the look of tables generated by <code>tables</code>. A
+<code>tinytable</code> can be customized, and then printed or saved to a
+variety of formats, including: HTML, LaTeX, Word, Typst, PNG, PDF,
+Rmarkdown, and Quarto. For example,</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://vincentarelbundock.github.io/tinytable/" class="external-link">tinytable</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/toTinytable.html">toTinytable</a></span><span class="op">(</span><span class="va">tab</span>, theme <span class="op">=</span> <span class="st">"striped"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/tinytable/man/group_tt.html" class="external-link">group_tt</a></span><span class="op">(</span>i <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"Subgroup"</span> <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/tinytable/man/group_tt.html" class="external-link">group_tt</a></span><span class="op">(</span>j <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"Row Label"</span> <span class="op">=</span> <span class="fl">1</span>, <span class="st">"Statistics"</span> <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/tinytable/man/style_tt.html" class="external-link">style_tt</a></span><span class="op">(</span>i <span class="op">=</span> <span class="fl">3</span>, color <span class="op">=</span> <span class="st">"red"</span>, align <span class="op">=</span> <span class="st">"c"</span>, line <span class="op">=</span> <span class="st">"bt"</span>, line_color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/tinytable/man/style_tt.html" class="external-link">style_tt</a></span><span class="op">(</span>i <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">6</span>, j <span class="op">=</span> <span class="fl">3</span><span class="op">:</span><span class="fl">4</span>, background <span class="op">=</span> <span class="st">"black"</span>, color <span class="op">=</span> <span class="st">"orange"</span><span class="op">)</span></span></code></pre></div>
+ 
+
+  
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>tinytable_n0z87dti48e71pvl5o1d</title>
+<style>
+.table td.tinytable_css_cmwjvdg16smfdqstfcfc, .table th.tinytable_css_cmwjvdg16smfdqstfcfc {    }
+.table td.tinytable_css_1x5544lx39yq6y18qbpz, .table th.tinytable_css_1x5544lx39yq6y18qbpz {    text-align: center; }
+.table td.tinytable_css_mkitip05of8mq69209fr, .table th.tinytable_css_mkitip05of8mq69209fr {    border-bottom: solid 0.05em #d3d8dc; }
+.table td.tinytable_css_q2q02e12bumo017unr30, .table th.tinytable_css_q2q02e12bumo017unr30 {   padding-left: 1em; }
+.table td.tinytable_css_s6q2ud6fqkkzev8hc04i, .table th.tinytable_css_s6q2ud6fqkkzev8hc04i {    text-align: center; }
+.table td.tinytable_css_0tug808f9mo0g0e1ifm9, .table th.tinytable_css_0tug808f9mo0g0e1ifm9 {    text-align: center; }
+.table td.tinytable_css_fya989nqev2qmprsfuol, .table th.tinytable_css_fya989nqev2qmprsfuol {    border-bottom: solid 0.05em #d3d8dc; }
+.table td.tinytable_css_dkkttqedygpglp1xt42b, .table th.tinytable_css_dkkttqedygpglp1xt42b {    text-align: center; color: red; border-top: solid 0.1em red; border-bottom: solid 0.1em red; }
+.table td.tinytable_css_481kxpkffpn9c38lsg5q, .table th.tinytable_css_481kxpkffpn9c38lsg5q {    color: orange; background-color: black; }
+    </style>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+    </script><div class="container">
+      <table class="table table table-striped" id="tinytable_n0z87dti48e71pvl5o1d" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+<thead>
+<tr>
+<th scope="col" align="center" colspan="1">Row Label</th>
+<th scope="col" align="center" colspan="3">Statistics</th>
+</tr>
+<tr>
+<th scope="col" align="center" colspan="1"> </th>
+<th scope="col" align="center" colspan="1"> </th>
+<th scope="col" align="center" colspan="2">X</th>
+</tr>
+<tr>
+<th scope="col">Group</th>
+                <th scope="col">N</th>
+                <th scope="col">Mean</th>
+                <th scope="col">Std Dev</th>
+              </tr>
+</thead>
+<tbody>
+<tr>
+<td>a</td>
+                  <td>27</td>
+                  <td>-29.6</td>
+                  <td> 90.8</td>
+                </tr>
+<tr>
+<td>b</td>
+                  <td>25</td>
+                  <td> -6.5</td>
+                  <td> 82.5</td>
+                </tr>
+<tr>
+<td>c</td>
+                  <td>21</td>
+                  <td> -7.2</td>
+                  <td> 76.8</td>
+                </tr>
+<tr>
+<td>d</td>
+                  <td>27</td>
+                  <td> -3.7</td>
+                  <td>109.8</td>
+                </tr>
+<tr>
+<td>e</td>
+                  <td>25</td>
+                  <td> 18.2</td>
+                  <td>121.4</td>
+                </tr>
+</tbody>
+</table>
+</div>
+
+    <script>
+      function styleCell_tinytable_r6n1dhk9w5mel95mnbft(i, j, css_id) {
+        var table = document.getElementById("tinytable_n0z87dti48e71pvl5o1d");
+        table.rows[i].cells[j].classList.add(css_id);
+      }
+      function insertSpanRow_c7okrhnjgwbm016b7aw5(i, colspan, content) {
+        var table = document.getElementById('tinytable_n0z87dti48e71pvl5o1d');
+        var newRow = table.insertRow(i);
+        var newCell = newRow.insertCell(0);
+        newCell.setAttribute("colspan", colspan);
+        // newCell.innerText = content;
+        // this may be unsafe, but innerText does not interpret <br>
+        newCell.innerHTML = content;
+      }
+      function spanCell_tinytable_r6n1dhk9w5mel95mnbft(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_n0z87dti48e71pvl5o1d");
+        const targetRow = table.rows[i];
+        const targetCell = targetRow.cells[j];
+        for (let r = 0; r < rowspan; r++) {
+          // Only start deleting cells to the right for the first row (r == 0)
+          if (r === 0) {
+            // Delete cells to the right of the target cell in the first row
+            for (let c = colspan - 1; c > 0; c--) {
+              if (table.rows[i + r].cells[j + c]) {
+                table.rows[i + r].deleteCell(j + c);
+              }
+            }
+          }
+          // For rows below the first, delete starting from the target column
+          if (r > 0) {
+            for (let c = colspan - 1; c >= 0; c--) {
+              if (table.rows[i + r] && table.rows[i + r].cells[j]) {
+                table.rows[i + r].deleteCell(j);
+              }
+            }
+          }
+        }
+        // Set rowspan and colspan of the target cell
+        targetCell.rowSpan = rowspan;
+        targetCell.colSpan = colspan;
+      }
+
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(3, 0, 'tinytable_css_cmwjvdg16smfdqstfcfc') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(4, 0, 'tinytable_css_cmwjvdg16smfdqstfcfc') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(5, 0, 'tinytable_css_cmwjvdg16smfdqstfcfc') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(6, 0, 'tinytable_css_cmwjvdg16smfdqstfcfc') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(7, 0, 'tinytable_css_cmwjvdg16smfdqstfcfc') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(8, 0, 'tinytable_css_cmwjvdg16smfdqstfcfc') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(3, 1, 'tinytable_css_cmwjvdg16smfdqstfcfc') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(4, 1, 'tinytable_css_cmwjvdg16smfdqstfcfc') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(5, 1, 'tinytable_css_cmwjvdg16smfdqstfcfc') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(6, 1, 'tinytable_css_cmwjvdg16smfdqstfcfc') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(7, 1, 'tinytable_css_cmwjvdg16smfdqstfcfc') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(8, 1, 'tinytable_css_cmwjvdg16smfdqstfcfc') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(3, 2, 'tinytable_css_cmwjvdg16smfdqstfcfc') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(4, 2, 'tinytable_css_cmwjvdg16smfdqstfcfc') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(5, 2, 'tinytable_css_cmwjvdg16smfdqstfcfc') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(6, 2, 'tinytable_css_cmwjvdg16smfdqstfcfc') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(7, 2, 'tinytable_css_cmwjvdg16smfdqstfcfc') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(8, 2, 'tinytable_css_cmwjvdg16smfdqstfcfc') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(3, 3, 'tinytable_css_cmwjvdg16smfdqstfcfc') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(4, 3, 'tinytable_css_cmwjvdg16smfdqstfcfc') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(5, 3, 'tinytable_css_cmwjvdg16smfdqstfcfc') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(6, 3, 'tinytable_css_cmwjvdg16smfdqstfcfc') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(7, 3, 'tinytable_css_cmwjvdg16smfdqstfcfc') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(8, 3, 'tinytable_css_cmwjvdg16smfdqstfcfc') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(1, 0, 'tinytable_css_1x5544lx39yq6y18qbpz') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(1, 1, 'tinytable_css_1x5544lx39yq6y18qbpz') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(1, 2, 'tinytable_css_1x5544lx39yq6y18qbpz') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(1, 3, 'tinytable_css_1x5544lx39yq6y18qbpz') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(1, 2, 'tinytable_css_mkitip05of8mq69209fr') })
+window.addEventListener('load', function () { insertSpanRow_c7okrhnjgwbm016b7aw5(5, 4, 'Subgroup') });
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(3, 0, 'tinytable_css_q2q02e12bumo017unr30') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(4, 0, 'tinytable_css_q2q02e12bumo017unr30') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(6, 0, 'tinytable_css_q2q02e12bumo017unr30') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(7, 0, 'tinytable_css_q2q02e12bumo017unr30') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(8, 0, 'tinytable_css_q2q02e12bumo017unr30') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(1, 0, 'tinytable_css_s6q2ud6fqkkzev8hc04i') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(1, 1, 'tinytable_css_s6q2ud6fqkkzev8hc04i') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(1, 2, 'tinytable_css_s6q2ud6fqkkzev8hc04i') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(1, 3, 'tinytable_css_s6q2ud6fqkkzev8hc04i') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(-1, 0, 'tinytable_css_0tug808f9mo0g0e1ifm9') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(-1, 1, 'tinytable_css_0tug808f9mo0g0e1ifm9') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(-1, 2, 'tinytable_css_0tug808f9mo0g0e1ifm9') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(-1, 3, 'tinytable_css_0tug808f9mo0g0e1ifm9') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(-1, 0, 'tinytable_css_fya989nqev2qmprsfuol') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(-1, 1, 'tinytable_css_fya989nqev2qmprsfuol') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(5, 0, 'tinytable_css_dkkttqedygpglp1xt42b') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(5, 1, 'tinytable_css_dkkttqedygpglp1xt42b') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(5, 2, 'tinytable_css_dkkttqedygpglp1xt42b') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(5, 3, 'tinytable_css_dkkttqedygpglp1xt42b') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(7, 2, 'tinytable_css_481kxpkffpn9c38lsg5q') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(8, 2, 'tinytable_css_481kxpkffpn9c38lsg5q') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(7, 3, 'tinytable_css_481kxpkffpn9c38lsg5q') })
+window.addEventListener('load', function () { styleCell_tinytable_r6n1dhk9w5mel95mnbft(8, 3, 'tinytable_css_481kxpkffpn9c38lsg5q') })
+    </script>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
