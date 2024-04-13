@@ -52,14 +52,10 @@ matrix_form.tabular <- function(df) {
   
   # formatters has renamed the matrix_print_form function to
   # MatrixPrintForm
-  MatrixPrintForm <- 
-    if (exists("MatrixPrintForm", envir=asNamespace("formatters")))
-      formatters::MatrixPrintForm
-    else if (exists("matrix_print_form", envir=asNamespace("formatters")))
-      formatters::matrix_print_form
-    else
-      stop("formatters::MatrixPrintForm does not exist")
-      
+  MatrixPrintForm <- try(get("MatrixPrintForm", envir = asNamespace("formatters")))
+  if (inherits(MatrixPrintForm, "try-error"))
+    MatrixPrintForm <- get("matrix_print_form", envir = asNamespace("formatters"))
+
   MatrixPrintForm(strings = strings,
                     spans = spans,
                     aligns = aligns,

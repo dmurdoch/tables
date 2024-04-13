@@ -1,4 +1,4 @@
-# tables 0.9.24
+# tables 0.9.25
 
 - `PlusMinus()` and `Paste()` didn't handle formatting properly 
 when multiple columns were involved (issue #13).
