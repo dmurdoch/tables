@@ -1,16 +1,11 @@
-# tables 0.9.17
+# tables 0.9.25
 
-It didn't fix the issue; some of the example results in \donttest sections
-were autoprinting as browsable HTML.
+Tried to handle the `formatters::matrix_print_form` differently,
+so we never refer to something that isn't there.
 
-# tables 0.9.16
+# tables 0.9.24
 
-This version doesn't call browseURL() non-interactively
-even in a \donttest section.  Hopefully this will deal with the
-"calibre" files.
+This is a minor release, fixing a few bugs and adding a function
+at the request of the `tinytables` package.  The submission was
+triggered by a change to the exports of the `formatters` package.
 
-# tables 0.9.15
-
-This is a relatively minor update, adding a few functions.  The
-reason to send it is that it is used in the R Tables Working Group
-project.
