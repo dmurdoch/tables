@@ -52,7 +52,7 @@ matrix_form.tabular <- function(df) {
   
   # formatters has renamed the matrix_print_form function to
   # MatrixPrintForm
-  MatrixPrintForm <- try(get("MatrixPrintForm", envir = asNamespace("formatters")))
+  MatrixPrintForm <- try(get("MatrixPrintForm", envir = asNamespace("formatters")), silent = TRUE)
   if (inherits(MatrixPrintForm, "try-error"))
     MatrixPrintForm <- get("matrix_print_form", envir = asNamespace("formatters"))
 
