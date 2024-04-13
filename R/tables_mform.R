@@ -49,7 +49,18 @@ matrix_form.tabular <- function(df) {
   formats <- matrix("xx", rows, cols)
   row_info <- formatters::basic_pagdf(1:(rows - nrow(header)))
   nrow_header <- nrow(header)
-  formatters::matrix_print_form(strings = strings,
+  
+  # formatters has renamed the matrix_print_form function to
+  # MatrixPrintForm
+  MatrixPrintForm <- 
+    if (exists("MatrixPrintForm", envir=asNamespace("formatters")))
+      formatters::MatrixPrintForm
+    else if (exists("matrix_print_form", envir=asNamespace("formatters")))
+      formatters::matrix_print_form
+    else
+      stop("formatters::MatrixPrintForm does not exist")
+      
+  MatrixPrintForm(strings = strings,
                     spans = spans,
                     aligns = aligns,
                     formats = formats,
