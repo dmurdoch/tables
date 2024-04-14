@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   HTML: HTML.html
   knitrTables: knitrTables.pdf
-last_built: 2024-04-13T20:19Z
+last_built: 2024-04-14T13:47Z
 urls:
   reference: https://dmurdoch.github.io/tables/reference
   article: https://dmurdoch.github.io/tables/articles
