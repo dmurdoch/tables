@@ -1,3 +1,10 @@
+# tables 0.9.26
+
+- A factor level of `""` caused an error when displayed.  It will
+now be changed to `" "` for display (issue #19).
+- The `VignetteBuilder` field in `DESCRIPTION` has been changed to
+`rmarkdown` so that Pandoc will be found.
+
 # tables 0.9.25
 
 - `PlusMinus()` and `Paste()` didn't handle formatting properly 

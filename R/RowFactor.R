@@ -60,7 +60,7 @@ RowFactor <- function(x, name = deparse(expr), levelnames=levels(x),
     	    test <- call("labelSubset",
     	                 subset = call("==", call("as.integer", call("as.factor", expr)), i),
     	                 label = deparse(expr))
-            term <- call("*", call("Heading", as.name(catname)), 
+            term <- call("*", call("Heading", makeName(catname)), 
                               test)
             if (i == 1)
             	f <- term

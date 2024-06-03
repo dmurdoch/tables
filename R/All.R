@@ -39,7 +39,7 @@ All <- function(df,
       else
         next
       
-      f1 <- call("*", call("Heading", as.name(names[i])),
+      f1 <- call("*", call("Heading", makeName(names[i])),
                  value)
       if (is.null(f))
         f <- f1

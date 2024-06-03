@@ -553,10 +553,10 @@ expandFactors <- function(e, env) {
     	rhs <- expandFactors(e[[3]], env)
     	if (is.call(rhs) && deparse(rhs[[1]]) == "*"
     	 && is.call(rhs[[2]]) && deparse(rhs[[c(2,1)]]) == "Heading") {
-    	    rhs[[c(2,2)]] <- as.name(deparse(e[[2]]))
+    	    rhs[[c(2,2)]] <- makeName(deparse(e[[2]]))
     	    rhs
     	} else
-    	    call("*", call("Heading", as.name(deparse(e[[2]]))), rhs)
+    	    call("*", call("Heading", makeName(deparse(e[[2]]))), rhs)
     } else if (op == ".Format" || op == "Heading" || 
                op == "Justify" || op == "Percent" || 
     	       op == "Arguments" || op == "DropEmpty")
