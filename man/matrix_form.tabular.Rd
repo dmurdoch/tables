@@ -58,7 +58,7 @@ if (requireNamespace("formatters")) {
   # row label columns.  
   # The formatters::vert_pag_indices function had an incompatible
   # change in v0.5.8
-  if (packageVersion("formatters") >= "0.5.8") 
+  if ("fontspec" \%in\% names(formals(formatters::vert_pag_indices)))
     bycol <- formatters::vert_pag_indices(mform, cpp = 30,  rep_cols = 2,
                                         fontspec = formatters::font_spec())
   else
