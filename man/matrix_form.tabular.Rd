@@ -60,7 +60,7 @@ if (requireNamespace("formatters")) {
   # change in v0.5.8
   if ("fontspec" \%in\% names(formals(formatters::vert_pag_indices)))
     bycol <- formatters::vert_pag_indices(mform, cpp = 30,  rep_cols = 2,
-                                        fontspec = formatters::font_spec())
+                                        fontspec = NULL)
   else
     bycol <- formatters::vert_pag_indices(mform, cpp = 30,  rep_cols = 2)
   # Display the table with both kinds of breaks
