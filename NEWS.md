@@ -1,9 +1,10 @@
-# tables 0.9.26
+# tables 0.9.27
 
 - A factor level of `""` caused an error when displayed.  It will
 now be changed to `" "` for display (issue #19).
 - The `VignetteBuilder` field in `DESCRIPTION` has been changed to
 `rmarkdown` so that Pandoc can be found even when it is not on the `PATH`.
+- Another minor update due to changes to the `formatters` package.
 
 # tables 0.9.25
 
