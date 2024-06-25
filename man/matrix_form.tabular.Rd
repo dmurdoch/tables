@@ -55,8 +55,14 @@ if (requireNamespace("formatters")) {
   }
   
   # This gives the breaks by columns, counting the
-  # row label columns:
-  bycol <- formatters::vert_pag_indices(mform, cpp = 30,  rep_cols = 2)
+  # row label columns.  
+  # The formatters::vert_pag_indices function had an incompatible
+  # change in v0.5.8
+  if ("fontspec" \%in\% names(formals(formatters::vert_pag_indices)))
+    bycol <- formatters::vert_pag_indices(mform, cpp = 30,  rep_cols = 2,
+                                        fontspec = NULL)
+  else
+    bycol <- formatters::vert_pag_indices(mform, cpp = 30,  rep_cols = 2)
   # Display the table with both kinds of breaks
   for (i in seq_along(byrow)) {
     rows <- byrow[[i]]

@@ -1,11 +1,5 @@
-# tables 0.9.25
+# tables 0.9.27
 
-Tried to handle the `formatters::matrix_print_form` differently,
-so we never refer to something that isn't there.
-
-# tables 0.9.24
-
-This is a minor release, fixing a few bugs and adding a function
-at the request of the `tinytables` package.  The submission was
-triggered by a change to the exports of the `formatters` package.
-
+This is a small bug fix release.  It also contains a fix for the
+error reported by CRAN on June 21 to work with an update to the
+formatters package.
