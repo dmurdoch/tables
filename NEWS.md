@@ -1,4 +1,4 @@
-# tables 0.9.27
+# tables 0.9.28
 
 - A factor level of `""` caused an error when displayed.  It will
 now be changed to `" "` for display (issue #19).

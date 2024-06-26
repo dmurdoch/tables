@@ -27,8 +27,8 @@ be called by \pkg{knitr} while processing a \file{.Rmd} or \file{.Rnw} document.
 
 If \code{table_options()$knit_print} is \code{TRUE} and the output
 format is supported, this method will prepare output suitable for
-formatted printing in a \pkg{knitr} document using \code{\link{asis_output}}.  Otherwise,
-the usual unformatted print display will be done by \code{\link{normal_print}}.
+formatted printing in a \pkg{knitr} document using \code{\link[knitr]{asis_output}}.  Otherwise,
+the usual unformatted print display will be done by \code{\link[knitr]{normal_print}}.
 }
 \value{
 An object marked for printing in a \pkg{knitr} document.
