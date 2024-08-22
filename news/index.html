@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tables</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.29</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.30</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,8 +38,10 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.9.29" id="tables-0929">tables 0.9.29<a class="anchor" aria-label="anchor" href="#tables-0929"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.9.30" id="tables-0930">tables 0.9.30<a class="anchor" aria-label="anchor" href="#tables-0930"></a></h2>
 <ul><li>In a few places <code>len</code> was used instead of <code>length.out</code> in calls to <code><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep()</a></code>, leading to warnings. Similarly, <code>rep</code> was used instead of <code>replace</code> in <code><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample()</a></code> (issue <a href="https://github.com/dmurdoch/tables/issues/28" class="external-link">#28</a>).</li>
+<li>
+<code>tabular</code> assumed it was on the search list, and didn’t work when called as <code><a href="../reference/tabular.html">tables::tabular</a></code> (issue <a href="https://github.com/dmurdoch/tables/issues/30" class="external-link">#30</a>).</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.9.28" id="tables-0928">tables 0.9.28<a class="anchor" aria-label="anchor" href="#tables-0928"></a></h2><p class="text-muted">CRAN release: 2024-06-26</p>
