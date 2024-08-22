@@ -68,7 +68,7 @@ All  & $150$ & $5.84$ & $0.83$ & $3.06$ & $0.44$ \\
  [5]  0.11697127  0.31863009 -0.58179068  0.71453271
  [9] -0.82525943 -0.35986213
 
-> A <- sample(letters[1:2], 10, rep = TRUE)
+> A <- sample(letters[1:2], 10, replace = TRUE)
 
 > A
  [1] "b" "b" "b" "b" "a" "a" "b" "b" "b" "a"
@@ -861,9 +861,9 @@ All  & $4$ \\
 
 > set.seed(1206)
 
-> q <- data.frame(p = rep(c("A", "B"), each = 10, len = 30), 
+> q <- data.frame(p = rep(c("A", "B"), each = 10, length.out = 30), 
 +     a = rep(c(1, 2, 3), each = 10), id = seq(30), b = round(runif(30, 
-+         10, 2 .... [TRUNCATED] 
++        .... [TRUNCATED] 
 
 > tab <- tabular((Factor(p) * Factor(a) + 1) ~ (N = 1) + 
 +     (b + c) * (mean + sd), data = q)
@@ -983,4 +983,4 @@ All  & $150$ & $5.84$ & $0.83$ & $3.06$ & $0.44$ \\
  *** Run successfully completed ***
 > proc.time()
    user  system elapsed 
-  2.642   0.138   2.798 
+  0.688   0.030   0.718 

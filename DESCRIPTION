@@ -1,6 +1,6 @@
 Package: tables
 Title: Formula-Driven Table Generation
-Version: 0.9.28
+Version: 0.9.29
 Author: Duncan Murdoch
 Description: Computes and displays complex tables of summary statistics.
   Output may be in LaTeX, HTML, plain text, or an R

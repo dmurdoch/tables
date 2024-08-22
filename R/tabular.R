@@ -706,14 +706,14 @@ tabular.formula <- function(table, data=NULL, n, suppressLabels=0, ...) {
 }
 
 justify <- function(x, justification="c", width=max(nchar(x))) {
-    justification <- rep(justification, len=length(x))
+    justification <- rep(justification, length.out = length(x))
     change <- justification %in% c("c", "l", "r")
     if (!any(change)) return(x)
     y <- x[change]
     justification <- justification[change]
     y <- sub("^ *", "", y)
     y <- sub(" *$", "", y)
-    width <- rep(width, len=length(x))
+    width <- rep(width, length.out = length(x))
     width <- width[change]
     lens <- nchar(y)
     ind <- justification == "c"

@@ -26,8 +26,8 @@ Duncan Murdoch with help from Gabe Becker.
 }
 \examples{
 if (requireNamespace("formatters")) {
-  Sex <- factor(sample(c("Male", "Female"), 100, rep=TRUE))
-  Status <- factor(sample(c("low", "medium", "high"), 100, rep=TRUE))
+  Sex <- factor(sample(c("Male", "Female"), 100, replace = TRUE))
+  Status <- factor(sample(c("low", "medium", "high"), 100, replace = TRUE))
   z <- rnorm(100) + 5
   fmt <- function(x) {
   s <- format(x, digits=2)
