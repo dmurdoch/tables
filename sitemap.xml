@@ -1,114 +1,40 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://dmurdoch.github.io/tables/404.html</loc>
-  </url>
-  <url>
-    <loc>https://dmurdoch.github.io/tables/articles/HTML.html</loc>
-  </url>
-  <url>
-    <loc>https://dmurdoch.github.io/tables/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://dmurdoch.github.io/tables/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://dmurdoch.github.io/tables/index.html</loc>
-  </url>
-  <url>
-    <loc>https://dmurdoch.github.io/tables/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://dmurdoch.github.io/tables/reference/All.html</loc>
-  </url>
-  <url>
-    <loc>https://dmurdoch.github.io/tables/reference/AllObs.html</loc>
-  </url>
-  <url>
-    <loc>https://dmurdoch.github.io/tables/reference/Arguments.html</loc>
-  </url>
-  <url>
-    <loc>https://dmurdoch.github.io/tables/reference/DropEmpty.html</loc>
-  </url>
-  <url>
-    <loc>https://dmurdoch.github.io/tables/reference/Format.html</loc>
-  </url>
-  <url>
-    <loc>https://dmurdoch.github.io/tables/reference/HTMLfootnotes.html</loc>
-  </url>
-  <url>
-    <loc>https://dmurdoch.github.io/tables/reference/Heading.html</loc>
-  </url>
-  <url>
-    <loc>https://dmurdoch.github.io/tables/reference/Hline.html</loc>
-  </url>
-  <url>
-    <loc>https://dmurdoch.github.io/tables/reference/Justify.html</loc>
-  </url>
-  <url>
-    <loc>https://dmurdoch.github.io/tables/reference/Literal.html</loc>
-  </url>
-  <url>
-    <loc>https://dmurdoch.github.io/tables/reference/Paste.html</loc>
-  </url>
-  <url>
-    <loc>https://dmurdoch.github.io/tables/reference/Percent.html</loc>
-  </url>
-  <url>
-    <loc>https://dmurdoch.github.io/tables/reference/PlusMinus.html</loc>
-  </url>
-  <url>
-    <loc>https://dmurdoch.github.io/tables/reference/RowFactor.html</loc>
-  </url>
-  <url>
-    <loc>https://dmurdoch.github.io/tables/reference/as.matrix.tabular.html</loc>
-  </url>
-  <url>
-    <loc>https://dmurdoch.github.io/tables/reference/as.tabular.html</loc>
-  </url>
-  <url>
-    <loc>https://dmurdoch.github.io/tables/reference/html.tabular.html</loc>
-  </url>
-  <url>
-    <loc>https://dmurdoch.github.io/tables/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://dmurdoch.github.io/tables/reference/knit_print.tabular.html</loc>
-  </url>
-  <url>
-    <loc>https://dmurdoch.github.io/tables/reference/labelSubset.html</loc>
-  </url>
-  <url>
-    <loc>https://dmurdoch.github.io/tables/reference/labels.html</loc>
-  </url>
-  <url>
-    <loc>https://dmurdoch.github.io/tables/reference/latex.tabular.html</loc>
-  </url>
-  <url>
-    <loc>https://dmurdoch.github.io/tables/reference/latexNumeric.html</loc>
-  </url>
-  <url>
-    <loc>https://dmurdoch.github.io/tables/reference/latexTable.html</loc>
-  </url>
-  <url>
-    <loc>https://dmurdoch.github.io/tables/reference/matrix_form.tabular.html</loc>
-  </url>
-  <url>
-    <loc>https://dmurdoch.github.io/tables/reference/table_options.html</loc>
-  </url>
-  <url>
-    <loc>https://dmurdoch.github.io/tables/reference/tabular.html</loc>
-  </url>
-  <url>
-    <loc>https://dmurdoch.github.io/tables/reference/toKable.html</loc>
-  </url>
-  <url>
-    <loc>https://dmurdoch.github.io/tables/reference/toTinytable.html</loc>
-  </url>
-  <url>
-    <loc>https://dmurdoch.github.io/tables/reference/useGroupLabels.html</loc>
-  </url>
-  <url>
-    <loc>https://dmurdoch.github.io/tables/reference/write.csv.tabular.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://dmurdoch.github.io/tables/404.html</loc></url>
+<url><loc>https://dmurdoch.github.io/tables/articles/HTML.html</loc></url>
+<url><loc>https://dmurdoch.github.io/tables/articles/index.html</loc></url>
+<url><loc>https://dmurdoch.github.io/tables/authors.html</loc></url>
+<url><loc>https://dmurdoch.github.io/tables/index.html</loc></url>
+<url><loc>https://dmurdoch.github.io/tables/news/index.html</loc></url>
+<url><loc>https://dmurdoch.github.io/tables/reference/All.html</loc></url>
+<url><loc>https://dmurdoch.github.io/tables/reference/AllObs.html</loc></url>
+<url><loc>https://dmurdoch.github.io/tables/reference/Arguments.html</loc></url>
+<url><loc>https://dmurdoch.github.io/tables/reference/DropEmpty.html</loc></url>
+<url><loc>https://dmurdoch.github.io/tables/reference/Format.html</loc></url>
+<url><loc>https://dmurdoch.github.io/tables/reference/HTMLfootnotes.html</loc></url>
+<url><loc>https://dmurdoch.github.io/tables/reference/Heading.html</loc></url>
+<url><loc>https://dmurdoch.github.io/tables/reference/Hline.html</loc></url>
+<url><loc>https://dmurdoch.github.io/tables/reference/Justify.html</loc></url>
+<url><loc>https://dmurdoch.github.io/tables/reference/Literal.html</loc></url>
+<url><loc>https://dmurdoch.github.io/tables/reference/Paste.html</loc></url>
+<url><loc>https://dmurdoch.github.io/tables/reference/Percent.html</loc></url>
+<url><loc>https://dmurdoch.github.io/tables/reference/PlusMinus.html</loc></url>
+<url><loc>https://dmurdoch.github.io/tables/reference/RowFactor.html</loc></url>
+<url><loc>https://dmurdoch.github.io/tables/reference/as.matrix.tabular.html</loc></url>
+<url><loc>https://dmurdoch.github.io/tables/reference/as.tabular.html</loc></url>
+<url><loc>https://dmurdoch.github.io/tables/reference/html.tabular.html</loc></url>
+<url><loc>https://dmurdoch.github.io/tables/reference/index.html</loc></url>
+<url><loc>https://dmurdoch.github.io/tables/reference/knit_print.tabular.html</loc></url>
+<url><loc>https://dmurdoch.github.io/tables/reference/labelSubset.html</loc></url>
+<url><loc>https://dmurdoch.github.io/tables/reference/labels.html</loc></url>
+<url><loc>https://dmurdoch.github.io/tables/reference/latex.tabular.html</loc></url>
+<url><loc>https://dmurdoch.github.io/tables/reference/latexNumeric.html</loc></url>
+<url><loc>https://dmurdoch.github.io/tables/reference/latexTable.html</loc></url>
+<url><loc>https://dmurdoch.github.io/tables/reference/matrix_form.tabular.html</loc></url>
+<url><loc>https://dmurdoch.github.io/tables/reference/table_options.html</loc></url>
+<url><loc>https://dmurdoch.github.io/tables/reference/tabular.html</loc></url>
+<url><loc>https://dmurdoch.github.io/tables/reference/toKable.html</loc></url>
+<url><loc>https://dmurdoch.github.io/tables/reference/toTinytable.html</loc></url>
+<url><loc>https://dmurdoch.github.io/tables/reference/useGroupLabels.html</loc></url>
+<url><loc>https://dmurdoch.github.io/tables/reference/write.csv.tabular.html</loc></url>
 </urlset>
+
