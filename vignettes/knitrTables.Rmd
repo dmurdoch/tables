@@ -144,7 +144,7 @@ For the examples below we use the following definitions:
 set.seed(100)
 X <- rnorm(10)
 X
-A <- sample(letters[1:2], 10, rep=TRUE)
+A <- sample(letters[1:2], 10, replace = TRUE)
 A
 F <- factor(A)
 F
@@ -1207,8 +1207,8 @@ yield ugly NA and NaN statistics:
 
 ```{r}
 set.seed(1206)
-q <- data.frame(p = rep(c("A","B"),each=10,len=30),
-                           a = rep(c(1,2,3),each=10),id=seq(30),
+q <- data.frame(p = rep(c("A","B"), each = 10, length.out = 30),
+                           a = rep(c(1,2,3),each = 10),id = seq(30),
                            b = round(runif(30,10,20)),
                            c = round(runif(30,40,70)),
 		stringsAsFactors = FALSE)

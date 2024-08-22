@@ -1,3 +1,9 @@
+# tables 0.9.29
+
+- In a few places `len` was used instead of `length.out` in calls to
+`rep()`, leading to warnings.  Similarly, `rep` was used instead of 
+`replace` in `sample()` (issue #28).
+
 # tables 0.9.28
 
 - A factor level of `""` caused an error when displayed.  It will

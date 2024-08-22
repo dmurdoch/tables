@@ -226,8 +226,8 @@ tabular( (Species + 1) ~ (n=1) + Format(digits=2)*
          (Sepal.Length + Sepal.Width)*(mean + sd), data=iris )
 
 # This example shows some of the less common options         
-Sex <- factor(sample(c("Male", "Female"), 100, rep=TRUE))
-Status <- factor(sample(c("low", "medium", "high"), 100, rep=TRUE))
+Sex <- factor(sample(c("Male", "Female"), 100, replace = TRUE))
+Status <- factor(sample(c("low", "medium", "high"), 100, replace = TRUE))
 z <- rnorm(100)+5
 fmt <- function(x) {
   s <- format(x, digits=2)

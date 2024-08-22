@@ -76,7 +76,7 @@ invisibly.
 \examples{
 \donttest{
 X <- rnorm(125, sd=100)
-Group <- factor(sample(letters[1:5], 125, rep=TRUE))
+Group <- factor(sample(letters[1:5], 125, replace = TRUE))
 
 tab <- tabular( Group ~ (N=1)+Format(digits=2)*X*((Mean=mean) + Heading("Std Dev")*sd) )
 

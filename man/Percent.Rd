@@ -72,9 +72,9 @@ in the \code{denom} argument to \code{Percent}.
 \seealso{\code{\link{Arguments}} for a different way to specify
 a multiple argument analysis function.}
 \examples{
-x <- factor(sample(LETTERS[1:2], 1000, rep=TRUE))
-y <- factor(sample(letters[3:4], 1000, rep=TRUE))
-z <- factor(sample(LETTERS[5:6], 1000, rep=TRUE))
+x <- factor(sample(LETTERS[1:2], 1000, replace = TRUE))
+y <- factor(sample(letters[3:4], 1000, replace = TRUE))
+z <- factor(sample(LETTERS[5:6], 1000, replace = TRUE))
 
 # These both do the same thing:
 tabular( (x + 1)*(y + 1) ~ (z + 1)*(1+(RowPct=Percent("row"))))
