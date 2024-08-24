@@ -629,15 +629,21 @@ tabular.formula <- function(table, data=NULL, n, suppressLabels=0, ...) {
     if (missing(n) && inherits(data, "data.frame"))
     	n <- nrow(data)
     
-    # We need access to labelSubset() (and perhaps other functions)
-    # when evaluating a table expression. (Issue #30)
+    # We need access to labelSubset() (and perhaps other functions in future)
+    # when evaluating a table expression (issue #30), but we don't want
+    # to mask the user's copy.
     
-    withTableFns <- new.env(parent = if (is.environment(data)) data else environment(table))
-    withTableFns$labelSubset <- labelSubset
+    parent <- if (is.environment(data)) data else environment(table)
+    if (!exists("labelSubset", envir = parent)) {
+      withTableFns <- new.env(parent = parent)
+      withTableFns$labelSubset <- labelSubset
+    } else
+      withTableFns <- parent
+    
     if (is.null(data))
     	data <- withTableFns
     else if (is.list(data))
-    	data <- list2env(data, parent=withTableFns)
+    	data <- list2env(data, parent = withTableFns)
     else if (!is.environment(data))
     	stop("'data' must be a dataframe, list or environment")
     	
