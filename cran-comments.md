@@ -1,3 +1,7 @@
+# tables 0.9.31
+
+Switch to `Authors@R`.
+
 # tables 0.9.30
 
 A small bug fix release.
