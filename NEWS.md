@@ -1,10 +1,11 @@
-# tables 0.9.30
+# tables 0.9.31
 
 - In a few places `len` was used instead of `length.out` in calls to
 `rep()`, leading to warnings.  Similarly, `rep` was used instead of 
 `replace` in `sample()` (issue #28).
 - `tabular` assumed it was on the search list, and didn't work when
 called as `tables::tabular` (issue #30).
+- Added `Authors@R` field to `DESCRIPTION`.
 
 # tables 0.9.28
 
