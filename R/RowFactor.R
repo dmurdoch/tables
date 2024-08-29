@@ -57,6 +57,7 @@ RowFactor <- function(x, name = deparse(expr), levelnames=levels(x),
             else insert <- nopagebreak
             catname <- paste(insert, levelnames[i], sep="")
     	    test <- i  # Work around a bug in R 2.12.x!
+    	    
     	    test <- call("labelSubset",
     	                 subset = call("==", call("as.integer", call("as.factor", expr)), i),
     	                 label = deparse(expr))
