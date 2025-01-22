@@ -12,7 +12,8 @@ from \pkg{utils}.
 }
 \usage{
 toLatex(object, ...)
-\method{toLatex}{tabular}(object, file = "", options = NULL, append = FALSE, ...)
+\method{toLatex}{tabular}(object, file = "", options = NULL, 
+                          append = FALSE, ...)
 latex.tabular(object, ...)
 }
 \arguments{

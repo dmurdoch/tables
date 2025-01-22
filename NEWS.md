@@ -1,6 +1,12 @@
-# tables 0.9.32
+
+# tables 0.9.33
 
 - The fix for issue #30 was incomplete for some reason.
+- `table_options()` now returns the value of options if called 
+with a character argument.
+- An option `escape` has been added to `table_options()`.  If `TRUE`,
+any special characters in HTML or LaTeX output are escaped so they
+appear as-is.
 
 # tables 0.9.31
 

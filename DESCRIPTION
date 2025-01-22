@@ -1,6 +1,6 @@
 Package: tables
 Title: Formula-Driven Table Generation
-Version: 0.9.32
+Version: 0.9.33
 Authors@R: person(given = "Duncan",
                   family = "Murdoch",
                   role = c("aut", "cre"),

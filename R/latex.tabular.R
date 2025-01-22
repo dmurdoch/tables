@@ -1,12 +1,7 @@
-texify <- function(x) {
-    x <- gsub("\\", "\\textbackslash{}", x, fixed = TRUE)
-    if (requireNamespace("Hmisc"))
-        x <- Hmisc::latexTranslate(x)
-    x
-}
 
 toLatex.tabular <- function(object, file = "", options = NULL, 
-                            append = FALSE, ...) {
+                            append = FALSE, 
+                            ...) {
 
   if (!is.null(options)) {
     saveopts <- do.call(table_options, options)
@@ -24,9 +19,18 @@ toLatex.tabular <- function(object, file = "", options = NULL,
       output <<- paste0(output, paste(args, collapse = sep))
   }
   
+  escape <- opts$escape
+  
+  do_escape <- function(x) {
+    if (escape) 
+      x <- texify(x)
+    x
+  }
+  
   chars <- format(object, latex = TRUE, minus = opts$latexminus, 
                   leftpad = opts$latexleftpad, 
-                  rightpad = opts$latexrightpad,...) # format without justification
+                  rightpad = opts$latexrightpad,
+                  ...) # format without justification
   
   vjust <- attr(object, "justification")
   vjustdefs <- rep(opts$justification, length.out=ncol(object))
@@ -34,7 +38,7 @@ toLatex.tabular <- function(object, file = "", options = NULL,
   chars[ind] <- sprintf("\\multicolumn{1}{%s}{%s}",
                         vjust[ind], chars[ind])
   
-  rowLabels <- attr(object, "rowLabels")
+  rowLabels <- do_escape(attr(object, "rowLabels"))
   nleading <- ncol(rowLabels)
   rowLabels[is.na(rowLabels)] <- ""
   rjust <- attr(rowLabels, "justification")
@@ -49,8 +53,8 @@ toLatex.tabular <- function(object, file = "", options = NULL,
   colnamejust[ind] <- rjustdefs[ind]
   ind <- colnamejust != rjustdefs
   colnames(rowLabels)[ind] <- sprintf("\\multicolumn{1}{%s}{%s}", 
-                                      colnamejust[ind], colnames(rowLabels)[ind])
-  clabels <- attr(object, "colLabels")
+                                      colnamejust[ind], do_escape(colnames(rowLabels)[ind]))
+  clabels <- do_escape(attr(object, "colLabels"))
   leadin <- paste(rep("&", max(nleading - 1, 0)), collapse=" ")
   cjust <- attr(clabels, "justification")
   ind <- is.na(cjust)

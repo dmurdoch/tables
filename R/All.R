@@ -9,7 +9,7 @@ All <- function(df,
            texify = getOption("tables.texify", FALSE)) {
     names <- colnames(df)
     if (texify)
-      names <- Hmisc::latexTranslate(names)
+      names <- texify(names)
     
     f <- NULL
     for (i in seq_along(names)) {
