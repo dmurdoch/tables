@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tables</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.32</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.33</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,7 +68,8 @@
 </dl></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>The <code>table_options()</code> function sets a number of options that control formatting.  Currently the
+    <p>The <code>table_options()</code> function sets or retrieves a number of
+options that control formatting.  Currently the
 options that affect both LaTeX and HTML output are:</p><dl><dt><code>justification = "c"</code></dt>
 <dd><p>Default justification for the data columns in the table.</p></dd>
 
@@ -81,6 +82,11 @@ the output table.</p></dd>
 
   <dt><code>knit_print = TRUE</code></dt>
 <dd><p>Do auto formatting when printing in a <span class="pkg">knitr</span> document.</p></dd>
+
+  <dt><code>escape</code></dt>
+<dd><p>Should special characters be escaped?  If so, they will appear
+as-is in the output.  If not, they will be interpreted according
+to the rules of the output format.</p></dd>
 
 
 </dl><p>These options are only used for LaTeX output:</p><dl><dt><code>tabular = "tabular"</code></dt>
@@ -137,6 +143,9 @@ that in HTML the footer should be specified before the body of the table;
 </dl><p>These may be set persistently by calling <code>table_options()</code>, or just for the duration
 of the call by passing them in a list via <code>latex(options=list( ... ))</code>.  Additional
 <code>...</code> arguments to <code>latex</code> are passed to <code><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></code>.</p>
+<p>Options may be retrieved by calling <code>table_options()</code> with no
+arguments, or a single unnamed character vector of names of options
+to retrieve.</p>
 <p>The <code>booktabs()</code> function sets the <code>table_options()</code> values to different defaults,
 suitable for use with the <span class="pkg">booktabs</span> LaTeX package.</p>
 <p>The <code>htmloptions()</code> function constructs a list suitable for the <code>options</code>
