@@ -643,7 +643,7 @@ tabular.formula <- function(table, data=NULL, n, suppressLabels=0, ...) {
     if (is.null(data) || is.environment(data))
     	data <- withTableFns
     else if (is.list(data))
-    	data <- list2env(data, parent = environment(table))
+    	data <- list2env(data, parent = withTableFns)
     else if (!is.environment(data))
     	stop("'data' must be a dataframe, list or environment")
     	
