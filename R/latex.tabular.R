@@ -30,7 +30,7 @@ toLatex.tabular <- function(object, file = "", options = NULL,
   chars <- format(object, latex = TRUE, minus = opts$latexminus, 
                   leftpad = opts$latexleftpad, 
                   rightpad = opts$latexrightpad,
-                  escape = escape, ...) # format without justification
+                  ...) # format without justification
   
   vjust <- attr(object, "justification")
   vjustdefs <- rep(opts$justification, length.out=ncol(object))
