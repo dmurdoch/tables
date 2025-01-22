@@ -1,3 +1,7 @@
+# tables 0.9.32
+
+- The fix for issue #30 was incomplete for some reason.
+
 # tables 0.9.31
 
 - In a few places `len` was used instead of `length.out` in calls to
