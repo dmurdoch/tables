@@ -11,7 +11,8 @@ functions to a format consistent with the output of the
 customized using the \pkg{kableExtra} package.
 }
 \usage{
-toKable(table, format = getKnitrFormat(), booktabs = TRUE, ...)
+toKable(table, format = getKnitrFormat(), booktabs = TRUE, 
+        escape = TRUE, ...)
 getKnitrFormat(default = "latex")
 }
 \arguments{
@@ -26,6 +27,9 @@ only \code{"latex"} and \code{"html"} are supported.
 Should the table be rendered in \code{\link{booktabs}} style?
 This only affects LaTeX output.
 }
+  \item{escape}{
+Should special characters be escaped?
+  }
   \item{...}{
 Additional arguments to pass to \code{\link{html.tabular}} or \code{\link{latex.tabular}}.
 }

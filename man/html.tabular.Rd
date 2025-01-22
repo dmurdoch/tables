@@ -12,7 +12,8 @@ display the table in an HTML table.
 \usage{
 toHTML(object, file = "", options = NULL, 
                        id = NULL, append = FALSE, 
-                       browsable = TRUE, ...)
+                       browsable = TRUE, 
+                       ...)
 html.tabular(object, ...)
 writeCSS(CSS = htmloptions()$CSS, id = NULL)
 }

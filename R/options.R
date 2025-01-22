@@ -57,6 +57,7 @@ table_options <- local({
     HTMLleftpad = FALSE,
     HTMLrightpad = FALSE,
     HTMLminus = FALSE,
+    
     escape = FALSE
   )
   function(...) {
@@ -64,6 +65,14 @@ table_options <- local({
     if (!length(args))
       return(opts)
     else {
+      if (length(args) == 1L && is.null(names(args)) &&
+          is.character(args[[1L]])) {
+        result <- opts[args[[1L]]]
+        if (length(result) == 1L)
+          result <- result[[1L]]
+        return(result)
+      }
+        
       if (is.list(args[[1L]]))
         args <- args[[1L]]
       result <- opts[names(args)]

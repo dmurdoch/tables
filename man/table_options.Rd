@@ -23,7 +23,8 @@ Any of the options listed in the Details below.
 }  
 }
 \details{
-The \code{table_options()} function sets a number of options that control formatting.  Currently the 
+The \code{table_options()} function sets or retrieves a number of
+options that control formatting.  Currently the 
 options that affect both LaTeX and HTML output are:
 \describe{
   \item{\code{justification = "c"}}{
@@ -37,6 +38,11 @@ These logical values (all defaults are \code{TRUE}) control the inclusion of spe
 the output table.}
   \item{\code{knit_print = TRUE}}{
 Do auto formatting when printing in a \pkg{knitr} document.
+  }
+  \item{\code{escape}}{
+Should special characters be escaped?  If so, they will appear
+as-is in the output.  If not, they will be interpreted according
+to the rules of the output format.
   }
 }
 These options are only used for LaTeX output:
@@ -97,6 +103,10 @@ that in HTML the footer should be specified before the body of the table;
 These may be set persistently by calling \code{table_options()}, or just for the duration
 of the call by passing them in a list via \code{latex(options=list( ... ))}.  Additional 
 \code{...} arguments to \code{latex} are passed to \code{\link{format}}.
+
+Options may be retrieved by calling \code{table_options()} with no
+arguments, or a single unnamed character vector of names of options
+to retrieve.
 
 The \code{booktabs()} function sets the \code{table_options()} values to different defaults, 
 suitable for use with the \pkg{booktabs} LaTeX package.

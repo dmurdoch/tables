@@ -37,7 +37,6 @@ toHTML <- function(object,
                    id = NULL,
                    append = FALSE,
                    browsable = TRUE,
-                   escape = opts$escape,
                    ...) {
   if (!is.null(options)) {
     saveopts <- do.call(table_options, options)
@@ -49,6 +48,8 @@ toHTML <- function(object,
   
   mycat <- function(...)
     output <<- c(output, unlist(list(...)))
+  
+  escape <- opts$escape
   
   do_escape <- function(x) {
     if (escape) 

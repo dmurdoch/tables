@@ -138,7 +138,7 @@ $doHTMLbody
 [1] FALSE
 
 $CSS
-[1] "<style>\n#ID .Rtable thead, .Rtable .even {\n  background-color: inherit;\n}\n#ID .left   { text-align:left; }\n#ID .center { text-align:center; }\n#ID .right  { text-align:right; }\n#ID .Rtable, #ID .Rtable thead { \n  border-collapse: collapse;\n  border-style: solid;\n  border-width: medium 0;\n  border-color: inherit;\n}\n#ID .Rtable th, #ID .Rtable td {\n  padding-left: 0.5em;\n  padding-right: 0.5em;\n  border-width: 0;\n}\n</style>\n"
+[1] "<style>\n#ID .Rtable thead, .Rtable .even {\n  background-color: inherit;\n}\n#ID .left   { text-align:left; }\n#ID .center { text-align:center; }\n#ID .right  { text-align:right; }\n#ID .Rtable, #ID .Rtable thead {\n  border-collapse: collapse;\n  border-style: solid;\n  border-width: medium 0;\n  border-color: inherit;\n}\n#ID .Rtable th, #ID .Rtable td {\n  padding-left: 0.5em;\n  padding-right: 0.5em;\n  border-width: 0;\n}\n</style>\n"
 
 $HTMLhead
 [1] "<!DOCTYPE html>\n<html>\n<head>\n<meta charset=\"CHARSET\">\n"
@@ -162,6 +162,9 @@ $HTMLrightpad
 [1] FALSE
 
 $HTMLminus
+[1] FALSE
+
+$escape
 [1] FALSE
 
 
@@ -780,7 +783,6 @@ $i$  & Sepal.Length & Sepal.Width & Petal.Length & Petal.Width & \multicolumn{1}
 > options(tables.texify = TRUE)
 
 > toLatex(tabular(mean ~ Factor(A) * All(df), data = df))
-Loading required namespace: Hmisc
 \begin{tabular}{lcc}
 \toprule
  & \multicolumn{2}{c}{A} \\ \cmidrule(lr){2-3}
@@ -983,4 +985,4 @@ All  & $150$ & $5.84$ & $0.83$ & $3.06$ & $0.44$ \\
  *** Run successfully completed ***
 > proc.time()
    user  system elapsed 
-  0.688   0.030   0.718 
+  0.561   0.024   0.584 

@@ -915,7 +915,6 @@ format.tabular <- function(x,
                            rightpad = TRUE,
                            minus = TRUE,
                            mathmode = TRUE,
-                           escape = FALSE,
                            ...) {
   if (latex && html)
     stop("Only one of 'latex' and 'html' may be requested")
@@ -930,7 +929,7 @@ format.tabular <- function(x,
   chars <- matrix(NA_character_, nrow(result), ncol(result))
   chars[ischar] <- unlist(result[ischar])
   
-  if (escape) {
+  if (table_options("escape")) {
     chars[ischar] <- if (latex)
       texify(chars[ischar])
     else if (html)

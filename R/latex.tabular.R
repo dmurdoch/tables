@@ -1,7 +1,6 @@
 
 toLatex.tabular <- function(object, file = "", options = NULL, 
                             append = FALSE, 
-                            escape = opts$escape,
                             ...) {
 
   if (!is.null(options)) {
@@ -19,6 +18,8 @@ toLatex.tabular <- function(object, file = "", options = NULL,
     else
       output <<- paste0(output, paste(args, collapse = sep))
   }
+  
+  escape <- opts$escape
   
   do_escape <- function(x) {
     if (escape) 
