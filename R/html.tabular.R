@@ -1,33 +1,4 @@
 
-
-htmlify <- function (x)
-  # Taken from the tools package
-{
-  fsub <- function(pattern, replacement, x)
-    gsub(pattern,
-         replacement,
-         x,
-         fixed = TRUE,
-         useBytes = TRUE)
-  
-  x <- fsub("&", "&amp;", x)
-  x <- fsub("---", "&mdash;", x)
-  x <- fsub("--", "&ndash;", x)
-  x <- fsub("``", "&ldquo;", x)
-  x <- fsub("''", "&rdquo;", x)
-  x <- gsub("`([^']+)'",
-            "&lsquo;\\1&rsquo;",
-            x,
-            perl = TRUE,
-            useBytes = TRUE)
-  x <- fsub("`", "'", x)
-  x <- fsub("<", "&lt;", x)
-  x <- fsub(">", "&gt;", x)
-  x <- fsub("\"\\{\"", "\"{\"", x)
-  x <- fsub("\"", "&quot;", x)
-  x
-}
-
 htmlNumeric <- function(chars,
                         minus = TRUE,
                         leftpad = TRUE,
@@ -79,6 +50,12 @@ toHTML <- function(object,
   mycat <- function(...)
     output <<- c(output, unlist(list(...)))
   
+  do_escape <- function(x) {
+    if (escape) 
+      x <- htmlify(x)
+    x
+  }
+  
   defjust <- opts$justification
   blankhead <- "  <th>&nbsp;</th>\n"
   
@@ -88,6 +65,7 @@ toHTML <- function(object,
     minus = opts$HTMLminus,
     leftpad = opts$HTMLleftpad,
     rightpad = opts$HTMLrightpad,
+    escape = escape,
     ...
   ) # format without justification
   classes[] <- ""
@@ -99,7 +77,7 @@ toHTML <- function(object,
   chars[chars == ""] <- "&nbsp;"
   chars[] <- sprintf("  <td%s>%s</td>\n", classes, chars)
   
-  rowClasses <- rowLabels <- attr(object, "rowLabels")
+  rowClasses <- rowLabels <- do_escape(attr(object, "rowLabels"))
   rowClasses[] <- ""
   nleading <- ncol(rowLabels)
   rowLabels[is.na(rowLabels)] <- "&nbsp;"
@@ -117,9 +95,9 @@ toHTML <- function(object,
   colnamejust[ind] <- defjust
   ind <- colnamejust != defjust
   colnameClasses[ind] <- sprintf(' class="%s"', CSSclassname(colnamejust[ind]))
-  colnames(rowLabels) <- sprintf("  <th%s>%s</th>\n", colnameClasses, colnames(rowLabels))
+  colnames(rowLabels) <- sprintf("  <th%s>%s</th>\n", colnameClasses, do_escape(colnames(rowLabels)))
   
-  clabels <- attr(object, "colLabels")
+  clabels <- do_escape(attr(object, "colLabels"))
   cjust <- attr(clabels, "justification")
   ind <- is.na(cjust)
   cjust[ind] <- defjust

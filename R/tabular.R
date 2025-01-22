@@ -752,7 +752,7 @@ tabular.formula <- function(table,
   if (is.null(data) || is.environment(data))
     data <- withTableFns
   else if (is.list(data))
-    data <- list2env(data, parent = environment(table))
+    data <- list2env(data, parent = withTableFns)
   else if (!is.environment(data))
     stop("'data' must be a dataframe, list or environment")
   
@@ -917,8 +917,7 @@ format.tabular <- function(x,
                            mathmode = TRUE,
                            escape = FALSE,
                            ...) {
-  if (latex &&
-      html)
+  if (latex && html)
     stop("Only one of 'latex' and 'html' may be requested")
   result <- unclass(x)
   formats <- attr(x, "formats")
@@ -930,6 +929,14 @@ format.tabular <- function(x,
   ischar <- sapply(result, is.character)
   chars <- matrix(NA_character_, nrow(result), ncol(result))
   chars[ischar] <- unlist(result[ischar])
+  
+  if (escape) {
+    chars[ischar] <- if (latex)
+      texify(chars[ischar])
+    else if (html)
+      htmlify(chars[ischar])
+  }
+  
   lengths <- lapply(result, length)
   
   for (i in seq_len(ncol(result))) {
@@ -985,8 +992,6 @@ format.tabular <- function(x,
               minus = minus,
               mathmode = mathmode
             )
-          else
-            chars[ind] <- texify(chars[ind])
         } else if (html) {
           if (is.numeric(x))
             chars[ind] <- htmlNumeric(
@@ -995,8 +1000,6 @@ format.tabular <- function(x,
               rightpad = rightpad,
               minus = minus
             )
-          else
-            chars[ind] <- htmlify(chars[ind])
         }
       }
     }
