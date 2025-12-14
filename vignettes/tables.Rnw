@@ -1152,7 +1152,9 @@ done.  Those functions have a \code{texify} argument that can be set to \code{TR
 to enable this behaviour (e.g. if the label is not meant to be processed by \LaTeX).  For example,
 with the definition
 <<>>=
-df <- data.frame(A = factor(c( "$", "\\" ) ), B_label=1:2)
+df <- data.frame(A = factor(c( "$", "\\" ), 
+                            levels = c( "$", "\\" ) ),
+                 B_label = 1:2)
 @
 the code
 <<eval=FALSE>>=

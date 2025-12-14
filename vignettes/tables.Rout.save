@@ -778,7 +778,8 @@ $i$  & Sepal.Length & Sepal.Width & Petal.Length & Petal.Width & \multicolumn{1}
 \bottomrule 
 \end{tabular}
 
-> df <- data.frame(A = factor(c("$", "\\")), B_label = 1:2)
+> df <- data.frame(A = factor(c("$", "\\"), levels = c("$", 
++     "\\")), B_label = 1:2)
 
 > options(tables.texify = TRUE)
 
