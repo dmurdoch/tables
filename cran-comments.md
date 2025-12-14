@@ -1,9 +1,5 @@
-# tables 0.9.31
+# tables 0.9.33
 
-Switch to `Authors@R`.
-
-# tables 0.9.30
-
-A small bug fix release.
-
-There are no issues reported on CRAN about the previous version.
+This is a small update.  It checks okay in R 4.5.2.  I'm 
+unable to install the suggested package pkgdown in R-devel,
+so I haven't run the checks there.
