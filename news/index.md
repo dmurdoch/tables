@@ -1,6 +1,12 @@
 # Changelog
 
+## tables 0.9.35
+
+- The vignettes no longer use the LaTeX tabu package.
+
 ## tables 0.9.33
+
+CRAN release: 2025-12-15
 
 - The fix for issue [\#30](https://github.com/dmurdoch/tables/issues/30)
   was incomplete for some reason.

@@ -311,14 +311,14 @@ tab
 #>                                       
 #>                   Status              
 #>   Sex   Statistic  high   low   medium
-#>  Female   mean     4.90   5.42   5.40 
-#>            sd     (0.91) (1.21) (1.03)
-#>   Male    mean     4.98   4.84   5.07 
-#>            sd     (1.08) (1.30) (1.25)
+#>  Female   mean     5.12   4.70   5.24 
+#>            sd     (0.78) (1.06) (1.07)
+#>   Male    mean     4.95   4.81   4.61 
+#>            sd     (0.94) (0.99) (1.09)
 tab[1:2, c(2,3,1)]
 #>                                       
 #>                   Status              
 #>   Sex   Statistic  low   medium  high 
-#>  Female   mean     5.42   5.40   4.90 
-#>            sd     (1.21) (1.03) (0.91)
+#>  Female   mean     4.70   5.24   5.12 
+#>            sd     (1.06) (1.07) (0.78)
 ```

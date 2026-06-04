@@ -49,6 +49,7 @@ A matrix.
 ## Examples
 
 ``` r
+
 table <-
     tabular( (Species + 1) ~ (n=1) + Format(digits=2)*
          (Sepal.Length + Sepal.Width)*(mean + sd), data=iris )

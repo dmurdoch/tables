@@ -9,12 +9,14 @@ messages, so you’ll usually want to set a chunk option of
 `message=FALSE`.
 
 ``` r
+
 library(tables)
 ```
 
 The table is now constructed in the usual way.
 
 ``` r
+
 X <- rnorm(125, sd=100)
 Group <- factor(sample(letters[1:5], 125, replace = TRUE))
 tab <- tabular( Group ~ (N=1)+Format(digits=2)*X*((Mean=mean) + Heading("Std Dev")*sd) )
@@ -24,6 +26,7 @@ In an R Markdown document, you don’t want each table to output the HTML
 document header, so turn off those options:
 
 ``` r
+
 table_options(htmloptions(head=FALSE))
 ```
 
@@ -35,6 +38,7 @@ be automatically formatted according to the current
 [`table_options()`](https://dmurdoch.github.io/tables/reference/table_options.md):
 
 ``` r
+
 tab
 ```
 
@@ -53,6 +57,7 @@ function, and knitr option `results = 'asis'` for the chunk. To
 *require* the older method, use `table_options(knit_print = FALSE)`:
 
 ``` r
+
 table_options(knit_print = FALSE)
 tab        # This chunk uses the default results = 'markup'
 ```
@@ -67,6 +72,7 @@ tab        # This chunk uses the default results = 'markup'
     ##  e     23  -1.4  67.1
 
 ``` r
+
 toHTML(tab)  # This chunk uses results = 'asis'
 ```
 
@@ -84,6 +90,7 @@ document. Ideally this should be in the header, but it can be inserted
 anywhere by calling `writeCSS` with `results = 'asis'`:
 
 ``` r
+
 writeCSS()
 ```
 
@@ -93,6 +100,7 @@ The default justification makes the columns of numbers look messy. You
 can set the justification to the right, but the headers look wrong:
 
 ``` r
+
 table_options(htmloptions(head = FALSE, justification = "r", knit_print = TRUE))
 tab
 ```
@@ -111,6 +119,7 @@ spaces around the numbers so that centering looks good. It also changes
 the hyphens to proper minus signs:
 
 ``` r
+
 table_options(htmloptions(head = FALSE, justification = "c", pad = TRUE))
 tab
 ```
@@ -175,6 +184,7 @@ specific table. If you are using the newer form of display with
 one table by also using `table_options(doCSS = TRUE)`. For example,
 
 ``` r
+
 table_options(CSS =
 "<style>
 #ID .center { 
@@ -195,6 +205,7 @@ tab
 | e     | 23  |   −1.4 |   67.1  |
 
 ``` r
+
 table_options(doCSS = FALSE)
 tab
 ```
@@ -218,6 +229,7 @@ These can also be made to work with tables from this package, using the
 function. For example,
 
 ``` r
+
 library(magrittr)
 library(kableExtra)
 toKable(tab, format="html") %>% 
@@ -244,6 +256,7 @@ including: HTML, LaTeX, Word, Typst, PNG, PDF, Rmarkdown, and Quarto.
 For example,
 
 ``` r
+
 library(magrittr)
 library(tinytable)
 toTinytable(tab, theme = "striped") %>%

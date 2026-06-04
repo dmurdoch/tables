@@ -85,72 +85,72 @@ if (requireNamespace("formatters")) {
 #>                          Status         
 #>                  high     low     medium
 #> ————————————————————————————————————————
-#> Female   mean    5.00     4.95     4.84 
-#>           sd    (0.81)   (0.98)   (0.73)
-#>  Male    mean    5.01     5.02     5.08 
-#>           sd    (1.23)   (0.85)   (1.19)
+#> Female   mean    5.39     5.04     4.93 
+#>           sd    (0.84)   (0.92)   (0.90)
+#>  Male    mean    5.07     5.16     4.62 
+#>           sd    (0.92)   (0.97)   (0.84)
 #> 
 #> Page  2  Rows 1 2 
 #> 
 #>                          Status         
 #>                  high     low     medium
 #> ————————————————————————————————————————
-#> Female   mean    5.00     4.95     4.84 
-#>           sd    (0.81)   (0.98)   (0.73)
+#> Female   mean    5.39     5.04     4.93 
+#>           sd    (0.84)   (0.92)   (0.90)
 #> 
 #> Page  3  Rows 3 4 
 #> 
 #>                        Status         
 #>                high     low     medium
 #> ——————————————————————————————————————
-#> Male   mean    5.01     5.02     5.08 
-#>         sd    (1.23)   (0.85)   (1.19)
+#> Male   mean    5.07     5.16     4.62 
+#>         sd    (0.92)   (0.97)   (0.84)
 #> 
 #> Page  4 Rows 1 2 column 1 
 #> 
 #>                 Status
 #>                  high 
 #> ——————————————————————
-#> Female   mean    5.00 
-#>           sd    (0.81)
+#> Female   mean    5.39 
+#>           sd    (0.84)
 #> 
 #> Page  5 Rows 1 2 column 2 
 #> 
 #>                 Status
 #>                  low  
 #> ——————————————————————
-#> Female   mean    4.95 
-#>           sd    (0.98)
+#> Female   mean    5.04 
+#>           sd    (0.92)
 #> 
 #> Page  6 Rows 1 2 column 3 
 #> 
 #>                 Status
 #>                 medium
 #> ——————————————————————
-#> Female   mean    4.84 
-#>           sd    (0.73)
+#> Female   mean     4.9 
+#>           sd    (0.9) 
 #> 
 #> Page  7 Rows 3 4 column 1 
 #> 
 #>               Status
 #>                high 
 #> ————————————————————
-#> Male   mean     5.0 
-#>         sd    (1.2) 
+#> Male   mean    5.07 
+#>         sd    (0.92)
 #> 
 #> Page  8 Rows 3 4 column 2 
 #> 
 #>               Status
 #>                low  
 #> ————————————————————
-#> Male   mean    5.02 
-#>         sd    (0.85)
+#> Male   mean    5.16 
+#>         sd    (0.97)
 #> 
 #> Page  9 Rows 3 4 column 3 
 #> 
 #>               Status
 #>               medium
 #> ————————————————————
-#> Male   mean     5.1 
-#>         sd    (1.2) 
+#> Male   mean    4.62 
+#>         sd    (0.84)
 ```

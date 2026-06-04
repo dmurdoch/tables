@@ -11,6 +11,7 @@ processing.
 You can install the release version of `orientlib` using
 
 ``` r
+
 install.packages("tables")
 ```
 
@@ -18,6 +19,7 @@ You can install the development version of tables from
 [GitHub](https://github.com/) with:
 
 ``` r
+
 # install.packages("devtools")
 devtools::install_github("dmurdoch/tables")
 ```
@@ -27,6 +29,7 @@ devtools::install_github("dmurdoch/tables")
 This is a basic example which shows you how to solve a common problem:
 
 ``` r
+
 library(tables)
 
 set.seed(123)
@@ -71,6 +74,7 @@ toHTML(tab)
 | e     | 34  | 0.87  | 84.96   |
 
 ``` r
+
 # To generate LaTeX code:
 strsplit(toLatex(tab)$text, "\n")
 #> [[1]]

@@ -41,44 +41,44 @@ subset <- df[sample(10, 5),, drop = FALSE]
 
 # Some rows did not get selected, so this looks ugly
 tabular(row ~ value*mean, data = subset)
-#>             
-#>      value  
-#>  row mean   
-#>  1       NaN
-#>  2    1.1484
-#>  3       NaN
-#>  4   -0.2473
-#>  5       NaN
-#>  6   -0.2827
-#>  7   -0.5537
-#>  8    0.6290
-#>  9       NaN
-#>  10      NaN
+#>               
+#>      value    
+#>  row mean     
+#>  1         NaN
+#>  2         NaN
+#>  3         NaN
+#>  4   -0.005571
+#>  5    0.621553
+#>  6         NaN
+#>  7   -1.821818
+#>  8   -0.247325
+#>  9   -0.244200
+#>  10        NaN
 
 # This only shows rows with data in them
 tabular(row*DropEmpty() ~ value*mean, data = subset)
-#>             
-#>      value  
-#>  row mean   
-#>  2    1.1484
-#>  4   -0.2473
-#>  6   -0.2827
-#>  7   -0.5537
-#>  8    0.6290
+#>               
+#>      value    
+#>  row mean     
+#>  4   -0.005571
+#>  5    0.621553
+#>  7   -1.821818
+#>  8   -0.247325
+#>  9   -0.244200
 
 # This shows empty cells as "(empty)"
 tabular(row*DropEmpty("(empty)", "cell") ~ value*mean, data = subset)
-#>             
-#>      value  
-#>  row mean   
-#>  1   (empty)
-#>  2    1.1484
-#>  3   (empty)
-#>  4   -0.2473
-#>  5   (empty)
-#>  6   -0.2827
-#>  7   -0.5537
-#>  8    0.6290
-#>  9   (empty)
-#>  10  (empty)
+#>               
+#>      value    
+#>  row mean     
+#>  1   (empty)  
+#>  2   (empty)  
+#>  3   (empty)  
+#>  4   -0.005571
+#>  5    0.621553
+#>  6   (empty)  
+#>  7   -1.821818
+#>  8   -0.247325
+#>  9   -0.244200
+#>  10  (empty)  
 ```
