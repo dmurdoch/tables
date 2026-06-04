@@ -8,7 +8,7 @@ processing.
 
 ## Installation
 
-You can install the release version of `orientlib` using
+You can install the release version of `tables` using
 
 ``` r
 
