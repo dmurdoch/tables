@@ -1,5 +1,6 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/dmurdoch/tables/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/dmurdoch/tables/actions/workflows/R-CMD-check.yaml)
@@ -15,7 +16,7 @@ processing.
 
 ## Installation
 
-You can install the release version of `orientlib` using
+You can install the release version of `tables` using
 
 ``` r
 install.packages("tables")
