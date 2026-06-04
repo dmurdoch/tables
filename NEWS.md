@@ -1,3 +1,6 @@
+# tables 0.9.35
+
+- The vignettes no longer use the LaTeX tabu package.
 
 # tables 0.9.33
 

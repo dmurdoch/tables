@@ -944,24 +944,6 @@ B & 2  & $10$ & $14.4$ & $2.836$ & $56.3$ & $7.889$ \\
 \bottomrule 
 \end{tabular}
 
-> library(magrittr)
-
-> library(kableExtra)
-
-> toKable(tab) %>% kable_styling(full_width = TRUE) %>% 
-+     column_spec(4, color = "red")
-\begin{tabu} to \linewidth {>{\raggedright}X>{\raggedright}X>{\centering}X>{}c>{\centering}X>{\centering}X>{\centering}X}
-\toprule
-& &  & \multicolumn{2}{c}{New label} & \multicolumn{2}{c}{c} \\ \cmidrule(lr){4-5}\cmidrule(lr){6-7}
- & a & N & mean & sd & mean & \multicolumn{1}{c}{sd} \\ 
-\midrule
-A & 1  & $10$ & \textcolor{red}{$14.4$} & $3.026$ & $55.7$ & $6.447$ \\
- & 3  & $10$ & \textcolor{red}{$14.5$} & $2.877$ & $52.8$ & $8.954$ \\
-B & 2  & $10$ & \textcolor{red}{$14.4$} & $2.836$ & $56.3$ & $7.889$ \\
-\bottomrule 
-\end{tabu}
-
-
 > latexTable(tabular((Species + 1) ~ (n = 1) + Format(digits = 2) * 
 +     (Sepal.Length + Sepal.Width) * (mean + sd), data = iris), 
 +     caption =  .... [TRUNCATED] 
@@ -986,4 +968,4 @@ All  & $150$ & $5.84$ & $0.83$ & $3.06$ & $0.44$ \\
  *** Run successfully completed ***
 > proc.time()
    user  system elapsed 
-  0.561   0.024   0.584 
+  0.515   0.020   0.532 
