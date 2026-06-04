@@ -7,7 +7,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/dmurdoch/tables/blob/master/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/dmurdoch/tables/blob/v0.9.35/DESCRIPTION)
 
 Murdoch D (2026). *tables: Formula-Driven Table Generation*. R package
 version 0.9.35, <https://dmurdoch.github.io/tables/>.
