@@ -16,7 +16,6 @@ vignette: >
 bibliography: tables.bib
 header-includes: 
   \usepackage{booktabs}
-  \usepackage{tabu}
 ---
 
 ```{r setup, include=FALSE}
@@ -1279,7 +1278,10 @@ the 4th column is changed.
 These features require additional \LaTeX\ packages; see the
 `kableExtra` documentation for details.
 
-```{r}
+
+NB:  Currently this code requires the LaTeX \verb!tabu!
+package, which is not supported in recent LaTeX releases, so it is not evaluated.  
+```{r, eval=FALSE}
 library(magrittr)
 library(kableExtra)
 toKable(tab) %>% 

@@ -6,7 +6,6 @@
 \usepackage{array}
 \usepackage[table]{xcolor}
 \usepackage{colortbl}
-\usepackage{tabu}
 \usepackage{Sweave}
 
 \usepackage[authoryear,round,comma]{natbib}
@@ -1311,7 +1310,10 @@ the 4th column is changed.
 These features require additional \LaTeX\ packages; see the
 \pkg{kableExtra} documentation for details.
 
-<<results=tex>>=
+NB:  Currently this code requires the LaTeX \verb!tabu!
+package, which is not supported in recent LaTeX releases, so it is not evaluated.  
+
+<<eval=FALSE>>=
 library(magrittr)
 library(kableExtra)
 toKable(tab) %>% 
